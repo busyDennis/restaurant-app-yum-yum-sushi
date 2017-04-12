@@ -1,0 +1,467 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+/*
+  Mixins
+*/
+
+@mixin wide-border($apply-top, $apply-right, $apply-bottom, $apply-left) {
+  @if $apply-top {
+    border-top: 3px solid black;
+  }
+  @if $apply-right {
+    border-right: 3px solid black;
+  }
+  @if $apply-bottom {
+    border-bottom: 3px solid black;
+  }
+  @if $apply-left {
+    border-left: 3px solid black;
+  }
+}
+
+@mixin set-font($font-family-1, $font-family-2, $font-size, $font-color, $font-weight: normal, $font-style: normal) {
+  color: $font-color;
+  font-family: $font-family-1, $font-family-2;
+  font-size: $font-size;
+  font-style: $font-style;
+  font-weight: $font-weight;
+}
+
+
+/*
+  Main view styles
+*/
+
+html {
+  background-color: transparent;
+  height: 100%;
+}
+
+body {
+  background-image: url("../assets/sushi1.jpg");
+  background-color: transparent;
+  background-size: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#ui-view-container {
+  height: 100%;
+  padding: 0;
+}
+
+
+/*
+  Home nested view styles
+*/
+
+#home-main-container {
+  background-color: transparent;
+  height: 100%;
+}
+
+
+//Left container styles
+
+#home-left-container {
+  background-color: rgba(255, 153, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  min-height: max-content;
+  padding: 0;
+
+  @include wide-border(false, true, false, true);
+}
+
+#home-left-subcontainer-1 {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-grow: 0.4;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 4px 4px 5px white;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 450%, red, bold);
+  @include wide-border(true, false, true, false);
+}
+
+#home-left-subcontainer-2 {
+  align-items: center;
+  background-color: rgba(0, 85, 128, 0.7);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 0.7px 0.7px 1px black;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 250%, orange, bold);
+  @include wide-border(true, false, true, false);
+}
+
+#home-left-subcontainer-3 {
+  overflow: hidden;
+
+  @include wide-border(true, false, true, false);
+}
+
+#home-left-subcontainer-4 {
+  align-items: center;
+  background-color: rgba(0, 85, 128, 0.8);
+  display:flex;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 1px 1px 5px black;
+
+
+  @include set-font("Comic Sans MS", "Comic Sans", 150%, rgb(230, 230, 230), bold);
+  @include wide-border(true, false, true, false);
+}
+
+#home-left-container-img {
+  width: 100%;
+}
+
+
+//Right container styles
+
+#home-right-container {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+  padding: 0;
+}
+
+#home-right-subcontainer-1 {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  min-height: 10%;
+  width: 100%;
+}
+
+#admin-console-link {
+  align-self: flex-end;
+  display: flex;
+  margin-right: 30px;
+  text-shadow: 0.3px 0.3px 0.3px black;
+  z-index: 1000;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 18px, rgb(0, 68, 102), bold);
+}
+
+#home-right-subcontainer-2 {
+  align-items: center;
+  backgound-color: transparent;
+  display: flex;
+  justify-content: center;
+  max-height: 70%;
+  order: 2;
+}
+
+#home-right-subcontainer-2 > img {
+  backgound-color: transparent;
+  max-width: auto;
+  max-height: 70%;
+}
+
+#home-right-subcontainer-3 {
+  align-items: center;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 100px;
+  justify-content: center;
+  margin-bottom: 15%;
+  order: 3;
+  text-align: center;
+
+  @include wide-border(true, false, true, false);
+}
+
+#home-right-subcontainer-3 > a {
+  text-shadow: 2px 2px 2px black, 4px 4px 12px white;
+  z-index: 4;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 450%, orange, bold);
+}
+
+
+/*
+  Menu nested view styles
+*/
+
+#menu-container-lvl-1 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#menu-bar {
+  background-color: rgba(0, 0, 0, 0.9);
+  display: inline-flex;
+  flex-direction: row;
+  height: 100px;
+  margin: 0;
+}
+
+#lbl-menu {
+  letter-spacing: 3px;
+  padding-right: 3%;
+  text-align: right;
+  text-shadow: 5px 5px 5px black;
+  width: 45%;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 400%, rgb(255, 204, 0), bold, italic);
+}
+
+#btn-submit-order {
+  align-self: flex-end;
+  align-items: center;
+  background-color: rgba(204, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  max-height: 85%;
+  text-align: center;
+  width: 40%;
+  letter-spacing: 3px;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 400%, black, bold, italic);
+}
+
+// Main containers
+
+#menu-container-lvl-2 {
+  display: inline-flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+#menu-container-lvl-3-left {
+  background-color: rgba(0, 102, 255, 0.7);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 49%;
+}
+
+#menu-container-lvl-3-middle {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 2%;
+}
+
+#menu-container-lvl-3-right {
+  background-color: rgba(0, 204, 0, 0.7);
+  height: 100%;
+  width: 49%;
+}
+
+
+/*
+  Menu item styles - orientation agnostic
+*/
+
+.left-column-item, .right-column-item {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 200px;
+  position: relative;
+
+  @include wide-border(false, true, true, true);
+}
+
+/*
+  Left column menu item styles
+*/
+
+.left-column-item-left-decorative-div {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 160px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 85%;
+  z-index: 2;
+
+  @include wide-border(false, true, true, false);
+}
+
+.left-column-item-right-decorative-div {
+  background-color: rgba(255, 255, 255, 0.5);
+  bottom: 0;
+  flex: 0 0 auto;
+  height: 160px;
+  position: absolute;
+  right: 0;
+  width: 95%;
+  z-index: 1;
+
+  @include wide-border(true, false, false, true);
+}
+
+.left-column-item-description-background {
+  background-color: rgba(0, 204, 0, 0.6); //rgba(165, 255, 180, 0.5);
+  box-sizing: border-box;
+  height: 120px;
+  left: 5%;
+  position: absolute;
+  top: 40px;
+  width: 65%;
+  z-index: 3;
+
+  @include wide-border(false, true, true, true);
+}
+
+.left-column-item-name {
+  left: 5%;
+  position: absolute;
+  text-shadow: 2px 2px 3px black;
+  z-index: 3;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(0, 204, 255, 1), bold);
+}
+
+.left-column-item-description {
+  height: 80px;
+  left: 5%;
+  padding: 10px 10px 10px 12px;
+  position: absolute;
+  text-align: justify;
+  text-shadow: 0.3px 0.3px 0.3px black;
+  top: 40px;
+  width: 65%;
+  z-index: 4;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 140%, black, 500);
+}
+
+.left-column-item-price {
+  height: 40px;
+  left: 5%;
+  padding: 10px 10px 10px 10px;
+  position: absolute;
+  text-align: right;
+  text-shadow: 0.5px 0.5px 0.5px black;
+  top: 120px;
+  width: 65%;
+  z-index: 4;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 140%, white, bold);
+}
+
+.left-column-item-img {
+  height: 120px;
+  left: 70%;
+  position: absolute;
+  top: 40px;
+  width: 15%;
+  z-index: 4;
+}
+
+
+/*
+  Right column menu item styles
+*/
+
+.right-column-item-left-decorative-div {
+  background-color: rgba(0, 0, 0, 0.5);
+  flex: 0 0 auto;
+  height: 160px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 95%;
+  z-index: 1;
+
+  @include wide-border(false, true, true, false);
+}
+
+.right-column-item-right-decorative-div {
+  background-color: rgba(255, 255, 255, 0.5);
+  bottom: 0;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 160px;
+  position: absolute;
+  right: 0;
+  width: 85%;
+  z-index: 2;
+
+  @include wide-border(true, false, false, true);
+}
+
+.right-column-item-description-background {
+  //background-color: rgba(0, 102, 255, 0.5);
+  box-sizing: border-box;
+  height: 120px;
+  right: 5%;
+  position: absolute;
+  top: 40px;
+  width: 65%;
+  z-index: 4;
+
+  @include wide-border(false, true, true, true);
+}
+
+.right-column-item-name {
+  right: 6%;
+  position: absolute;
+  text-align: right;
+  text-shadow: 2px 2px 3px black;
+  z-index: 4;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(255, 204, 0, 1), bold);
+}
+
+.right-column-item-description {
+  height: 80px;
+  right: 5%;
+  padding: 10px 12px 10px 10px;
+  position: absolute;
+  text-align: justify;
+  text-shadow: 0.3px 0.3px 0.3px black;
+  top: 40px;
+  width: 65%;
+  z-index: 4;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 140%, black, 500);
+}
+
+.right-column-item-price {
+  height: 40px;
+  right: 5%;
+  padding: 10px 10px 10px 10px;
+  position: absolute;
+  text-align: left;
+  text-shadow: 0.5px 0.5px 0.5px black;
+  top: 120px;
+  width: 65%;
+  z-index: 4;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 140%, white, bold);
+}
+
+.right-column-item-img {
+  height: 120px;
+  right: 70%;
+  position: absolute;
+  top: 40px;
+  width: 15%;
+  z-index: 4;
+}
+
+/*
+  This temporary font style should be replaced later
+*/
+.temp-font-style {
+  color: red;
+  font-weight: bold;
+}

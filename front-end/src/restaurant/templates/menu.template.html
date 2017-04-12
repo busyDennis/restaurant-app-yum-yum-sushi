@@ -1,0 +1,22 @@
+<div id="menu-container-lvl-1">
+  <div id="menu-bar">
+    <span id="lbl-menu">Menu</span>
+    <span id="btn-submit-order">Order</span>
+  </div>
+  <div id="menu-container-lvl-2">
+
+<!--     <div>Test:</div>
+    <img data-ng-src="data:image/png;base64,{{ menuController.testImgSrc }}" width="500" height="400" />
+ -->
+
+    <span id="menu-container-lvl-3-left">
+      <div class="left-column-item" ng-repeat="currentItem in menuController.itemsLeft" item="currentItem">
+      </div>
+    </span>
+    <span id="menu-container-lvl-3-middle"></span>
+    <span id="menu-container-lvl-3-right">
+      <div class="right-column-item" ng-repeat="currentItem in menuController.itemsRight" item="currentItem">
+      </div>
+    </span>
+  </div>
+</div>
