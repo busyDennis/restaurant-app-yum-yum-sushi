@@ -135,12 +135,67 @@ body {
   padding: 0;
 }
 
+// Authentication panel
+
 #home-right-subcontainer-1 {
-  align-items: center;
+  /*align-items: center;
   display: flex;
   justify-content: flex-end;
   min-height: 10%;
+  width: 100%;*/
+
+  height: 100px;
+  padding: 5px 5px 5px 5px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 230px;
+
+}
+
+#home-right-subcontainer-1 table {
   width: 100%;
+}
+
+#home-right-subcontainer-1 table tr {
+  height: 38px;  //master row height
+}
+
+
+#home-right-subcontainer-1 td, #home-right-subcontainer-1 label, #home-right-subcontainer-1 input {
+  height: 100%;
+}
+
+.login-panel-column-2 {
+  width: 130px;
+}
+
+.login-panel-label {
+  display:        table-cell;
+  line-height:    90%;
+  margin:         0px 0px 0px 0px;
+  vertical-align: middle;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 16px, rgb(0, 0, 0), bold);
+}
+
+#input-name, #input-password, #input-password-retype {
+  width: 100%;
+}
+
+#toggle-sign-up, #toggle-log-in {
+  cursor: pointer;
+}
+
+#btn-log-in, #btn-sign-up {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+
+  @include set-font("Comic Sans MS", "Comic Sans", 16px, orange, bold);
+}
+
+#btn-log-in:hover, #btn-sign-up:hover {
+  background-color: rgba(128, 0, 128, 0.7);
 }
 
 #admin-console-link {

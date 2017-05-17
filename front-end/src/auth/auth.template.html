@@ -1,0 +1,38 @@
+<form action="">
+  <table>
+    <tr>
+      <td class="login-panel-column-1">
+        <label class="login-panel-label" for="usr-name">E-mail</label>
+      </td>
+      <td class="login-panel-column-2">
+        <input id="input-name" type="text" ng-model="authController.email" />
+      </td>
+    </tr>
+    <tr>
+      <td class="login-panel-column-1">
+        <label class="login-panel-label" for="input-password">Password</label>
+      </td>
+      <td class="login-panel-column-2">
+        <input id="input-password" type="text" ng-model="authController.password" />
+      </td>
+    </tr>
+    <tr id="tr-password-retype" class="hidden">
+      <td class="login-panel-column-1">
+        <label class="login-panel-label" for="input-password-verified">Re-type Password</label>
+      </td>
+      <td class="login-panel-column-2">
+        <input id="input-password-verified" type="text" ng-model="authController.passwordVerified" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a id="toggle-sign-up" ng-click="authController.toggleAuthFormFunctionality()">Sign Up</a>
+        <a id="toggle-log-in" ng-click="authController.toggleAuthFormFunctionality()" class="hidden">Log In</a>
+      </td>
+      <td>
+        <button id="btn-log-in" ng-click="authController.logIn()" class="btn btn-default" type="submit">Log In</button>
+        <button id="btn-sign-up" ng-click="authController.registerUser()" class="btn btn-default hidden" type="submit">Sign Up</button>
+      </td>
+    </tr>
+  </table> 
+</form>

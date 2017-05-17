@@ -1,15 +1,25 @@
-// <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+/*
+  Note: user authentication example was taken from:
+  https://www.sitepoint.com/user-authentication-mean-stack/
+*/
 
-const DB_SETUP_DATA_DIR = "setup_data";
-const DB_SETUP_JSON_FILE = "dataFoodItems.json";
 
-var cors          = require('cors');
-var bodyParser    = require('body-parser');
-var express       = require('express');
-var morgan        = require('morgan');
-var fs            = require('fs');
-var mongoose      = require('mongoose');
-var path          = require('path');
+const DB_SETUP_DATA_DIR     = "setup_data";
+const DB_SETUP_JSON_FILE    = "dataFoodItems.json";
+
+const bodyParser            = require('body-parser');
+const cors                  = require('cors');
+const crypto                = require('crypto');
+const express               = require('express');
+const fs                    = require('fs');
+const jwt                   = require('jsonwebtoken');
+const LocalStrategy         = require('passport-local').Strategy;
+const mongoose              = require('mongoose');
+const morgan                = require('morgan');
+const passport              = require('passport');
+const path                  = require('path');
+
+
 
 var app = express();
 var router = express.Router();
@@ -22,6 +32,7 @@ var loggerMorgan = morgan('combined', {
 
 app.use(cors());
 app.use(function(request, response, next) {
+  response.header("Access-Control-Allow-Credentials", "true");
   response.header("Access-Control-Allow-Origin", "*");
   response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   response.header("Access-Control-Allow-Headers", "*");
@@ -37,37 +48,112 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-mongoose.Promise = global.Promise; //hack to avoid deprecated promise library exception
+mongoose.Promise = global.Promise; //hack used to avoid deprecated promise library exception
 
 mongoose.connect("mongodb://localhost:27017/foodDB", function(error, db) {
-    if (! error) {
-      console.log("MongoDB connection established successfully.");
+  if (! error) {
+    console.log("MongoDB connection established successfully.");
   }
 });
 
 
 //DB models defined
 var imageSchema = new mongoose.Schema({
-    file_name:      String,
-    data:           Buffer,
-    content_type:   String
+    file_name:        String,
+    data:             Buffer,
+    content_type:     String
   });
 
 var foodItemSchema = new mongoose.Schema({
-    name:           String,
-    description:    String,
-    price:          String,
-    portion_name:   String,
-    img_fname:      String
+    name:             String,
+    description:      String,
+    price:            String,
+    portion_name:     String,
+    img_fname:        String
     //img_id:         mongoose.Schema.Types.ObjectId
   });
+
+/**
+  Example from https://www.sitepoint.com/user-authentication-mean-stack/
+*/
+var userSchema = new mongoose.Schema({
+    email: {
+      type:           String,
+      required:       true,
+      unique:         true
+    },
+    hash:             String,
+    salt:             String
+  });
+
+
+/**
+  Example from https://www.sitepoint.com/user-authentication-mean-stack/
+*/
+userSchema.methods.setPassword = function(password) {
+  this.salt = crypto.randomBytes(16).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+};
+
+/**
+  Example from https://www.sitepoint.com/user-authentication-mean-stack/
+*/
+userSchema.methods.validatePassword = function(password) {
+  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  return (this.hash === hash);
+};
 
 var Image = mongoose.model('Image', imageSchema);
 
 var FoodItem = mongoose.model('FoodItem', foodItemSchema);
 
+var User = mongoose.model('User', userSchema);
 
-//inserting data mock-ups
+
+passport.use(new LocalStrategy({
+    usernameField:    'email',
+    passwordField:    'password',
+    session:          false
+  }, 
+  function(email, password, next) {
+    console.log("Inside passport.authenticate");
+    console.log("Email:");
+    console.log(email);
+
+    User.find({ email: email }, function (error, users) {
+      if (error) {
+        return next(null, {
+                            error:      true, 
+                            message:    error
+                          });
+      }
+
+      if (! users) 
+        return next(null, {
+                            error:      true, 
+                            message:    'Incorrect email.'
+                          });
+      var user = users[0];
+      //console.log("User found:"); //TESTING
+      //console.log(user); //TESTING
+
+      if (! user.validatePassword(password)) {
+        return next(null, { 
+                            error:      true,
+                            message: 'Incorrect password.'
+                          });
+      }
+      
+      return next(null, {
+                          error:      false, 
+                          model:      user
+                        });
+      
+    });
+  }));
+
+
+//Inserting data mock-ups
 
 // JSON.parse(dataFoodItems).forEach(function(itemData) {
 //   createFoodItemFromJSON(itemData).save();
@@ -80,8 +166,6 @@ var FoodItem = mongoose.model('FoodItem', foodItemSchema);
 // });
 
 
-//REST routes defined
-
 router.all('/*', function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
   response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -89,45 +173,101 @@ router.all('/*', function(request, response, next) {
   next();
 });
 
+
+//REST routes defined
+
 router.get('/img', GetImage);
 router.post('/img', PostImage);
 
 router.get('/foodItems', GetFoodItem);
 router.post('/foodItems', PostFoodItems);
 
+router.post('/register', PostRegister);
+router.post('/login', PostLogIn);
+// router.get('/profile/:usr_id', GetUserProfile);
 
-//test
 // router.param('fname', function (req, res, next, id) {
 //   console.log('CALLED ONLY ONCE');
 //   next();
 // });
 
 
-//REST controller methods
+//REST controller route handlers
+
+function PostRegister(request, response) {
+  console.log("Registering user: " + request.body.email);
+
+  var user = new User();
+
+  user.email = request.body.email;
+  user.setPassword(request.body.password);
+  user.save();
+
+  response.status(200).json(user);
+
+  // user.save(function(error) {
+  //   var jwt;
+  //   jwt = user.generateJwt();
+  //   response.status(200);
+  //   response.json({
+  //     "jwt" : jwt
+  //   });
+  // });
+};
+
+function PostLogIn(request, response) {
+  //console.log("Log in POST request received."); //TESTING
+  //console.log(request.body); //TESTING
+
+  var retObj = passport.authenticate(
+    'local',
+    {
+      // successRedirect: '/admin'
+    },
+    function(req, res) {
+      // console.log("res"); //TESTING
+      // console.log(res); //TESTING
+
+      response.status(200).json(res.model); //.redirect('/admin');;
+    })(request, response);
+}
+
+
+  // passport.authenticate('local', function(error, user, info) {
+  //   var jwt;
+
+  //   if(error) {
+  //     response.status(404).json(error);
+  //     return;
+  //   }
+
+  //   //If the user is found
+  //   if(user) {
+  //     jwt = user.generateJwt();
+  //     response.status(200);
+  //     response.json({
+  //       "jwt" : jwt
+  //     });
+  //   } else {
+  //     // If the user is not found
+  //     response.status(401).json(info);
+  //   }
+  // })(request, response, next);
+
+
+// function GetUserProfile(request, response) {}
+
 
 function GetImage(request, response) {
-  //testing:
-  //console.log("/img GET route hit!");
-  // console.log(request.query);
-
   Image.find({ file_name: request.query.fname }).exec(function(error, retrievedObject) {
-    console.log("Image BSON found:");
+    console.log("Image BSON retrieved from the database:");
     console.log(retrievedObject);
-
-    //retObj[0].data = new Buffer(retObj[0].data).toString('base64'); //retObj[0].data;//.toString('base64');
 
     var returnObject = {
       file_name:      retrievedObject[0].file_name,
       data:           new Buffer(retrievedObject[0].data).toString('base64'),
       content_type:   retrievedObject[0].content_type
     };
-
-    //console.log("Return object:");
-    //console.log(returnObject);
-
-
-    //var temp = new Buffer(retrievedObject[0].data).toString('base64');
-    //console.log(temp);
 
     if (! error) {
       response.status(200).json(returnObject);
@@ -140,6 +280,7 @@ function GetImage(request, response) {
   response.status(200);
 }
 
+
 function PostImage(request, response) {
   console.log("Image POST request received.");
   console.log(request.body);
@@ -150,13 +291,14 @@ function PostImage(request, response) {
   image.content_type = request.body.content_type; //improve this
   image.save();
 
-  //console.log("Image saved successfully.");
-
-  response.status(201).json(image); //created
+  response.status(201).json(image);
 }
+
 
 function GetFoodItem(request, response) {
   FoodItem.find({
+    //TO DO: implement the search criterion
+
 
 
   }).exec(function(error, result) {
@@ -218,12 +360,12 @@ function createFoodItemFromJSON(foodItemData) {
   return foodItem;
 }
 
-//keep this in the end
+//keep this line in the end
 app.use('/', router);
 
 
 /*
-//Fake JSON objects for testing POST routes
+//JSON objects for testing POST routes
 
 {
   "file_name":      "spicy_salmon.png",

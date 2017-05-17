@@ -3,33 +3,36 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css" />
-    <script src="lib/jquery-3.2.1.min.js"></script>
-  </head>
-  <body>
-    <div ui-view id="ui-view-container" class="container-fluid col-12"></div>
 
     <!-- Libraries -->
-    <script src="lib/angular.min.js"></script>
-    <script src="lib/angular-ui-router.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-    <!-- Modules -->
-    <script src="src/restaurant/restaurant.module.js"></script>
+     <!-- Modules -->
+    <script src="src/restaurant.module.js"></script>
 
     <!-- Services -->
-    <script src="src/restaurant/menu.service.js"></script>
-    <script src="src/restaurant/item.service.js"></script>
+    <script src="src/auth/auth.service.js"></script>
+    <script src="src/menu/menu.service.js"></script>
+    <script src="src/item/item.service.js"></script>
 
     <!-- Controllers -->
-    <script src="src/restaurant/home.controller.js"></script>
-    <script src="src/restaurant/menu.controller.js"></script>
-    <script src="src/restaurant/admin.home.controller.js"></script>
-    <script src="src/restaurant/item.controller.js"></script>
+    <script src="src/auth/auth.controller.js"></script>
+    <script src="src/home/home.controller.js"></script>
+    <script src="src/menu/menu.controller.js"></script>
+    <script src="src/admin-home/admin.home.controller.js"></script>
+    <script src="src/item/item.controller.js"></script>
 
     <!-- Directives -->
-    <script src="src/restaurant/item.left.directive.js"></script>
-    <script src="src/restaurant/item.right.directive.js"></script>
+    <script src="src/auth/auth.directive.js"></script>
+    <script src="src/item/item.left.directive.js"></script>
+    <script src="src/item/item.right.directive.js"></script>
 
     <!-- Routes -->
     <script src="src/routes.js"></script>
+  </head>
+  <body>
+    <div ui-view id="ui-view-container" class="container-fluid col-12"></div>
   </body>
 </html>
