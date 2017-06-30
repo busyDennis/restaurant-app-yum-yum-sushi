@@ -1099,3 +1099,4 @@
 ::ffff:127.0.0.1 - - [29/Jun/2017:23:01:10 +0000] "POST /log-in HTTP/1.1" 200 243 "http://127.0.0.1:8080/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0"
 ::ffff:127.0.0.1 - - [29/Jun/2017:23:01:16 +0000] "OPTIONS /log-in HTTP/1.1" 204 - "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0"
 ::ffff:127.0.0.1 - - [29/Jun/2017:23:01:16 +0000] "POST /log-in HTTP/1.1" 200 243 "http://127.0.0.1:8080/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0"
+::ffff:127.0.0.1 - - [30/Jun/2017:23:50:28 +0000] "GET /food-items HTTP/1.1" 200 332 "http://127.0.0.1:8080/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0"
