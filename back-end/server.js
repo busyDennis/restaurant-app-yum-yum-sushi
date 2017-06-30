@@ -1,400 +1,234 @@
-/*
-  Note: user authentication example was taken from:
-  https://www.sitepoint.com/user-authentication-mean-stack/
-*/
-
-
-const DB_SETUP_DATA_DIR     = "setup_data";
-const DB_SETUP_JSON_FILE    = "dataFoodItems.json";
-
 const bodyParser            = require('body-parser');
+const cookieParser          = require('cookie-parser');
 const cors                  = require('cors');
-const crypto                = require('crypto');
+const dotenv                = require('dotenv');
 const express               = require('express');
+const httpServer            = require('http-server');
+const session               = require('express-session');
+const expressValidator      = require('express-validator');
+//const forceSSL              = require('express-force-ssl');
 const fs                    = require('fs');
-const jwt                   = require('jsonwebtoken');
-const LocalStrategy         = require('passport-local').Strategy;
 const mongoose              = require('mongoose');
 const morgan                = require('morgan');
 const passport              = require('passport');
+const localStrategy         = require('passport-local').Strategy;
+// const passportSocketIO      = require('passport.socketio');
+const MongoStore            = require('connect-mongo')(session);
 const path                  = require('path');
+// const socketIOmodule        = require('socket.io');
+
+const User                  = require('./lib/models/user.model');
+const Image                 = require('./lib/models/image.model');
+const FoodItem              = require('./lib/models/food.item.model');
+
+//const API_PORT              = 5000;
 
 
+//passport config
+passport = require('./lib/config/passport.config')(passport, localStrategy, User);
 
-var app = express();
-var router = express.Router();
+//controllers
+var imageCtrl               = require('./lib/controllers/image.controller');
+var foodItemCtrl            = require('./lib/controllers/food.item.controller')(FoodItem);
+var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
+var app                     = express();
+var router                  = express.Router();
 
+//configuration based on process.env.NODE_ENV value
+const nodeEnvConfigObj      = require('./lib/config/env.config')();
+
+console.log("nodeEnvConfigObj:");
+console.log(nodeEnvConfigObj);
+
+
+//dotenv npm module configuration
+dotenv.config({
+    path: '.restaurant-env'
+  });
+dotenv.load();
+
+//logger configuration
+var accessLogStream         = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),
+  {
+    flags: 'a'
+  });
 var loggerMorgan = morgan('combined', {
     stream: accessLogStream
   });
+app.use(loggerMorgan);
 
-app.use(cors());
-app.use(function(request, response, next) {
-  response.header("Access-Control-Allow-Credentials", "true");
+
+//mongoose connection set-up
+mongoose.Promise = global.Promise; //hack used to avoid deprecated promise library exception
+mongoose.connect(nodeEnvConfigObj.db_url, function(error, db) {
+    if (! error) {
+      console.log("Connection with \'" + nodeEnvConfigObj.db_url + "\' established successfully.");
+    } else
+      console.log("Connection with \'" + nodeEnvConfigObj.db_url + "\' could not be established; error message: " + error);
+  });
+
+
+//session store set-up
+var sessionStore = new MongoStore({
+    collection:               'sessions',
+    mongooseConnection:       mongoose.connection,
+    url:                      nodeEnvConfigObj.db_url
+  });
+
+
+var sessionOpts             = {
+    cookie: {
+        httpOnly:             false,
+        maxAge:               3600000,
+        secure:               false//true
+      },
+    resave:                   true, //automatically write to the session store
+    saveUninitialized:        true, //save new sessions
+    secret:                   'secret',
+    store:                    sessionStore
+  };
+
+
+console.log("sessionOpts.secret: " + sessionOpts.secret);
+
+
+//body parser set-up
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+//enforce SSL protocol
+//app.use(forceSSL);
+
+//cookie parser set-up
+app.use(cookieParser('secret'));
+
+//session set-up
+app.use(session(sessionOpts));
+
+//passport set-up
+app.use(passport.initialize());
+app.use(passport.session());
+
+// //TESTING
+// app.use(function(request, response, next) {
+//   console.log("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+//   console.log("Session:");
+//   console.log(request.session);
+//   console.log("Cookies:");
+//   console.log(request.cookies);
+//   console.log("User:");
+//   console.log(request.user);
+//   console.log("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-");
+//   next();
+// });
+
+
+//CORS set-up
+var corsOptions = {
+  origin:                 true,
+  allowedHeaders:         'Origin,Content-Type,X-Requested-With, X-HTTP-Method-Override,Accept,Access-Control-Allow-Origin',
+  credentials:            true, 
+  methods:                'GET,PUT,POST,DELETE,OPTIONS',
+  //optionsSuccessStatus:   200,
+  preflightContinue:      false
+};
+
+// console.log("corsOptions");
+// console.log(corsOptions)
+
+app.use(cors(corsOptions));
+
+
+
+//app.use(cors()); 
+
+
+//recommended cors configuration did not suffice
+router.all('/*', function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
-  response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
   response.header("Access-Control-Allow-Headers", "*");
+  response.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
-app.use(loggerMorgan);
-
-var dataFoodItems = fs.readFileSync(DB_SETUP_DATA_DIR + '/' + DB_SETUP_JSON_FILE, 'utf8');
-
-//app.use(express.static());  //static folder
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+//express validator configuration
+app.use(expressValidator());
 
 
-mongoose.Promise = global.Promise; //hack used to avoid deprecated promise library exception
+//REST routes defined
+router.get('/img', imageCtrl.GetImage);
+router.post('/img', imageCtrl.PostImage);
 
-mongoose.connect("mongodb://localhost:27017/foodDB", function(error, db) {
-  if (! error) {
-    console.log("MongoDB connection established successfully.");
-  }
-});
+router.get('/food-items', foodItemCtrl.GetAllFoodItems);
+router.post('/food-items', foodItemCtrl.PostFoodItems);
+
+router.post('/register', authCtrl.PostRegister);
+router.post('/log-in', authCtrl.PostLogIn);
+router.post('/purge-user', authCtrl.PurgeUser);
+router.get('/user-auth', authCtrl.UserAuthenticated);
 
 
-//DB models defined
-var imageSchema = new mongoose.Schema({
-    file_name:        String,
-    data:             Buffer,
-    content_type:     String
+//var server = https.createServer(nodeEnvConfigObj.srv_opt, app);
+
+//SSL socket
+// var socketDotIO = socketIOmodule(server);
+
+// socketDotIO.use(passportSocketIO.authorize({
+//     key:                    nodeEnvConfigObj.key,
+//     secret:                 'secret',
+//     store:                  sessionStore,
+//     passport:               passport,
+//     cookieParser:           cookieParser
+//   }));
+
+// socketDotIO.on('connection', function(client) {
+//     client.on('event', function(data) {});
+//     client.on('disconnect', function() {});
+//   });
+
+//server listening on port
+var server = app.listen(nodeEnvConfigObj.srv_opt.port, function() {
+    console.log('Listening on port ', server.address().port);
   });
 
-var foodItemSchema = new mongoose.Schema({
-    name:             String,
-    description:      String,
-    price:            String,
-    portion_name:     String,
-    img_fname:        String
-    //img_id:         mongoose.Schema.Types.ObjectId
-  });
+// redirect all http requests to https
+// app.use(function(req, res, next) {
+//   if(! req.secure) {
+//     return res.redirect(['http://127.0.0.1:' + nodeEnvConfigObj.srv_opt.port, req.url].join(''));
+//   }
+//   next();
+// });
 
-/**
-  Example from https://www.sitepoint.com/user-authentication-mean-stack/
-*/
-var userSchema = new mongoose.Schema({
-    email: {
-      type:           String,
-      required:       true,
-      unique:         true
-    },
-    hash:             String,
-    salt:             String
-  });
+//keep this line in the end
+app.use('/', router);
+
+module.exports = server;
 
 
-/**
-  Example from https://www.sitepoint.com/user-authentication-mean-stack/
-*/
-userSchema.methods.setPassword = function(password) {
-  this.salt = crypto.randomBytes(16).toString('hex');
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
-};
-
-/**
-  Example from https://www.sitepoint.com/user-authentication-mean-stack/
-*/
-userSchema.methods.validatePassword = function(password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
-  return (this.hash === hash);
-};
-
-var Image = mongoose.model('Image', imageSchema);
-
-var FoodItem = mongoose.model('FoodItem', foodItemSchema);
-
-var User = mongoose.model('User', userSchema);
-
-
-passport.use(new LocalStrategy({
-    usernameField:    'email',
-    passwordField:    'password',
-    session:          false
-  }, 
-  function(email, password, next) {
-    console.log("Inside passport.authenticate");
-    console.log("Email:");
-    console.log(email);
-
-    User.find({ email: email }, function (error, users) {
-      if (error) {
-        return next(null, {
-                            error:      true, 
-                            message:    error
-                          });
-      }
-
-      if (! users) 
-        return next(null, {
-                            error:      true, 
-                            message:    'Incorrect email.'
-                          });
-      var user = users[0];
-      //console.log("User found:"); //TESTING
-      //console.log(user); //TESTING
-
-      if (! user.validatePassword(password)) {
-        return next(null, { 
-                            error:      true,
-                            message: 'Incorrect password.'
-                          });
-      }
-      
-      return next(null, {
-                          error:      false, 
-                          model:      user
-                        });
-      
-    });
-  }));
-
+//TO DO: use standard db setup approach
 
 //Inserting data mock-ups
-
 // JSON.parse(dataFoodItems).forEach(function(itemData) {
 //   createFoodItemFromJSON(itemData).save();
 // });
-
 
 // FoodItem.collection.insertMany(JSON.parse(dataFoodItems), function(error, response) {
 //   if (error)
 //     console.log(error);
 // });
 
-
-router.all('/*', function(request, response, next) {
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  response.header("Access-Control-Allow-Headers", "*");
-  next();
-});
+//TO DO: include JWT tokens in the authentication process
 
 
-//REST routes defined
+// var dataFoodItems = fs.readFileSync(path.join(process.env.DB_SETUP_DATA_DIR_NAME, process.env.DB_SETUP_JSON_FILE_NAME), 'utf8');
 
-router.get('/img', GetImage);
-router.post('/img', PostImage);
-
-router.get('/foodItems', GetFoodItem);
-router.post('/foodItems', PostFoodItems);
-
-router.post('/register', PostRegister);
-router.post('/login', PostLogIn);
-// router.get('/profile/:usr_id', GetUserProfile);
-
-// router.param('fname', function (req, res, next, id) {
-//   console.log('CALLED ONLY ONCE');
+// app.use(function(request, response, next) {
+//   response.header("Access-Control-Allow-Credentials", "true");
+//   response.header("Access-Control-Allow-Origin", "*");
+//   response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   response.header("Access-Control-Allow-Headers", "X-Requested-With");
 //   next();
 // });
-
-
-//REST controller route handlers
-
-function PostRegister(request, response) {
-  console.log("Registering user: " + request.body.email);
-
-  var user = new User();
-
-  user.email = request.body.email;
-  user.setPassword(request.body.password);
-  user.save();
-
-  response.status(200).json(user);
-
-  // user.save(function(error) {
-  //   var jwt;
-  //   jwt = user.generateJwt();
-  //   response.status(200);
-  //   response.json({
-  //     "jwt" : jwt
-  //   });
-  // });
-};
-
-function PostLogIn(request, response) {
-  //console.log("Log in POST request received."); //TESTING
-  //console.log(request.body); //TESTING
-
-  var retObj = passport.authenticate(
-    'local',
-    {
-      // successRedirect: '/admin'
-    },
-    function(req, res) {
-      // console.log("res"); //TESTING
-      // console.log(res); //TESTING
-
-      response.status(200).json(res.model); //.redirect('/admin');;
-    })(request, response);
-}
-
-
-  // passport.authenticate('local', function(error, user, info) {
-  //   var jwt;
-
-  //   if(error) {
-  //     response.status(404).json(error);
-  //     return;
-  //   }
-
-  //   //If the user is found
-  //   if(user) {
-  //     jwt = user.generateJwt();
-  //     response.status(200);
-  //     response.json({
-  //       "jwt" : jwt
-  //     });
-  //   } else {
-  //     // If the user is not found
-  //     response.status(401).json(info);
-  //   }
-  // })(request, response, next);
-
-
-// function GetUserProfile(request, response) {}
-
-
-function GetImage(request, response) {
-  Image.find({ file_name: request.query.fname }).exec(function(error, retrievedObject) {
-    console.log("Image BSON retrieved from the database:");
-    console.log(retrievedObject);
-
-    var returnObject = {
-      file_name:      retrievedObject[0].file_name,
-      data:           new Buffer(retrievedObject[0].data).toString('base64'),
-      content_type:   retrievedObject[0].content_type
-    };
-
-    if (! error) {
-      response.status(200).json(returnObject);
-    } else {
-      console.log(error);
-      return response.send(404);
-    }
-  });
-
-  response.status(200);
-}
-
-
-function PostImage(request, response) {
-  console.log("Image POST request received.");
-  console.log(request.body);
-
-  var image = new Image();
-  image.file_name = request.body.file_name;
-  image.data = fs.readFileSync(DB_SETUP_DATA_DIR + '/img/' + image.file_name);
-  image.content_type = request.body.content_type; //improve this
-  image.save();
-
-  response.status(201).json(image);
-}
-
-
-function GetFoodItem(request, response) {
-  FoodItem.find({
-    //TO DO: implement the search criterion
-
-
-
-  }).exec(function(error, result) {
-    console.log("Result:");
-    console.log(result);
-
-    if (! error)
-      response.send(result);
-    else
-      console.log(error);
-  });
-}
-
-
-function PostFoodItems(request, response) {
-  console.log("POST request successful:");
-  console.log(request.body); //test
-
-  var foodItem = createFoodItemFromJSON(request.body);
-
-  var image = Image.findOne({
-      "file_name": foodItem.img_fname
-    }).then(function(result) {
-      console.log(result);
-      
-    }, function(error) {
-      console.log(error);
-    });
-
-  foodItem.save();
-
-  response.status(200);
-}
-
-
-var server = app.listen(5000, function() {
-  console.log('Listening on port ', server.address().port)
-});
-
-
-function createFoodItemFromJSON(foodItemData) {
-  var foodItem = new FoodItem();
-  foodItem.name = foodItemData.name;
-  foodItem.description = foodItemData.description;
-  foodItem.portion_name = foodItemData.portion_name;
-  foodItem.img_fname = foodItemData.img_fname;
-
-  var image = Image.findOne({
-      "file_name": foodItemData.img_fname
-    }).then(function(result) {
-      //console.log("image obtained from file \"" + foodItemData.img_fname + "\" found!");
-      //console.log(result);
-
-      //foodItem.img_id = result._id
-    }, function(error) {
-      console.log(error);
-    });
-
-  return foodItem;
-}
-
-//keep this line in the end
-app.use('/', router);
-
-
-/*
-//JSON objects for testing POST routes
-
-{
-  "file_name":      "spicy_salmon.png",
-  "content_type":    "image/png"
-}
-
-
-{
-  "name":           "Spicy Salmon Roll",
-  "description":    "Spicy, juicy, fresh salmon, avocado, and cream cheeze.",
-  "price":          "8.50",
-  "portion_name":   "12 pcs",
-  "img_fname":      "spicy_salmon.png"
-}
-
-
-[
-  {
-    _id: 58d9c04e4127275aecb4a1e0,
-    contentType: 'image/png',
-    data:
-     Binary {
-       _bsontype: 'Binary',
-       sub_type: 0,
-       position: 55625,
-       buffer: <Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 01 90 00 00 01 90 08 03 00 00 00 b7 61 c6 fe 00 00 03 00 50 4c 54 45 ee e3 ca d4 c8 b9 e8 d3 b9 ... > },
-    file_name: 'spicy_salmon.png',
-    __v: 0
-  }
-]
-
-*/

@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .service('AuthService', AuthService);
 
-  AuthService.$inject = ['$http', '$window', 'ApiUrlRoot'];
+  AuthService.$inject = ['$http', '$window'];
 
-  function AuthService($http, $window, ApiUrlRoot) {
+  function AuthService($http, $window) {
     var authService = this;
 
     authService.registerUser = function(token) {
@@ -19,17 +19,6 @@
         method:             'POST',
         url:                'http://localhost:5000/register'
       });
-
-      // .then(
-      //   function(jwt) {
-      //     authService.saveJWT(jwt);
-      //   },
-      //   function(error) {
-      //     console.log(error);
-      //   }
-      // );
-
-      // 
     };
 
     authService.logIn = function(token) {
@@ -40,44 +29,45 @@
         },
         json:               true,
         method:             'POST',
-        url:                'http://localhost:5000/login'
-      });
+        url:                'http://localhost:5000/log-in'
+      }).then(
+        function successCallback(response) {
+          console.log("authService.logIn successCallback response:");
+          console.log(response);  //TESTING
 
-      // .then(
-      //   function(jwt) {
-      //     authService.saveJWT(jwt);
-      //   },
-      //   function(error) {
-      //     console.log(error);
-      //   }
-      // );
+          $window.location.href = "http://" + $window.location.host + "/#!/admin";
+        },
+        function errorCallback(response) {
+          console.log(response);  //TESTING
 
+          $('#auth-error-modal').modal();
+        });
     };
 
-    authService.getJWT = function() {
-      return $window.localStorage['jwt'];
-    };
+    // authService.getJWT = function() {
+    //   return $window.localStorage['jwt'];
+    // };
 
 
-    authService.saveJWT = function(jwt) {
-      $window.localStorage['jwt'] = jwt;
-    };
+    // authService.saveJWT = function(jwt) {
+    //   $window.localStorage['jwt'] = jwt;
+    // };
 
 
-    authService.isAuthorized = function() {
-      var jwt = getJWT();
-      var payload;
+    // authService.isAuthorized = function() {
+    //   var jwt = getJWT();
+    //   var payload;
 
-      if(jwt){
-        payload = jwt.split('.')[1];
-        payload = $window.atob(payload);
-        payload = JSON.parse(payload);
+    //   if(jwt){
+    //     payload = jwt.split('.')[1];
+    //     payload = $window.atob(payload);
+    //     payload = JSON.parse(payload);
 
-        return payload.exp > Date.now() / 1000;
-      } else {
-        return false;
-      }
-    };
+    //     return payload.exp > Date.now() / 1000;
+    //   } else {
+    //     return false;
+    //   }
+    // };
 
   }
   

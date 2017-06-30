@@ -6,4 +6,4 @@ connect().use(serveStatic(__dirname, {'index': ['index.html']})).listen(8080, fu
   console.log('Server running on 8080...');
 });
 
-opn('http://127.0.0.1:8080', {app: 'firefox'});
+opn('http://127.0.0.1:8080', { app: process.argv[2] });

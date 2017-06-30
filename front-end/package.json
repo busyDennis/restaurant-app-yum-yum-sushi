@@ -22,11 +22,12 @@
     "opn":                    ">= 4.0.2"
   },
   "engines": {
-    "node": "latest"
+    "node":                   "latest"
   },
   "scripts": {
     "build-css":  "node-sass --include-path scss css/style.scss css/style.css",
     "watch-css":  "nodemon -e scss -x \"npm run build-css\"",
-    "start":      "concurrently \"npm run watch-css\" \"node server.js\""
+    "start":      "concurrently \"npm run watch-css\" \"node server.js firefox\"",
+    "start-with-opera":      "concurrently \"npm run watch-css\" \"node server.js opera\""
   }
 }

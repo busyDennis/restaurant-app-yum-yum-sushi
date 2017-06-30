@@ -12,35 +12,24 @@
     authController.email = "";
     authController.password = "";
     authController.passwordVerified = "";
-    
-    // authController.onLoad = function() {
-    //   $(document).ready(function() {
-    //     $("#tr-password-retype").ready(function() {
-
-
-    //       $("#toggle-sign-up, #toggle-log-in").on("click", toggleFormFunction);
-
-
-    //       $("#btn-sign-up").on("click", function() {
-    //         });
-
-    //       $("#btn-log-in").on("click", function() {
-    //         });
-    //     });
-    //   });
-    // }
 
     authController.logIn = function() {
       AuthService.logIn({
         email:              authController.email,
         password:           authController.password,
         passwordVerified:   authController.passwordVerified
-      }).then(function(user) {
-        //console.log("user:");
-        //console.log(user);
-
-        $window.location.href = "http://" + $window.location.host + "/#!/admin";
       });
+
+      // .then(function(user) {
+      //   console.log("user:");
+      //   console.log(user);
+
+      //   $window.location.href = "http://" + $window.location.host + "/#!/admin";
+      // });
+
+      // .else(function() {
+      //   $('#auth-error-modal').modal();
+      // });
     }
 
     authController.registerUser = function() {
@@ -49,6 +38,12 @@
         password:           authController.password,
         passwordVerified:   authController.passwordVerified
       });
+    }
+
+    authController.invokeAuthErrorModal = function() {
+      console.log("Inside homeController.invokeAuthErrorModal");
+        $('#auth-error-modal').modal();
+
     }
   
     authController.toggleAuthFormFunctionality = function() {

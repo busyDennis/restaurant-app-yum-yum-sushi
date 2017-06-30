@@ -10,7 +10,8 @@
     homeController.onLoad = function() {
       $("body").css("background-image", "url('../assets/sushi1.jpg')");
     };
-  
+
+
   }
   
 })();

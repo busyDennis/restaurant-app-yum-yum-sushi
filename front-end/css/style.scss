@@ -1,4 +1,6 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_modals.scss";
+
 
 /*
   Mixins
@@ -198,15 +200,15 @@ body {
   background-color: rgba(128, 0, 128, 0.7);
 }
 
-#admin-console-link {
+/*#admin-console-link {
   align-self: flex-end;
   display: flex;
   margin-right: 30px;
   text-shadow: 0.3px 0.3px 0.3px black;
-  z-index: 1000;
+  z-index: 5;
 
   @include set-font("Comic Sans MS", "Comic Sans", 18px, rgb(0, 68, 102), bold);
-}
+}*/
 
 #home-right-subcontainer-2 {
   align-items: center;

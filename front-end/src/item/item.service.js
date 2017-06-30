@@ -4,46 +4,44 @@
   angular.module('RestaurantApp')
   .service('ItemService', ItemService);
 
-  ItemService.$inject = ['$http', 'BackEndUrlRoot'];
+  ItemService.$inject = ['$http', 'APIroot', 'FoodItemRoute'];
 
-  function ItemService($http, BackEndUrlRoot) {
+  function ItemService($http, APIroot, FoodItemRoute) {
 
     this.saveItem = function(item) {
       console.log("Item:");
       console.log(item);
 
-      //console.log("POST url: " + BackEndUrlRoot);
-
       $http({
         data: item,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type':         'application/json'
         },
         json: true,
-        method: 'POST',
-        url: 'http://localhost:5000/foodItems'
+        method:                   'POST',
+        url:                      APIroot + "/" + FoodItemRoute
       }).then(function successCallback(response) {
-        console.log(response);
-      }, function errorCallback(response) {
-        console.log(response);
-      });
+          console.log(response);
+        }, function errorCallback(response) {
+          console.log(response);
+        });
     };
 
     this.getItemList = function() {
       return $http({
-          method: 'GET',
-          url:     BackEndUrlRoot
+          method:                 'GET',
+          url:                    APIroot + "/" + FoodItemRoute
         });
     };
 
     this.getImage = function(fileName) {
       return $http({
-          cache:      'true',
-          method:     'GET',
+          cache:                  'true',
+          method:                 'GET',
           params: {
             fname:    fileName
           },
-          url:        'http://localhost:5000/img'
+          url:                    'https://localhost:5000/img'
         });
     };
 
