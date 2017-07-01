@@ -1,0 +1,24 @@
+{
+  "name": "restaurant-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "start":  "NODE_ENV=development ./scripts/run.sh",
+    "test":   "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type":   "git",
+    "url":    "git+https://github.com/busyDennis/restaurant-app-yum-yum-sushi.git"
+  },
+  "author": "",
+  "license":  "ISC",
+  "bugs": {
+    "url":    "https://github.com/busyDennis/restaurant-app-yum-yum-sushi/issues"
+  },
+  "engines": {
+    "node":   "4.6.0",
+    "npm":    "2.15.9"
+  },
+  "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi#readme"
+}
