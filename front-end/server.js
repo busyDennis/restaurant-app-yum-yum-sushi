@@ -7,4 +7,4 @@ connect().listen(8080, function() {
 
 //use(serveStatic(__dirname, {'index': ['index.html']})).
 
-opn('https://hidden-plateau-18437.herokuapp.com:8080', { app: process.argv[2] });
+opn('/', { app: process.argv[2] });
