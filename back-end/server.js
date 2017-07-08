@@ -190,7 +190,7 @@ router.get('/user-auth', authCtrl.UserAuthenticated);
 //   });
 
 //server listening on port
-var server = app.listen(nodeEnvConfigObj.srv_opt.port, function() {
+var server = app.listen(process.env.PORT || nodeEnvConfigObj.srv_opt.port, function() {
     console.log('Listening on port ', server.address().port);
   });
 
