@@ -4,21 +4,32 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start":  "NODE_ENV=development ./scripts/run.sh",
-    "test":   "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type":   "git",
-    "url":    "git+https://github.com/busyDennis/restaurant-app-yum-yum-sushi.git"
+    "type": "git",
+    "url": "git+https://github.com/busyDennis/restaurant-app-yum-yum-sushi.git"
   },
   "author": "",
-  "license":  "ISC",
+  "license": "ISC",
   "bugs": {
-    "url":    "https://github.com/busyDennis/restaurant-app-yum-yum-sushi/issues"
+    "url": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi/issues"
   },
   "engines": {
-    "node":   "4.6.0",
-    "npm":    "2.15.9"
+    "node": "4.6.0",
+    "npm": "2.15.9"
   },
-  "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi#readme"
+  "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-util": "^3.0.8",
+    "http-proxy-middleware": "^0.17.4",
+    "nodemon": "^1.11.0"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-sass": "^3.1.0"
+  }
 }
