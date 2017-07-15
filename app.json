@@ -1,6 +1,14 @@
 {
-  "name": "",
+  "addons": [
+    "mongolab"
+  ],
   "description": "",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
   "keywords": [
     "MEAN",
     "Angular",
@@ -8,15 +16,8 @@
     "MongoDB",
     "mLab"
   ],
+  "name": "",
   "repository": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi",
-  "success_url": "/",
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "free"
-    }
-  },
-  "addons": [
-    "mongolab"
-  ]
+  "stack": "heroku-16",
+  "success_url": "/"
 }

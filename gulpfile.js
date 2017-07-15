@@ -1,9 +1,14 @@
 'use strict';
 
 var gulp                    = require('gulp'),
+    env                     = require('gulp-env'),
     fs                      = require('fs');
 
-fs.readdirSync('gulp-tasks').forEach(function(file) {
+env.set({
+    "NODE_ENV": "development"
+  });
+
+fs.readdirSync('./gulp-tasks').forEach(function(file) {
     require('./gulp-tasks/' + file);
   });
 

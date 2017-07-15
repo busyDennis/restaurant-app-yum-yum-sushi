@@ -15,6 +15,7 @@ const path                  = require('path');
 const session               = require('express-session');
 // const socketIOmodule        = require('socket.io');
 
+require('dotenv').config();
 
 const MongoStore            = require('connect-mongo')(session);
 
@@ -32,14 +33,33 @@ var foodItemCtrl            = require('./lib/controllers/food.item.controller')(
 var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 
 var app                     = express();
+
+
+console.log("path.join(__dirname, '../src'):");
+console.log(path.join(__dirname, '../src'));
+
+
+//serving static folders
+app.use(express.static(path.join(__dirname, '../src')));
+app.use('/bower_components',  express.static(path.join(__dirname, '../bower_components')));
+
+
+app.set("NODE_ENV", "development");
+
+
 var router                  = express.Router();
+
+console.log("NODE_ENV:");
+console.log(process.env.NODE_ENV);
 
 //Environment-specific configuration set-up:
 const nodeEnvConfigObj      = require('./lib/config/env.config')();
 
-// //TEST: configuration object logged:
-// console.log("nodeEnvConfigObj:");
-// console.log(nodeEnvConfigObj);
+
+
+//TEST: configuration object logged:
+console.log("nodeEnvConfigObj:");
+console.log(nodeEnvConfigObj);
 
 
 //Logger set-up:
@@ -181,7 +201,7 @@ router.get('/api/user-auth', authCtrl.UserAuthenticated);
 //   });
 
 //Server listening on port
-var server = app.listen(/*process.env.PORT || */ nodeEnvConfigObj.SRV_PORT, function() {
+var server = app.listen(process.env.PORT || nodeEnvConfigObj.SRV_PORT, function() {
     console.log('API server listening on port: ', server.address().port);
   });
 

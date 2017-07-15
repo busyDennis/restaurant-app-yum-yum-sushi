@@ -2,30 +2,32 @@
 
 var browserSync         = require('browser-sync').create(),
     gulp                = require('gulp'),
+    path                = require('path'),
     proxy               = require('http-proxy-middleware'),
     sass                = require('gulp-sass');
 
 gulp.task('client:serve', function(cb) {
     var proxyServer     = proxy('/api', {
-          target: 'http://localhost:5000'
+          target:         '/:5000'
         });
 
     if(browserSync.active) {
       browserSync.exit();
-    } else {
-      browserSync.init({
-        browser:           'firefox',
-        startPath: '/',
-        server: {
-          baseDir:         ['./src'],
-          middleware:      [proxyServer],
-          routes: {
-            '/bower_components': 'bower_components'
-          }
-        },
-        ui:                false
-      }, cb);
-    };
+    }
+     
+    browserSync.init({
+      open:              false,
+      startPath:         '/',
+      server: {
+        baseDir:         "./src",
+        middleware:      proxyServer,
+        routes: {
+          '/bower_components': 'bower_components',
+          '/style': './src/style'
+        }
+      },
+      ui:                false
+    }, cb);
 
   });
 

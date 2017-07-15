@@ -16,15 +16,15 @@ var getEnvConfigSettings = function() {
   //};
 
   switch(process.env.NODE_ENV) {
-    case 'development':
-      configObj.DB_URL   = LOCAL_DEV_DB_URL;
+    case "development":
+      configObj.DB_URL   = HEROKU_DB_URL;
       configObj.SRV_PORT = 5000;
       break;
-    case 'test':
+    case "test":
       configObj.DB_URL   = LOCAL_TEST_DB_URL;
       configObj.SRV_PORT = 5000;
       break;
-    case 'production':
+    case "production":
       configObj.DB_URL   = HEROKU_DB_URL;
       configObj.SRV_PORT = 5000;
       break;
