@@ -1,31 +1,36 @@
-const fs                              = require('fs');
+const fs                         = require('fs');
 
-const HEROKU_DB_URL                   = "mongodb://heroku_653zr90c:vq0un6e3t9b6dkf4i2tplq9fdh@ds129459.mlab.com:29459/heroku_653zr90c";
-
-const LOCAL_DEV_DB_URL                = "mongodb://127.0.0.1:27017/restaurant_db";
-const LOCAL_TEST_DB_URL               = "mongodb://127.0.0.1:27017/restaurant_test_db";
+const HEROKU_DB_URL              = "mongodb://heroku_653zr90c:vq0un6e3t9b6dkf4i2tplq9fdh@ds129459.mlab.com:29459/heroku_653zr90c";
+const LOCAL_DEV_DB_URL           = "mongodb://127.0.0.1:27017/restaurant_db";
+const LOCAL_TEST_DB_URL          = "mongodb://127.0.0.1:27017/restaurant_test_db";
 
 var getEnvConfigSettings = function() {
   var configObj = {};
 
-  configObj.srv_opt = {
+  // configObj.ssl_conf = {
     //key:                            fs.readFileSync("./lib/config/ssl_cert/key.pem"),
     //cert:                           fs.readFileSync("./lib/config/ssl_cert/server.crt"),
-    port:                           5000
+    
     //requestCert:                true
     //rejectUnauthorized:     false
-  };
+  //};
 
   switch(process.env.NODE_ENV) {
     case 'development':
-      configObj.db_url = LOCAL_DEV_DB_URL;
+      configObj.DB_URL   = LOCAL_DEV_DB_URL;
+      configObj.SRV_PORT = 5000;
       break;
     case 'test':
-      configObj.db_url = 'mongodb://heroku_653zr90c:vq0un6e3t9b6dkf4i2tplq9fdh@ds129459.mlab.com:29459/heroku_653zr90c';
+      configObj.DB_URL   = LOCAL_TEST_DB_URL;
+      configObj.SRV_PORT = 5000;
+      break;
+    case 'production':
+      configObj.DB_URL   = HEROKU_DB_URL;
+      configObj.SRV_PORT = 5000;
       break;
     default:
-      configObj.db_url = null;
-      configObj.info = 'error: process.env.NODE_ENV value \'' + process.env.NODE_ENV + '\' not recognized.';
+      configObj.DB_URL   = null;
+      configObj.INFO     = 'error: process.env.NODE_ENV value \'' + process.env.NODE_ENV + '\' not recognized.';
   }
 
   return configObj;

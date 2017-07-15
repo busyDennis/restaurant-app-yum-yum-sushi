@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi#readme",
   "dependencies": {
+    "browser-sync": "^2.18.12",
     "fs": "0.0.1-security",
+    "gulp-ng-config": "^1.4.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-util": "^3.0.8",
     "http-proxy-middleware": "^0.17.4",

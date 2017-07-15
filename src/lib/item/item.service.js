@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .service('ItemService', ItemService);
 
-  ItemService.$inject = ['$http', 'APIroot', 'FoodItemRoute'];
+  ItemService.$inject = ['$http', 'APIroot'];
 
-  function ItemService($http, APIroot, FoodItemRoute) {
+  function ItemService($http, APIroot) {
 
     this.saveItem = function(item) {
       console.log("Item:");
@@ -19,7 +19,7 @@
         },
         json: true,
         method:                   'POST',
-        url:                      APIroot + '/food-items'
+        url:                      process.env.HOSTNAME + '/food-items'
       }).then(function successCallback(response) {
           console.log(response);
         }, function errorCallback(response) {

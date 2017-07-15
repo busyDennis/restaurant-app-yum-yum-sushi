@@ -1,33 +1,32 @@
 const bodyParser            = require('body-parser');
 const cookieParser          = require('cookie-parser');
 const cors                  = require('cors');
-const dotenv                = require('dotenv');
 const express               = require('express');
-const httpServer            = require('http-server');
-const session               = require('express-session');
 const expressValidator      = require('express-validator');
 //const forceSSL              = require('express-force-ssl');
 const fs                    = require('fs');
+const httpServer            = require('http-server');
+const localStrategy         = require('passport-local').Strategy;
 const mongoose              = require('mongoose');
 const morgan                = require('morgan');
 const passport              = require('passport');
-const localStrategy         = require('passport-local').Strategy;
 // const passportSocketIO      = require('passport.socketio');
-const MongoStore            = require('connect-mongo')(session);
 const path                  = require('path');
+const session               = require('express-session');
 // const socketIOmodule        = require('socket.io');
 
+
+const MongoStore            = require('connect-mongo')(session);
+
+//Importing MongoDB models:
 const User                  = require('./lib/models/user.model');
 const Image                 = require('./lib/models/image.model');
 const FoodItem              = require('./lib/models/food.item.model');
 
-
-//passport config
+//PassportJS set-up:
 passport                    = require('./lib/config/passport.config')(passport, localStrategy, User);
 
-
-
-//controllers
+//REST controllers:
 var imageCtrl               = require('./lib/controllers/image.controller');
 var foodItemCtrl            = require('./lib/controllers/food.item.controller')(FoodItem);
 var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
@@ -35,20 +34,15 @@ var authCtrl                = require('./lib/controllers/authentication.controll
 var app                     = express();
 var router                  = express.Router();
 
-//configuration based on process.env.NODE_ENV value
+//Environment-specific configuration set-up:
 const nodeEnvConfigObj      = require('./lib/config/env.config')();
 
-console.log("nodeEnvConfigObj:");
-console.log(nodeEnvConfigObj);
+// //TEST: configuration object logged:
+// console.log("nodeEnvConfigObj:");
+// console.log(nodeEnvConfigObj);
 
 
-//dotenv npm module configuration
-dotenv.config({
-    path: '.restaurant-env'
-  });
-dotenv.load();
-
-//logger configuration
+//Logger set-up:
 var accessLogStream         = fs.createWriteStream(
   path.join(__dirname, 'access.log'),
   {
@@ -60,23 +54,22 @@ var loggerMorgan = morgan('combined', {
 app.use(loggerMorgan);
 
 
-//mongoose connection set-up
-mongoose.Promise = global.Promise; //hack used to avoid deprecated promise library exception
-mongoose.connect(nodeEnvConfigObj.db_url, { useMongoClient: true }, function(error, db) {
+mongoose.Promise = global.Promise; // <- we should avoid deprecated promise library exception in Mongoose
+
+//Mongoose connection set-up:
+mongoose.connect(nodeEnvConfigObj.DB_URL, { useMongoClient: true }, function(error, db) {
     if (! error) {
-      console.log("Connection with \'" + nodeEnvConfigObj.db_url + "\' established successfully.");
+      console.log("Connection with \'" + nodeEnvConfigObj.DB_URL + "\' established successfully.");
     } else
-      console.log("Connection with \'" + nodeEnvConfigObj.db_url + "\' could not be established; error message: " + error);
+      console.log("Connection with \'" + nodeEnvConfigObj.DB_URL + "\' could not be established; error message: " + error);
   });
 
-
-//session store set-up
+//Session store set-up:
 var sessionStore = new MongoStore({
     collection:               'sessions',
     mongooseConnection:       mongoose.connection,
-    url:                      nodeEnvConfigObj.db_url
+    url:                      nodeEnvConfigObj.DB_URL
   });
-
 
 var sessionOpts             = {
     cookie: {
@@ -90,28 +83,27 @@ var sessionOpts             = {
     store:                    sessionStore
   };
 
+//TEST: sessionOpts.secret
+console.log("TEST: sessionOpts.secret: " + sessionOpts.secret);
 
-console.log("sessionOpts.secret: " + sessionOpts.secret);
-
-
-//body parser set-up
+//Body parser set-up
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//enforce SSL protocol
+//Enforce SSL protocol
 //app.use(forceSSL);
 
-//cookie parser set-up
+//Cookie parser set-up
 app.use(cookieParser('secret'));
 
-//session set-up
+//Session set-up
 app.use(session(sessionOpts));
 
-//passport set-up
+//Passport set-up
 app.use(passport.initialize());
 app.use(passport.session());
 
-// //TESTING
+// //Testing session configuration:
 // app.use(function(request, response, next) {
 //   console.log("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 //   console.log("Session:");
@@ -125,13 +117,13 @@ app.use(passport.session());
 // });
 
 
-// Otherwise, render the index.html page
+// Render index.html:
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, '../src', 'index.html'));
 });
 
 
-//CORS set-up
+//CORS set-up:
 var corsOptions = {
   origin:                 true,
   allowedHeaders:         'Origin,Content-Type,X-Requested-With, X-HTTP-Method-Override,Accept,Access-Control-Allow-Origin',
@@ -144,7 +136,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 
-//recommended cors configuration did not suffice
+//Recommended CORS configuration did not suffice
 router.all('/api/*', function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
   response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -153,11 +145,11 @@ router.all('/api/*', function(request, response, next) {
   next();
 });
 
-//express validator configuration
+//Express validator configuration:
 app.use(expressValidator());
 
 
-//REST routes defined
+//REST routes defined:
 router.get('/api/img', imageCtrl.GetImage);
 router.post('/api/img', imageCtrl.PostImage);
 
@@ -188,9 +180,9 @@ router.get('/api/user-auth', authCtrl.UserAuthenticated);
 //     client.on('disconnect', function() {});
 //   });
 
-//server listening on port
-var server = app.listen(/*process.env.PORT || */ nodeEnvConfigObj.srv_opt.port, function() {
-    console.log('Listening on port ', server.address().port);
+//Server listening on port
+var server = app.listen(/*process.env.PORT || */ nodeEnvConfigObj.SRV_PORT, function() {
+    console.log('API server listening on port: ', server.address().port);
   });
 
 // redirect all http requests to https
@@ -207,8 +199,6 @@ app.use('/', router);
 module.exports = server;
 
 
-//TO DO: use standard db setup approach
-
 //Inserting data mock-ups
 // JSON.parse(dataFoodItems).forEach(function(itemData) {
 //   createFoodItemFromJSON(itemData).save();
@@ -218,7 +208,6 @@ module.exports = server;
 //   if (error)
 //     console.log(error);
 // });
-
 
 // var dataFoodItems = fs.readFileSync(path.join(process.env.DB_SETUP_DATA_DIR_NAME, process.env.DB_SETUP_JSON_FILE_NAME), 'utf8');
 
