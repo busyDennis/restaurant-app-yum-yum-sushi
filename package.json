@@ -4,7 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start": "NODE_ENV='development' gulp",
+    "start": "node ./api/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +17,8 @@
     "url": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi/issues"
   },
   "engines": {
-    "node": "4.6.0",
-    "npm": "2.15.9"
+    "node": "8.9.1",
+    "npm": "5.5.1"
   },
   "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi#readme",
   "dependencies": {
@@ -42,10 +42,11 @@
     "http-server": "^0.10.0",
     "mongoose": "^4.11.3",
     "morgan": "^1.8.2",
+    "node-static": "^0.7.10",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7"
-   },
+  },
   "devDependencies": {}
 }

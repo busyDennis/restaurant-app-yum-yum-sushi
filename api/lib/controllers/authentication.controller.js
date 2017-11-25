@@ -5,12 +5,15 @@ module.exports = function(passport, User) {
     console.log("Registering user: " + request.body.email);
 
     var user = new User();
-
     user.email = request.body.email;
     user.setPassword(request.body.password);
-    user.save();
 
-    return response.status(200).json(user);
+    var promise = user.save(function (error, user, numAffected) {
+      if (err) {
+        return response.status(400).json("Internal error; could not save user model.");
+      } else 
+        return response.status(200).json(user);
+    });
   };
 
 

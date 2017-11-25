@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .service('AuthService', AuthService);
 
-  AuthService.$inject = ['$http', '$window'];
+  AuthService.$inject = ['$http', '$window', '$location'];
 
-  function AuthService($http, $window) {
+  function AuthService($http, $window, $location) {
     var authService = this;
 
     authService.registerUser = function(token) {
@@ -17,7 +17,7 @@
         },
         json:               true,
         method:             'POST',
-        url:                '/register'
+        url:                "http://10.137.3.16:5000/register" //$location.host()
         //'http://localhost:5000/register'
       });
     };

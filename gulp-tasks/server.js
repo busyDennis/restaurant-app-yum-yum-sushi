@@ -2,8 +2,8 @@
 
 var gulp                    = require('gulp'),
     env                     = require('gulp-env'),
-    nodemon                 = require('gulp-nodemon'),
-    sass                    = require('gulp-sass');
+    nodemon                 = require('gulp-nodemon');
+
 
 gulp.task('server:serve', function(cb) {
   var called = false;
@@ -21,7 +21,7 @@ gulp.task('server:serve', function(cb) {
       watch:    ['./api']
     })
     .on('start', function() {
-      if (!called) {
+      if (! called) {
         called = true;
         cb();
       }

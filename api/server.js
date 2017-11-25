@@ -9,28 +9,18 @@ const httpServer            = require('http-server');
 const localStrategy         = require('passport-local').Strategy;
 const mongoose              = require('mongoose');
 const morgan                = require('morgan');
-const passport              = require('passport');
+var passport                = require('passport');
 // const passportSocketIO      = require('passport.socketio');
 const path                  = require('path');
 const session               = require('express-session');
+// const nodeStatic                = require('node-static');
+
 // const socketIOmodule        = require('socket.io');
 
 require('dotenv').config();
 
 const MongoStore            = require('connect-mongo')(session);
 
-//Importing MongoDB models:
-const User                  = require('./lib/models/user.model');
-const Image                 = require('./lib/models/image.model');
-const FoodItem              = require('./lib/models/food.item.model');
-
-//PassportJS set-up:
-passport                    = require('./lib/config/passport.config')(passport, localStrategy, User);
-
-//REST controllers:
-var imageCtrl               = require('./lib/controllers/image.controller');
-var foodItemCtrl            = require('./lib/controllers/food.item.controller')(FoodItem);
-var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 
 var app                     = express();
 
@@ -38,13 +28,14 @@ var app                     = express();
 console.log("path.join(__dirname, '../src'):");
 console.log(path.join(__dirname, '../src'));
 
-
 //serving static folders
-app.use(express.static(path.join(__dirname, '../src')));
+//var file = new(static.Server)('../src');
+
+app.use('/', express.static(path.join(__dirname, '../src')));
 app.use('/bower_components',  express.static(path.join(__dirname, '../bower_components')));
 
 
-app.set("NODE_ENV", "development");
+// app.set("NODE_ENV", "development");
 
 
 var router                  = express.Router();
@@ -52,9 +43,9 @@ var router                  = express.Router();
 console.log("NODE_ENV:");
 console.log(process.env.NODE_ENV);
 
+
 //Environment-specific configuration set-up:
 const nodeEnvConfigObj      = require('./lib/config/env.config')();
-
 
 
 //TEST: configuration object logged:
@@ -68,13 +59,15 @@ var accessLogStream         = fs.createWriteStream(
   {
     flags: 'a'
   });
+
 var loggerMorgan = morgan('combined', {
     stream: accessLogStream
   });
+
 app.use(loggerMorgan);
 
 
-mongoose.Promise = global.Promise; // <- we should avoid deprecated promise library exception in Mongoose
+mongoose.Promise = global.Promise; // we should avoid deprecated promise library exception in Mongoose
 
 //Mongoose connection set-up:
 mongoose.connect(nodeEnvConfigObj.DB_URL, { useMongoClient: true }, function(error, db) {
@@ -82,7 +75,7 @@ mongoose.connect(nodeEnvConfigObj.DB_URL, { useMongoClient: true }, function(err
       console.log("Connection with \'" + nodeEnvConfigObj.DB_URL + "\' established successfully.");
     } else
       console.log("Connection with \'" + nodeEnvConfigObj.DB_URL + "\' could not be established; error message: " + error);
-  });
+  }); //.then(function(resp) {}, function(error) {});
 
 //Session store set-up:
 var sessionStore = new MongoStore({
@@ -91,11 +84,11 @@ var sessionStore = new MongoStore({
     url:                      nodeEnvConfigObj.DB_URL
   });
 
-var sessionOpts             = {
+var sessionOpts = {
     cookie: {
         httpOnly:             false,
         maxAge:               3600000,
-        secure:               false//true
+        secure:               false //true
       },
     resave:                   true, //automatically write to the session store
     saveUninitialized:        true, //save new sessions
@@ -119,9 +112,7 @@ app.use(cookieParser('secret'));
 //Session set-up
 app.use(session(sessionOpts));
 
-//Passport set-up
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 // //Testing session configuration:
 // app.use(function(request, response, next) {
@@ -137,10 +128,28 @@ app.use(passport.session());
 // });
 
 
-// Render index.html:
-app.use(function(req, res) {
+// Render index.html everywhere except api routes
+app.use('/!(api)', function(req, res) {
   res.sendFile(path.join(__dirname, '../src', 'index.html'));
 });
+
+
+//Importing MongoDB models:
+const User                  = require('./lib/models/user.model');
+const Image                 = require('./lib/models/image.model');
+const FoodItem              = require('./lib/models/food.item.model');
+
+//PassportJS set-up:
+passport                    = require('./lib/config/passport.config')(passport, localStrategy, User);
+
+//Passport set-up
+app.use(passport.initialize());
+app.use(passport.session());
+
+//REST controllers:
+var imageCtrl               = require('./lib/controllers/image.controller');
+var foodItemCtrl            = require('./lib/controllers/food.item.controller')(FoodItem);
+var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 
 
 //CORS set-up:
@@ -153,11 +162,12 @@ var corsOptions = {
   preflightContinue:      false
 };
 
+
 app.use(cors(corsOptions));
 
 
-//Recommended CORS configuration did not suffice
-router.all('/api/*', function(request, response, next) {
+// Using "cors" npm package somehow did not suffice, and this code was added with the same purpose of preventing CORS ussues:
+router.all('/api', function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
   response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
   response.header("Access-Control-Allow-Headers", "*");
@@ -170,16 +180,16 @@ app.use(expressValidator());
 
 
 //REST routes defined:
-router.get('/api/img', imageCtrl.GetImage);
-router.post('/api/img', imageCtrl.PostImage);
+router.get('/img', imageCtrl.GetImage);
+router.post('/img', imageCtrl.PostImage);
 
 router.get('/api/food-items', foodItemCtrl.GetAllFoodItems);
 router.post('/api/food-items', foodItemCtrl.PostFoodItems);
 
-router.post('/api/register', authCtrl.PostRegister);
-router.post('/api/log-in', authCtrl.PostLogIn);
-router.post('/api/purge-user', authCtrl.PurgeUser);
-router.get('/api/user-auth', authCtrl.UserAuthenticated);
+router.post('/register', authCtrl.PostRegister);
+router.post('/log-in', authCtrl.PostLogIn);
+router.post('/purge-user', authCtrl.PurgeUser);
+router.get('/user-auth', authCtrl.UserAuthenticated);
 
 
 //var server = https.createServer(nodeEnvConfigObj.srv_opt, app);
@@ -200,8 +210,19 @@ router.get('/api/user-auth', authCtrl.UserAuthenticated);
 //     client.on('disconnect', function() {});
 //   });
 
+
+
+
+console.log("process.env.PORT:");
+console.log(process.env.PORT);
+
+console.log("nodeEnvConfigObj.API_PORT:");
+console.log(nodeEnvConfigObj.API_PORT);
+
+
+
 //Server listening on port
-var server = app.listen(process.env.PORT || nodeEnvConfigObj.SRV_PORT, function() {
+var server = app.listen(process.env.PORT || nodeEnvConfigObj.API_PORT, function() {
     console.log('API server listening on port: ', server.address().port);
   });
 

@@ -1,33 +1,40 @@
 'use strict';
 
-var browserSync         = require('browser-sync').create(),
-    gulp                = require('gulp'),
+//var browserSync         = require('browser-sync').create(),
+var gulp                = require('gulp'),
+    nodeStatic          = require('node-static'),
     path                = require('path'),
     proxy               = require('http-proxy-middleware'),
     sass                = require('gulp-sass');
 
 gulp.task('client:serve', function(cb) {
-    var proxyServer     = proxy('/api', {
-          target:         '/:5000'
-        });
 
-    if(browserSync.active) {
-      browserSync.exit();
-    }
+
+
+
+    // var proxyServer     = proxy('/api', {
+    //        target:         '/:5000'
+    //      });
+    
+
+
+    // if(browserSync.active) {
+    //   browserSync.exit();
+    // }
      
-    browserSync.init({
-      open:              false,
-      startPath:         '/',
-      server: {
-        baseDir:         "./src",
-        middleware:      proxyServer,
-        routes: {
-          '/bower_components': 'bower_components',
-          '/style': './src/style'
-        }
-      },
-      ui:                false
-    }, cb);
+    // browserSync.init({
+    //   open:              false,
+    //   startPath:         '/',
+    //   server: {
+    //     baseDir:         "./src",
+    //     middleware:      proxyServer,
+    //     routes: {
+    //       '/bower_components': 'bower_components',
+    //       '/style': './src/style'
+    //     }
+    //   },
+    //   ui:                false
+    // }, cb);
 
   });
 

@@ -4,24 +4,28 @@ module.exports = function(FoodItem) {
   thisModuleObj.GetAllFoodItems = function(request, response, next) {
     console.log("inside GetAllFoodItems:");
 
-    console.log("request.session:");
-    console.log(request.session);
+    // console.log("request.session:");
+    // console.log(request.session);
 
-    console.log("request authenticated:");
-    console.log(request.isAuthenticated());
+    // console.log("request authenticated:");
+    // console.log(request.isAuthenticated());
 
-    console.log("request.user:");
-    console.log(request.user);
+    // console.log("request.user:");
+    // console.log(request.user);
 
-    FoodItem.find({}).exec(function(error, result) {
+    FoodItem.find({}, function(error, result) {
       console.log("Result:");
       console.log(result);
 
-      if (! error)
+      if (! error) {
+        //response.send("Hello!");
         response.send(result);
-      else
+      } else {
         console.log(error);
+      }
     });
+
+
   };
 
 

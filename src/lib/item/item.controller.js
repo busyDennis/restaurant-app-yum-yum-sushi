@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('ItemController', ItemController);
 
-  ItemController.$inject = ['ItemService'];
+  ItemController.$inject = ['$scope', 'ItemService'];
 
-  function ItemController (ItemService) {
+  function ItemController ($scope, ItemService) {
     var itemController = this;
 
     itemController.name = "";
@@ -14,7 +14,14 @@
     itemController.price = "";
     itemController.portion_name = "";
 
+    itemController.init = function () {
+       $("body").css("background-image", "none");
+    };
+
     itemController.submit = function() {
+
+
+
       ItemService.saveItem({
         name:         itemController.name,
         description:  itemController.description,
@@ -23,9 +30,17 @@
       });
     };
 
-    itemController.init = function () {
-       $("body").css("background-image", "none");
-    };
+    var uploadFoodItemImage = function() {
+      var imgFile = document.getElementById('img-file-name').files[0];
+      var fileReader = new FileReader();
+      
+      fileReader.onloadend = function(e){
+        $scope.data = e.target.result;
+      }
+
+      fileReader.readAsBinaryString(imgFile);
+    }
+
   };
   
 })();

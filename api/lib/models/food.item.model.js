@@ -1,7 +1,7 @@
 const mongoose              = require('mongoose');  
 const Schema                = require('mongoose').Schema;
 
-var foodItemSchema = new mongoose.Schema({
+var FoodItemSchema = new mongoose.Schema({
     name:             String,
     description:      String,
     price:            String,
@@ -9,8 +9,10 @@ var foodItemSchema = new mongoose.Schema({
     img_fname:        String
   });
 
-foodItemSchema.methods.setModelFieldsFromJSON = function(json) {
-  this.name = json.name;
+FoodItemSchema.methods.createModelFromJSON = function(json) {
+  var foodItem = new FoodItem();
+
+  foodItem.name = json.name;
   foodItem.description = json.description;
   foodItem.price = json.price;
   foodItem.portion_name = json.portion_name;
@@ -19,7 +21,7 @@ foodItemSchema.methods.setModelFieldsFromJSON = function(json) {
   return foodItem;
 };
 
-var FoodItem = mongoose.model('FoodItem', foodItemSchema);
+var FoodItem = mongoose.model('FoodItem', FoodItemSchema);
 
 module.exports = FoodItem;
 
@@ -43,4 +45,13 @@ module.exports = FoodItem;
 //     });
 
 //   return foodItem;
+// }
+
+
+// {
+//   name:             "Dynamite Roll (Sushi)",
+//   description:      "Tempura, salmon, avocado, nytroglycerin",
+//   price:            "15.50",
+//   portion_name:     "10 pcs",
+//   img_fname:        ""
 // }
