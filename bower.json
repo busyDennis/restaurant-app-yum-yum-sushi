@@ -1,12 +1,12 @@
 {
-  "name": "restaurant-app",
-  "description": "",
+  "name":                 "restaurant-app",
+  "description":          "",
   "main": "",
   "authors": [
     "busyDennis <denisbezverbnyy@gmail.com>"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi",
+  "homepage":             "https://github.com/busyDennis/restaurant-app-yum-yum-sushi",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -15,11 +15,11 @@
     "tests"
   ],
   "dependencies": {
-    "angular-ui": "^0.4.0",
-    "jasmine-core": "jasmine#^2.6.4",
-    "bootstrap-sass": "^3.3.7",
-    "angular": "^1.6.5",
-    "jquery": "^3.2.1",
-    "angular-ui-router": "^1.0.5"
+    "angular-ui":         "^0.4.0",
+    "jasmine-core":       "jasmine#^2.6.4",
+    "bootstrap-sass":     "^3.3.7",
+    "angular":            "^1.6.5",
+    "jquery":             "^3.2.1",
+    "angular-ui-router":  "^1.0.5"
   }
 }

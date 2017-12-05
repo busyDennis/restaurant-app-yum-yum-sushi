@@ -10,13 +10,13 @@
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-    //access to this route is not restricted to authenticated users:
+    //access to 'home' route is not restricted to authenticated users:
     .state('home', {
       url: '/',
       templateUrl: 'lib/home/home.template.html',
       controller: 'HomeController as homeController'
     })
-    //access to this route is not restricted to authenticated users:
+    //access to 'menu' route is not restricted to authenticated users:
     .state('menu', {
       url: '/menu',
       templateUrl: 'lib/menu/menu.template.html',

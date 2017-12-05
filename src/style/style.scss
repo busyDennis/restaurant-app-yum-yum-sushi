@@ -382,7 +382,7 @@ body {
   text-shadow: 2px 2px 3px black;
   z-index: 3;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(0, 204, 255, 1), bold);
+  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(255, 255, 255, 1), bold);
 }
 
 .left-column-item-description {

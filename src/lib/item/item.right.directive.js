@@ -5,7 +5,7 @@
   .directive('rightColumnItem', function() {
     return {
       restrict: 'C',
-      templateUrl: 'src/item/item.right.template.html',
+      templateUrl: 'lib/item/item.right.template.html',
       scope: {
         foodItem: '<item'
       }

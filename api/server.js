@@ -139,27 +139,30 @@ const User                  = require('./lib/models/user.model');
 const Image                 = require('./lib/models/image.model');
 const FoodItem              = require('./lib/models/food.item.model');
 
+
 //PassportJS set-up:
 passport                    = require('./lib/config/passport.config')(passport, localStrategy, User);
+
 
 //Passport set-up
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 //REST controllers:
-var imageCtrl               = require('./lib/controllers/image.controller');
-var foodItemCtrl            = require('./lib/controllers/food.item.controller')(FoodItem);
+var imageCtrl               = require('./lib/controllers/image.controller')(fs, Image);
+var foodItemCtrl            = require('./lib/controllers/food.item.controller')(Image, FoodItem);
 var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 
 
 //CORS set-up:
 var corsOptions = {
-  origin:                 true,
-  allowedHeaders:         'Origin,Content-Type,X-Requested-With, X-HTTP-Method-Override,Accept,Access-Control-Allow-Origin',
-  credentials:            true, 
-  methods:                'GET,PUT,POST,DELETE,OPTIONS',
+  origin:                   true,
+  allowedHeaders:           'Origin,Content-Type,X-Requested-With, X-HTTP-Method-Override,Accept,Access-Control-Allow-Origin',
+  credentials:              true, 
+  methods:                  'GET,PUT,POST,DELETE,OPTIONS',
   //optionsSuccessStatus:   200,
-  preflightContinue:      false
+  preflightContinue:        false
 };
 
 
@@ -180,16 +183,16 @@ app.use(expressValidator());
 
 
 //REST routes defined:
-router.get('/img', imageCtrl.GetImage);
-router.post('/img', imageCtrl.PostImage);
+router.get('/api/img', imageCtrl.GetImage);
+router.post('/api/img', imageCtrl.PostImage);
 
 router.get('/api/food-items', foodItemCtrl.GetAllFoodItems);
 router.post('/api/food-items', foodItemCtrl.PostFoodItems);
 
-router.post('/register', authCtrl.PostRegister);
-router.post('/log-in', authCtrl.PostLogIn);
-router.post('/purge-user', authCtrl.PurgeUser);
-router.get('/user-auth', authCtrl.UserAuthenticated);
+router.post('/api/register', authCtrl.PostRegister);
+router.post('/api/log-in', authCtrl.PostLogIn);
+router.post('/api/purge-user', authCtrl.PurgeUser);
+router.get('/api/user-auth', authCtrl.UserAuthenticated);
 
 
 //var server = https.createServer(nodeEnvConfigObj.srv_opt, app);
@@ -216,13 +219,13 @@ router.get('/user-auth', authCtrl.UserAuthenticated);
 console.log("process.env.PORT:");
 console.log(process.env.PORT);
 
-console.log("nodeEnvConfigObj.API_PORT:");
-console.log(nodeEnvConfigObj.API_PORT);
+console.log("nodeEnvConfigObj.PORT:");
+console.log(nodeEnvConfigObj.PORT);
 
 
 
 //Server listening on port
-var server = app.listen(process.env.PORT || nodeEnvConfigObj.API_PORT, function() {
+var server = app.listen(process.env.PORT || nodeEnvConfigObj.PORT, function() {
     console.log('API server listening on port: ', server.address().port);
   });
 

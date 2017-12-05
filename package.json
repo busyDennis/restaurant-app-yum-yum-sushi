@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/busyDennis/restaurant-app-yum-yum-sushi#readme",
   "dependencies": {
+    "atob": "^2.0.3",
     "body-parser": "^1.17.2",
+    "bower": "^1.8.2",
     "browser-sync": "^2.18.12",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "^1.4.3",
@@ -40,7 +42,7 @@
     "gulp-util": "^3.0.8",
     "http-proxy-middleware": "^0.17.4",
     "http-server": "^0.10.0",
-    "mongoose": "^4.11.3",
+    "mongoose": "^4.13.5",
     "morgan": "^1.8.2",
     "node-static": "^0.7.10",
     "nodemon": "^1.11.0",

@@ -4,14 +4,14 @@
   angular.module('RestaurantApp')
   .controller('ItemController', ItemController);
 
-  ItemController.$inject = ['$scope', 'ItemService'];
+  ItemController.$inject = ['$scope', 'ImageService', 'ItemService'];
 
-  function ItemController ($scope, ItemService) {
+  function ItemController ($scope, ImageService, ItemService) {
     var itemController = this;
 
-    itemController.name = "";
-    itemController.description = "";
-    itemController.price = "";
+    itemController.itemName = "";
+    itemController.itemDescription = "";
+    itemController.itemPrice = "";
     itemController.portion_name = "";
 
     itemController.init = function () {
@@ -20,27 +20,26 @@
 
     itemController.submit = function() {
 
+      ImageService.loadImageFileFromHTMLInput().then(function(obj1) {
+        ImageService.saveImage(obj1).then(function(obj2) {
+          console.log("Image saved:");
+          console.log(obj2.data);
 
-
-      ItemService.saveItem({
-        name:         itemController.name,
-        description:  itemController.description,
-        price:  itemController.price,
-        portion_name: itemController.portion_name
+          ItemService.saveItem({
+            name:               itemController.itemName,
+            description:        itemController.itemDescription,
+            price:              itemController.itemPrice,
+            portion_name:       itemController.portion_name,
+            img_id:             obj2.data.id
+          });
+        }, function(obj2) {
+          console.log("error:");
+        });
+      }, function(obj1) {
+         console.log("error:");
       });
     };
-
-    var uploadFoodItemImage = function() {
-      var imgFile = document.getElementById('img-file-name').files[0];
-      var fileReader = new FileReader();
-      
-      fileReader.onloadend = function(e){
-        $scope.data = e.target.result;
-      }
-
-      fileReader.readAsBinaryString(imgFile);
-    }
-
+    
   };
   
 })();

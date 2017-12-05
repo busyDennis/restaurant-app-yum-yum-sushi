@@ -4,28 +4,30 @@
   angular.module('RestaurantApp')
   .controller('MenuController', MenuController);
 
-  MenuController.$inject = ['ItemService'];
+  MenuController.$inject = ['ImageService', 'ItemService'];
 
-  function MenuController (ItemService) {
+  function MenuController (ImageService, ItemService) {
     var restaurantMenuController = this;
     
     restaurantMenuController.$onInit = function() {
+
+      /**
+        Get all available food items as JSON array. Prepare food items for rendering by separating them in two dedicated arrays.
+      */
       ItemService.getItemList()
       .then(function(items) {
         items = items.data;
 
-        console.log("Items received:");
+        console.log("MenuController->getItemList() - food items received:");
         console.log(items);
 
-        var image;
-
         items.forEach(function(item) {
-            image = ItemService.getImage(item.img_fname)
-            .then(function(img_json) {
-              //console.log("Inside MenuController setup: test image JSON received");
-              //console.log(img_json.data.data);
+            ImageService.getImage(item.img_id)
+            .then(function(imgJSON) {
+              //console.log("MenuController->getItemList: image JSON received");
+              //console.log(imgJSON.data);
 
-              item.imgSrc = img_json.data.data;
+              item.imgSrc = imgJSON.data.data;
             });
           });
 
@@ -35,17 +37,9 @@
         restaurantMenuController.itemsLeft = items.slice(0, median + 1);
         restaurantMenuController.itemsRight = items.slice(median + 1, length);
 
-        console.log(restaurantMenuController.itemsLeft.length);
-        console.log(restaurantMenuController.itemsRight.length);
+        //console.log(restaurantMenuController.itemsLeft.length);
+        //console.log(restaurantMenuController.itemsRight.length);
       });
-
-      // ItemService.getTestImage('spicy_salmon.png')
-      // .then(function(img_json) {
-      //   console.log("Inside MenuController setup: test image JSON received");
-      //   console.log(img_json.data.data);
-
-      //   restaurantMenuController.testImgSrc = img_json.data.data;
-      // });
 
     };
 
