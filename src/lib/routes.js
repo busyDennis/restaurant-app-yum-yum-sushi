@@ -29,9 +29,9 @@
       controller: 'AdminHomeController as adminHomeController'
     })
     //access restricted to authenticated users only:
-    .state('new-item', {
-      url: '/new-item',
-      templateUrl: 'lib/item/new-item.template.html',
+    .state('new-food-item', {
+      url: '/new-food-item',
+      templateUrl: 'lib/food.item/food.item.new.template.html',
       controller: 'ItemController as itemController'
     });
   }

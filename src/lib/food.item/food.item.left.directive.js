@@ -2,14 +2,15 @@
   'use strict';
 
   angular.module('RestaurantApp')
-  .directive('rightColumnItem', function() {
+  .directive('leftColumnItem', function() {
     return {
       restrict: 'C',
-      templateUrl: 'lib/item/item.right.template.html',
+      templateUrl: 'lib/food.item/food.item.left.template.html',
       scope: {
         foodItem: '<item'
       }
     };
+
   });
 
 })();

@@ -2,9 +2,11 @@ module.exports = function(fs, Image) {
   var thisModuleObj = {};
 
   thisModuleObj.GetImage = function (request, response) {
+    console.log("/api/img GET request received.");
+
     Image.find({ _id: request.query.id }).exec(function(error, retrievedObject) {
-      console.log("Image BSON retrieved from the database:");
-      console.log(retrievedObject);
+      console.log("Image BSON retrieved from the database.");
+      //console.log(retrievedObject);
 
       if (error || retrievedObject.length == 0)
         return response.status(404);
@@ -23,8 +25,8 @@ module.exports = function(fs, Image) {
 
 
   thisModuleObj.PostImage = function(request, response) {
-    console.log("Image POST request received.");
-    console.log(request.body);
+    console.log("/api/img POST request received.");
+    //console.log(request.body);
 
     var image = new Image();
     image.file_name = request.body.file_name;

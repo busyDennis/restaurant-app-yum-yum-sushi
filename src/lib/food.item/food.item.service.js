@@ -7,7 +7,7 @@
   ItemService.$inject = ['$http', 'APIroot'];
 
   function ItemService($http, APIroot) {
-
+    
     /**
       GET JSON array of food items from the API
     */

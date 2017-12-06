@@ -192,7 +192,7 @@ router.post('/api/food-items', foodItemCtrl.PostFoodItems);
 router.post('/api/register', authCtrl.PostRegister);
 router.post('/api/log-in', authCtrl.PostLogIn);
 router.post('/api/purge-user', authCtrl.PurgeUser);
-router.get('/api/user-auth', authCtrl.UserAuthenticated);
+router.get('/api/is-auth', authCtrl.UserAuthenticated);
 
 
 //var server = https.createServer(nodeEnvConfigObj.srv_opt, app);

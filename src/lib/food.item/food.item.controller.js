@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('ItemController', ItemController);
 
-  ItemController.$inject = ['$scope', 'ImageService', 'ItemService'];
+  ItemController.$inject = ['$scope', '$window', 'ImageService', 'ItemService'];
 
-  function ItemController ($scope, ImageService, ItemService) {
+  function ItemController ($scope, $window, ImageService, ItemService) {
     var itemController = this;
 
     itemController.itemName = "";
@@ -19,7 +19,6 @@
     };
 
     itemController.submit = function() {
-
       ImageService.loadImageFileFromHTMLInput().then(function(obj1) {
         ImageService.saveImage(obj1).then(function(obj2) {
           console.log("Image saved:");
@@ -31,12 +30,19 @@
             price:              itemController.itemPrice,
             portion_name:       itemController.portion_name,
             img_id:             obj2.data.id
+          }).then(function(obj3) {
+            $window.location.href = '/#!/menu';
+          }, function(obj3) {
+            console.log("error:");
+            console.log(obj3);
           });
         }, function(obj2) {
           console.log("error:");
+          console.log(obj2);
         });
       }, function(obj1) {
          console.log("error:");
+         console.log(obj1);
       });
     };
     
