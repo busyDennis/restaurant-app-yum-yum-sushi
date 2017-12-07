@@ -4,34 +4,32 @@
   angular.module('RestaurantApp')
   .service('AuthService', AuthService);
 
-  AuthService.$inject = ['$http', '$window', '$location'];
+  AuthService.$inject = ['$http', '$window', '$location', 'APIroot'];
 
-  function AuthService($http, $window, $location) {
+  function AuthService($http, $window, $location, APIroot) {
     var authService = this;
 
     authService.registerUser = function(token) {
       return $http({
-        data:               token,
+        data:                 token,
         headers: {
-          'Content-Type':   'application/json'
+          'Content-Type':     'application/json'
         },
-        json:               true,
-        method:             'POST',
-        url:                "http://10.137.3.16:5000/register" //$location.host()
-        //'http://localhost:5000/register'
+        json:                 true,
+        method:               'POST',
+        url:                  APIroot + "/register"
       });
     };
 
     authService.logIn = function(token) {
       return $http({
-        data:               token,
+        data:                 token,
         headers: {
-          'Content-Type':   'application/json'
+          'Content-Type':     'application/json'
         },
-        json:               true,
-        method:             'POST',
-        url:                '/log-in'
-        //'http://localhost:5000/log-in'
+        json:                 true,
+        method:               'POST',
+        url:                  APIroot + '/log-in'
       }).then(
         function successCallback(response) {
           console.log("authService.logIn successCallback response:");

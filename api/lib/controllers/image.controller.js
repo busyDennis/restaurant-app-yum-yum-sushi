@@ -26,7 +26,6 @@ module.exports = function(fs, Image) {
 
   thisModuleObj.PostImage = function(request, response) {
     console.log("/api/img POST request received.");
-    //console.log(request.body);
 
     var image = new Image();
     image.file_name = request.body.file_name;

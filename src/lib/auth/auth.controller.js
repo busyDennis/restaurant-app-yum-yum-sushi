@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular.module('RestaurantApp')
@@ -13,6 +13,16 @@
     authController.password = "";
     authController.passwordVerified = "";
 
+    /***/
+    authController.registerUser = function() {
+       AuthService.registerUser({
+        email:              authController.email,
+        password:           authController.password,
+        passwordVerified:   authController.passwordVerified
+      });
+    }
+
+    /***/
     authController.logIn = function() {
       AuthService.logIn({
         email:              authController.email,
@@ -24,28 +34,19 @@
       //   console.log("user:");
       //   console.log(user);
 
-      //   $window.location.href = "http://" + $window.location.host + "/#!/admin";
-      // });
-
       // .else(function() {
       //   $('#auth-error-modal').modal();
       // });
     }
 
-    authController.registerUser = function() {
-       AuthService.registerUser({
-        email:              authController.email,
-        password:           authController.password,
-        passwordVerified:   authController.passwordVerified
-      });
-    }
-
+    /***/
     authController.invokeAuthErrorModal = function() {
       console.log("Inside homeController.invokeAuthErrorModal");
         $('#auth-error-modal').modal();
 
     }
-  
+
+    /***/
     authController.toggleAuthFormFunctionality = function() {
       if($("#tr-password-retype").hasClass("hidden")) {
         $("#toggle-sign-up").addClass("hidden");
@@ -61,6 +62,7 @@
         $("#tr-password-retype").addClass("hidden");
       }
     }
+
   }
   
 })();

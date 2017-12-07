@@ -1,6 +1,7 @@
 const bodyParser            = require('body-parser');
 const cookieParser          = require('cookie-parser');
 const cors                  = require('cors');
+const crypto                = require('crypto');
 const express               = require('express');
 const expressValidator      = require('express-validator');
 //const forceSSL              = require('express-force-ssl');
@@ -9,21 +10,18 @@ const httpServer            = require('http-server');
 const localStrategy         = require('passport-local').Strategy;
 const mongoose              = require('mongoose');
 const morgan                = require('morgan');
-var passport                = require('passport');
+var   passport              = require('passport');
 // const passportSocketIO      = require('passport.socketio');
 const path                  = require('path');
 const session               = require('express-session');
-// const nodeStatic                = require('node-static');
-
+// const nodeStatic            = require('node-static');
 // const socketIOmodule        = require('socket.io');
 
 require('dotenv').config();
 
 const MongoStore            = require('connect-mongo')(session);
 
-
 var app                     = express();
-
 
 console.log("path.join(__dirname, '../src'):");
 console.log(path.join(__dirname, '../src'));
@@ -135,7 +133,7 @@ app.use('/!(api)', function(req, res) {
 
 
 //Importing MongoDB models:
-const User                  = require('./lib/models/user.model');
+const User                  = require('./lib/models/user.model')(crypto, mongoose);
 const Image                 = require('./lib/models/image.model');
 const FoodItem              = require('./lib/models/food.item.model');
 
