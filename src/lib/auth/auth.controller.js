@@ -43,7 +43,6 @@
     authController.invokeAuthErrorModal = function() {
       console.log("Inside homeController.invokeAuthErrorModal");
         $('#auth-error-modal').modal();
-
     }
 
     /***/

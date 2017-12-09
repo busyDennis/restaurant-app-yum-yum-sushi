@@ -50,7 +50,7 @@ module.exports = function(passport, User) {
     var retObj = passport.authenticate(
       'local',
       function(error, user, info) {
-        console.log("error"); 
+        console.log("error");
         console.log(error); 
 
         console.log("user"); 
@@ -129,30 +129,19 @@ module.exports = function(passport, User) {
     return response.status(200).json("");
   };
 
+  /***/
+  thisModuleObj.isLoggedIn = function(request, response, next) {
+    console.log("Inside authentication controller -> isLoggedIn");
 
-  thisModuleObj.UserAuthenticated = function(request, response, next) {
-    if(request.user) {
+    // Allow access for authenticated users
+    if (request.isAuthenticated())
       return next();
-    } else 
-      return response.status(401).json({
-          error: 'User is not authenticated'
-        });
+
+    // Block route access if user is not authenticated
+    return response.status(403).json({"Error": "Access to this API route is restricted to authorized users"});
+    // TO DO: Use HTTP code 401 if you would like to redirect user to authentication page
   };
 
   return thisModuleObj;
 };
 
-// var myJSON = {
-//     "Error message": {
-//       "code": 11000,
-//       "index": 0,
-//       "errmsg": "insertDocument :: caused by :: 11000 E11000 duplicate key error index: restaurant_db.users.$email_1  dup key: { : \"a\" }",
-//       "op": {
-//         "hash":"9d5062842384efe5cc9ef764161da65d9720cd448813d527e64fefee77e5853d2af45ccf78890900868201f7765b7108117fe2b0a835230015a9c5450249dcf1",
-//         "salt": "2651967a17729656658a1a7f603468f8",
-//         "email": "a",
-//         "_id": "5a29c441c2d92c1ac023353f",
-//         "__v": 0
-//       }
-//     }
-// };

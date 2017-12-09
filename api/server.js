@@ -1,19 +1,19 @@
-const bodyParser            = require('body-parser');
-const cookieParser          = require('cookie-parser');
-const cors                  = require('cors');
-const crypto                = require('crypto');
-const express               = require('express');
-const expressValidator      = require('express-validator');
+const bodyParser              = require('body-parser');
+const cookieParser            = require('cookie-parser');
+const cors                    = require('cors');
+const crypto                  = require('crypto');
+const express                 = require('express');
+const expressValidator        = require('express-validator');
 //const forceSSL              = require('express-force-ssl');
-const fs                    = require('fs');
-const httpServer            = require('http-server');
-const localStrategy         = require('passport-local').Strategy;
-const mongoose              = require('mongoose');
-const morgan                = require('morgan');
-var   passport              = require('passport');
+const fs                      = require('fs');
+const httpServer              = require('http-server');
+const localStrategy           = require('passport-local').Strategy;
+const mongoose                = require('mongoose');
+const morgan                  = require('morgan');
+var   passport                = require('passport');
 // const passportSocketIO      = require('passport.socketio');
-const path                  = require('path');
-const session               = require('express-session');
+const path                    = require('path');
+const session                 = require('express-session');
 // const nodeStatic            = require('node-static');
 // const socketIOmodule        = require('socket.io');
 
@@ -42,16 +42,16 @@ console.log("NODE_ENV:");
 console.log(process.env.NODE_ENV);
 
 
-//Environment-specific configuration set-up:
+// Environment-specific configuration set-up:
 const nodeEnvConfigObj      = require('./lib/config/env.config')();
 
 
-//TEST: configuration object logged:
+// TEST: configuration object logged:
 console.log("nodeEnvConfigObj:");
 console.log(nodeEnvConfigObj);
 
 
-//Logger set-up:
+// Logger set-up:
 var accessLogStream         = fs.createWriteStream(
   path.join(__dirname, 'access.log'),
   {
@@ -67,7 +67,7 @@ app.use(loggerMorgan);
 
 mongoose.Promise = global.Promise; // we should avoid deprecated promise library exception in Mongoose
 
-//Mongoose connection set-up:
+// Mongoose connection set-up:
 mongoose.connect(nodeEnvConfigObj.DB_URL, { useMongoClient: true }, function(error, db) {
     if (! error) {
       console.log("Connection with \'" + nodeEnvConfigObj.DB_URL + "\' established successfully.");
@@ -75,7 +75,7 @@ mongoose.connect(nodeEnvConfigObj.DB_URL, { useMongoClient: true }, function(err
       console.log("Connection with \'" + nodeEnvConfigObj.DB_URL + "\' could not be established; error message: " + error);
   }); //.then(function(resp) {}, function(error) {});
 
-//Session store set-up:
+// Session store set-up:
 var sessionStore = new MongoStore({
     collection:               'sessions',
     mongooseConnection:       mongoose.connection,
@@ -94,20 +94,20 @@ var sessionOpts = {
     store:                    sessionStore
   };
 
-//TEST: sessionOpts.secret
+// TEST: sessionOpts.secret
 console.log("TEST: sessionOpts.secret: " + sessionOpts.secret);
 
-//Body parser set-up
+// Body parser set-up
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//Enforce SSL protocol
-//app.use(forceSSL);
+// Enforce SSL protocol
+// app.use(forceSSL);
 
-//Cookie parser set-up
+// Cookie parser set-up
 app.use(cookieParser('secret'));
 
-//Session set-up
+// Session set-up
 app.use(session(sessionOpts));
 
 
@@ -132,28 +132,29 @@ app.use('/!(api)', function(req, res) {
 });
 
 
-//Importing MongoDB models:
+// Importing MongoDB models:
 const User                  = require('./lib/models/user.model')(crypto, mongoose);
 const Image                 = require('./lib/models/image.model');
 const FoodItem              = require('./lib/models/food.item.model');
 
 
-//PassportJS set-up:
+// PassportJS set-up:
 passport                    = require('./lib/config/passport.config')(passport, localStrategy, User);
 
 
-//Passport set-up
+// Passport set-up
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-//REST controllers:
+// REST controllers:
+var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 var imageCtrl               = require('./lib/controllers/image.controller')(fs, Image);
 var foodItemCtrl            = require('./lib/controllers/food.item.controller')(Image, FoodItem);
-var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 
 
-//CORS set-up:
+
+// CORS set-up:
 var corsOptions = {
   origin:                   true,
   allowedHeaders:           'Origin,Content-Type,X-Requested-With, X-HTTP-Method-Override,Accept,Access-Control-Allow-Origin',
@@ -176,26 +177,26 @@ router.all('/api', function(request, response, next) {
   next();
 });
 
-//Express validator configuration:
+
+// Express validator configuration:
 app.use(expressValidator());
 
 
-//REST routes defined:
+// REST routes defined:
 router.get('/api/img', imageCtrl.GetImage);
-router.post('/api/img', imageCtrl.PostImage);
+router.post('/api/img', authCtrl.isLoggedIn, imageCtrl.PostImage);
 
 router.get('/api/food-items', foodItemCtrl.GetAllFoodItems);
-router.post('/api/food-items', foodItemCtrl.PostFoodItems);
+router.post('/api/food-items', authCtrl.isLoggedIn, foodItemCtrl.PostFoodItems);
 
 router.post('/api/register', authCtrl.PostRegister);
 router.post('/api/log-in', authCtrl.PostLogIn);
-router.post('/api/purge-user', authCtrl.PurgeUser);
-router.get('/api/is-auth', authCtrl.UserAuthenticated);
+router.post('/api/purge-user', authCtrl.isLoggedIn, authCtrl.PurgeUser);
 
 
-//var server = https.createServer(nodeEnvConfigObj.srv_opt, app);
+// var server = https.createServer(nodeEnvConfigObj.srv_opt, app);
 
-//SSL socket
+// SSL socket
 // var socketDotIO = socketIOmodule(server);
 
 // socketDotIO.use(passportSocketIO.authorize({
@@ -222,7 +223,7 @@ console.log(nodeEnvConfigObj.PORT);
 
 
 
-//Server listening on port
+// Server listening on port
 var server = app.listen(process.env.PORT || nodeEnvConfigObj.PORT, function() {
     console.log('API server listening on port: ', server.address().port);
   });
@@ -241,7 +242,7 @@ app.use('/', router);
 module.exports = server;
 
 
-//Inserting data mock-ups
+// Inserting data mock-ups
 // JSON.parse(dataFoodItems).forEach(function(itemData) {
 //   createFoodItemFromJSON(itemData).save();
 // });

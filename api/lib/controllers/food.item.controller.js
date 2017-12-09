@@ -1,17 +1,17 @@
-module.exports = function(Image, FoodItem) {
+module.exports = function(Image, FoodItem, authCtrl) {
   var thisModuleObj = {};
 
   thisModuleObj.GetAllFoodItems = function(request, response, next) {
-    console.log("inside GetAllFoodItems:");
+    console.log("Inside /api/food-items GET route handler.");
 
-    // console.log("request.session:");
-    // console.log(request.session);
+    console.log("request.session:");
+    console.log(request.session);
 
-    // console.log("request authenticated:");
-    // console.log(request.isAuthenticated());
+    console.log("request authenticated:");
+    console.log(request.isAuthenticated());
 
-    // console.log("request.user:");
-    // console.log(request.user);
+    console.log("request.user:");
+    console.log(request.user);
 
     // if(foodItem.img_id != null) {
     //   var image = Image.findOne({
@@ -38,7 +38,7 @@ module.exports = function(Image, FoodItem) {
   };
 
   thisModuleObj.PostFoodItems = function(request, response, next) {
-    console.log("POST request received:");
+    console.log("Inside /api/food-items POST route handler.");
 
     console.log(request.body); //test
 

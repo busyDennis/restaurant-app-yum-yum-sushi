@@ -62,23 +62,22 @@ var PassportConfigModule = function(passport, localStrategy, User) {
   });
 
 
-  // passport.deserializeUser(function(id, done) {
-  //   console.log("deserializeUser - id: ", id);
-
-  //   User.findById(id, function(err, user) {
-  //     console.log("deserializeUser - user:", user);
-  //     done(err, user);
-  //   });
-  // });
-
   passport.deserializeUser(function(id, done) {
-    console.log("deserializeUser w. id: ", id);
+    console.log("deserializeUser - id: ", id);
 
-    User.get(id).run().then(function(user) {
-        done(null, user.public());
-      });
+    User.findById(id, function(err, user) {
+      console.log("deserializeUser - user:", user);
+      done(err, user);
+    });
   });
 
+  // passport.deserializeUser(function(id, done) {
+  //   console.log("deserializeUser w. id: ", id);
+
+  //   User.get(id).run().then(function(user) {
+  //       done(null, user.public());
+  //     });
+  // });
 
   return passport;
 };
