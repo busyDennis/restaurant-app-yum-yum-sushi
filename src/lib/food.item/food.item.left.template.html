@@ -1,16 +1,20 @@
 <div class="left-column-item-left-decorative-div">
 </div>
 <div class="left-column-item-right-decorative-div">
+  <input id="checkbox-{{ foodItem.temp_id }}" type="checkbox">
+  <label for="checkbox-{{ foodItem.temp_id }}" class="checkbox-custom"></label>
 </div>
 <div class="left-column-item-description-background">
 </div>
 <div class="left-column-item-name">
   {{ foodItem.name }}
 </div>
-<div class="left-column-item-description">
+<div class="left-column-item-description-area">
   {{ foodItem.description }}
 </div>
 <div class="left-column-item-price">
   $&nbsp;{{ foodItem.price }}&nbsp;/&nbsp;10&nbsp;pcs
 </div>
-<img class="left-column-item-img" data-ng-src="data:image/png;base64,{{ foodItem.imgSrc }}" />
+<div class="left-column-item-img-container">
+  <img class="food-item-img" data-ng-src="data:image/png;base64,{{ foodItem.imgSrc }}" />
+</div>

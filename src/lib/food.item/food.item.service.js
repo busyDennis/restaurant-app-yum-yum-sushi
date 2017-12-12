@@ -2,14 +2,14 @@
   'use strict';
 
   angular.module('RestaurantApp')
-  .service('ItemService', ItemService);
+  .service('FoodItemService', FoodItemService);
 
-  ItemService.$inject = ['$http', 'APIroot'];
+  FoodItemService.$inject = ['$http', 'APIroot'];
 
-  function ItemService($http, APIroot) {
+  function FoodItemService($http, APIroot) {
     
     /**
-      GET JSON array of food items from the API
+      GET HTTP response with food item array in JSON format from the API
     */
     this.getItemList = function() {
       return $http({

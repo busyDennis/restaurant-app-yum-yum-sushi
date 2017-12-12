@@ -2,33 +2,36 @@
   'use strict';
 
   angular.module('RestaurantApp')
-  .controller('ItemController', ItemController);
+  .controller('FoodItemController', FoodItemController);
 
-  ItemController.$inject = ['$scope', '$window', 'ImageService', 'ItemService'];
+  FoodItemController.$inject = ['$scope', '$window', 'ImageService', 'FoodItemService'];
 
-  function ItemController ($scope, $window, ImageService, ItemService) {
-    var itemController = this;
+  function FoodItemController ($scope, $window, ImageService, FoodItemService) {
+    var foodItemController = this;
 
-    itemController.itemName = "";
-    itemController.itemDescription = "";
-    itemController.itemPrice = "";
-    itemController.portion_name = "";
+    foodItemController.itemName = "";
+    foodItemController.itemDescription = "";
+    foodItemController.itemPrice = "";
+    foodItemController.portion_name = "";
 
-    itemController.init = function () {
+    foodItemController.init = function () {
        $("body").css("background-image", "none");
     };
 
-    itemController.submit = function() {
+    /**
+      Save new item
+    */
+    foodItemController.submit = function() {
       ImageService.loadImageFileFromHTMLInput().then(function(obj1) {
         ImageService.saveImage(obj1).then(function(obj2) {
           console.log("Image saved:");
           console.log(obj2.data);
 
-          ItemService.saveItem({
-            name:               itemController.itemName,
-            description:        itemController.itemDescription,
-            price:              itemController.itemPrice,
-            portion_name:       itemController.portion_name,
+          FoodItemService.saveItem({
+            name:               foodItemController.itemName,
+            description:        foodItemController.itemDescription,
+            price:              foodItemController.itemPrice,
+            portion_name:       foodItemController.portion_name,
             img_id:             obj2.data.id
           }).then(function(obj3) {
             $window.location.href = '/#!/menu';

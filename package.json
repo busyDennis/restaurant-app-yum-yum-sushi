@@ -4,6 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
+    "sass": "node-sass src/style/style.scss -o src/style/",
     "start": "./scripts/start.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

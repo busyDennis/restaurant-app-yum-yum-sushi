@@ -5939,6 +5939,17 @@ button.close {
 /*
   Mixins
 */
+/**
+  A mixin that sets font properties on an HTML element.
+
+  Arguments:
+  font family 1
+  font family 2
+  font size
+  font color
+  font weight
+  font style
+*/
 /*
   Main view styles
 */
@@ -6242,7 +6253,7 @@ body {
   border-left: 3px solid black; }
 
 .left-column-item-description-background {
-  background-color: rgba(0, 204, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   box-sizing: border-box;
   height: 120px;
   left: 5%;
@@ -6259,15 +6270,16 @@ body {
   position: absolute;
   text-shadow: 2px 2px 3px black;
   z-index: 3;
-  color: #00ccff;
+  color: white;
   font-family: "Comic Sans MS", "Comic Sans";
   font-size: 170%;
   font-style: normal;
   font-weight: bold; }
 
-.left-column-item-description {
+.left-column-item-description-area {
   height: 80px;
   left: 5%;
+  line-height: 100%;
   padding: 10px 10px 10px 12px;
   position: absolute;
   text-align: justify;
@@ -6275,11 +6287,11 @@ body {
   top: 40px;
   width: 65%;
   z-index: 4;
-  color: black;
-  font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 140%;
+  color: white;
+  font-family: "Arial Narrow", "Arial Narrow";
+  font-size: 120%;
   font-style: normal;
-  font-weight: 500; }
+  font-weight: 200; }
 
 .left-column-item-price {
   height: 40px;
@@ -6297,7 +6309,7 @@ body {
   font-style: normal;
   font-weight: bold; }
 
-.left-column-item-img {
+.left-column-item-img-container {
   height: 120px;
   left: 70%;
   position: absolute;
@@ -6305,12 +6317,40 @@ body {
   width: 15%;
   z-index: 4; }
 
+input[type=checkbox] {
+  opacity: 0; }
+
+input[type=checkbox] + label.checkbox-custom {
+  background-image: url(../assets/unchecked_checkbox.png);
+  background-origin: content-box;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  height: 50px;
+  margin: 0px;
+  position: absolute;
+  width: 50px;
+  z-index: 5; }
+
+input[type=checkbox]:checked + label.checkbox-custom {
+  background-image: url(../assets/checked_checkbox.png); }
+
+.left-column-item label.checkbox-custom {
+  right: 0px;
+  top: 0px; }
+
+.right-column-item label.checkbox-custom {
+  bottom: 0px;
+  left: 0px; }
+
 /*
   Right column menu item styles
 */
 .right-column-item-left-decorative-div {
   background-color: rgba(0, 0, 0, 0.5);
   flex: 0 0 auto;
+  float: left;
   height: 160px;
   left: 0;
   position: absolute;
@@ -6335,6 +6375,7 @@ body {
   border-left: 3px solid black; }
 
 .right-column-item-description-background {
+  background-color: rgba(0, 0, 0, 0.6);
   box-sizing: border-box;
   height: 120px;
   right: 5%;
@@ -6347,19 +6388,20 @@ body {
   border-left: 3px solid black; }
 
 .right-column-item-name {
-  right: 6%;
+  left: 15%;
   position: absolute;
   text-align: right;
   text-shadow: 2px 2px 3px black;
   z-index: 4;
-  color: #ffcc00;
+  color: #33ff33;
   font-family: "Comic Sans MS", "Comic Sans";
   font-size: 170%;
   font-style: normal;
   font-weight: bold; }
 
-.right-column-item-description {
+.right-column-item-description-area {
   height: 80px;
+  line-height: 100%;
   right: 5%;
   padding: 10px 12px 10px 10px;
   position: absolute;
@@ -6368,11 +6410,11 @@ body {
   top: 40px;
   width: 65%;
   z-index: 4;
-  color: black;
-  font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 140%;
+  color: white;
+  font-family: "Arial Narrow", "Arial Narrow";
+  font-size: 120%;
   font-style: normal;
-  font-weight: 500; }
+  font-weight: 200; }
 
 .right-column-item-price {
   height: 40px;
@@ -6390,13 +6432,17 @@ body {
   font-style: normal;
   font-weight: bold; }
 
-.right-column-item-img {
+.right-column-item-img-container {
   height: 120px;
   right: 70%;
   position: absolute;
   top: 40px;
   width: 15%;
   z-index: 4; }
+
+.food-item-img {
+  max-width: 100%;
+  max-height: 100%; }
 
 /*
   This temporary font style should be replaced later

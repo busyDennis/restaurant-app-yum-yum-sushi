@@ -32,7 +32,12 @@
     .state('new-food-item', {
       url: '/new-food-item',
       templateUrl: 'lib/food.item/food.item.new.template.html',
-      controller: 'ItemController as itemController'
+      controller: 'FoodItemController as foodItemController'
+    })
+    .state('finalize-order', {
+      url: '/finalize-order',
+      templateUrl: 'lib/order/order.template.html',
+      controller: 'FoodItemController as foodItemController'
     });
   }
 

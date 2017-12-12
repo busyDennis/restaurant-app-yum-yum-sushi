@@ -21,6 +21,17 @@
   }
 }
 
+/**
+  A mixin that sets font properties on an HTML element.
+
+  Arguments:
+  font family 1
+  font family 2
+  font size
+  font color
+  font weight
+  font style
+*/
 @mixin set-font($font-family-1, $font-family-2, $font-size, $font-color, $font-weight: normal, $font-style: normal) {
   color: $font-color;
   font-family: $font-family-1, $font-family-2;
@@ -364,7 +375,7 @@ body {
 }
 
 .left-column-item-description-background {
-  background-color: rgba(0, 204, 0, 0.6); //rgba(165, 255, 180, 0.5);
+  background-color: rgba(0, 0, 0, 0.6); //rgba(165, 255, 180, 0.5);
   box-sizing: border-box;
   height: 120px;
   left: 5%;
@@ -385,9 +396,11 @@ body {
   @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(255, 255, 255, 1), bold);
 }
 
-.left-column-item-description {
+
+.left-column-item-description-area {
   height: 80px;
   left: 5%;
+  line-height: 100%;
   padding: 10px 10px 10px 12px;
   position: absolute;
   text-align: justify;
@@ -396,7 +409,13 @@ body {
   width: 65%;
   z-index: 4;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 140%, black, 500);
+  // font family 1
+  // font family 2
+  // font size
+  // font color
+  // font weight
+  // font style
+  @include set-font("Arial Narrow", "Arial Narrow", 120%, white, 200);
 }
 
 .left-column-item-price {
@@ -413,7 +432,7 @@ body {
   @include set-font("Comic Sans MS", "Comic Sans", 140%, white, bold);
 }
 
-.left-column-item-img {
+.left-column-item-img-container {
   height: 120px;
   left: 70%;
   position: absolute;
@@ -422,14 +441,46 @@ body {
   z-index: 4;
 }
 
+input[type=checkbox] {
+  opacity: 0;
+}
+
+input[type=checkbox] + label.checkbox-custom {
+  // background-color: white;
+  background-image: url(../assets/unchecked_checkbox.png);
+  background-origin: content-box;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: cover; 
+  cursor: pointer;
+  height: 50px;
+  margin: 0px;
+  position: absolute;
+  width: 50px;
+  z-index: 5;
+}
+
+input[type=checkbox]:checked + label.checkbox-custom {
+  background-image: url(../assets/checked_checkbox.png);
+}
+
+.left-column-item label.checkbox-custom {
+  right: 0px;
+  top: 0px;
+}
+
+.right-column-item label.checkbox-custom {
+  bottom: 0px;
+  left: 0px;
+}
 
 /*
   Right column menu item styles
 */
-
 .right-column-item-left-decorative-div {
   background-color: rgba(0, 0, 0, 0.5);
   flex: 0 0 auto;
+  float: left;
   height: 160px;
   left: 0;
   position: absolute;
@@ -456,7 +507,7 @@ body {
 }
 
 .right-column-item-description-background {
-  //background-color: rgba(0, 102, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   box-sizing: border-box;
   height: 120px;
   right: 5%;
@@ -469,17 +520,19 @@ body {
 }
 
 .right-column-item-name {
-  right: 6%;
+  left: 15%;
+  //right: 6%;
   position: absolute;
   text-align: right;
   text-shadow: 2px 2px 3px black;
   z-index: 4;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(255, 204, 0, 1), bold);
+  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(51, 255, 51, 1), bold);
 }
 
-.right-column-item-description {
+.right-column-item-description-area {
   height: 80px;
+  line-height: 100%;
   right: 5%;
   padding: 10px 12px 10px 10px;
   position: absolute;
@@ -489,7 +542,13 @@ body {
   width: 65%;
   z-index: 4;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 140%, black, 500);
+  // font family 1
+  // font family 2
+  // font size
+  // font color
+  // font weight
+  // font style
+  @include set-font("Arial Narrow", "Arial Narrow", 120%, white, 200);
 }
 
 .right-column-item-price {
@@ -506,13 +565,18 @@ body {
   @include set-font("Comic Sans MS", "Comic Sans", 140%, white, bold);
 }
 
-.right-column-item-img {
+.right-column-item-img-container {
   height: 120px;
   right: 70%;
   position: absolute;
   top: 40px;
   width: 15%;
   z-index: 4;
+}
+
+.food-item-img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /*
