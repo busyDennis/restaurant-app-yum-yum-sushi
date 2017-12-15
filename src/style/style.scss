@@ -40,7 +40,6 @@
   font-weight: $font-weight;
 }
 
-
 /*
   Main view styles
 */
@@ -48,19 +47,26 @@
 html {
   background-color: transparent;
   height: 100%;
+  margin: 0;
+  width: 100%;
 }
 
 body {
   background-image: url("../assets/sushi1.jpg");
+  background-clip: border-box;
   background-color: transparent;
   background-size: 100%;
   height: 100%;
+  margin: 0;
+  width: 100%;
   z-index: 1;
 }
 
 #ui-view-container {
   height: 100%;
+  margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 
@@ -74,7 +80,7 @@ body {
 }
 
 
-//Left container styles
+// Left container styles
 
 #home-left-container {
   background-color: rgba(255, 153, 0, 0.3);
@@ -265,6 +271,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  margin: 0;
 }
 
 #menu-bar {
@@ -282,65 +289,94 @@ body {
   text-shadow: 5px 5px 5px black;
   width: 45%;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 400%, rgb(255, 204, 0), bold, italic);
+  @include set-font("Comic Sans MS", "Comic Sans", 400%, rgb(255, 219, 77), normal, italic);
 }
 
 #btn-submit-order {
   align-self: flex-end;
   align-items: center;
   background-color: rgba(204, 0, 0, 0.9);
+  border: 2px solid rgb(128, 0, 0);
+  border-radius: 8px;
+  box-shadow: 3px 7px black;
+  cursor: pointer;
   display: flex;
   justify-content: center;
+  letter-spacing: 2.5px;
   max-height: 85%;
-  text-align: center;
-  width: 40%;
-  letter-spacing: 3px;
+  text-align: left;
+  text-shadow: -1px -1px 0px black;
+  width: 25%;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 400%, black, bold, italic);
+  @include set-font("Comic Sans MS", "Comic Sans", 350%, rgb(255, 219, 77), normal, italic);
 }
+
+#btn-submit-order:hover {
+  background-color: rgb(255, 77, 77);
+  border: 2px solid rgba(204, 0, 0, 0.9);
+}
+
 
 // Main containers
 
 #menu-container-lvl-2 {
-  display: inline-flex;
-  flex-direction: row;
-  height: 100%;
+  align-items: stretch;
+  display: flex;
+  width: 100%;
 }
 
 #menu-container-lvl-3-left {
   background-color: rgba(0, 102, 255, 0.7);
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex-flow: column nowrap;
+  margin: auto; /* Magic: extra space on both axes will be absorbed */
+  min-height: 100%;
   width: 49%;
 }
 
 #menu-container-lvl-3-middle {
   background-color: rgba(0, 0, 0, 0.7);
-  height: 100%;
+  display: flex;
+  min-height: 100%;
   width: 2%;
 }
 
 #menu-container-lvl-3-right {
   background-color: rgba(0, 204, 0, 0.7);
-  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  margin: auto; /* Magic: extra space on both axes will be absorbed */
+  min-height: 100%;
   width: 49%;
 }
 
 
 /*
-  Menu item styles - orientation agnostic
+  Styling menu items
 */
 
 .left-column-item, .right-column-item {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
+  // display: flex;
+  flex: 1 0 auto;
   height: 200px;
+  overflow-y: auto;
   position: relative;
 
   @include wide-border(false, true, true, true);
 }
+
+.left-column-item:last-child:after, .right-column-item:last-child:after {
+  content: "";
+  clear: both;
+  display: flex;
+}
+
+//.clearfix:after {
+//  content: "";
+//  clear: both;
+//  display: table;
+//}
+
 
 /*
   Left column menu item styles
@@ -395,7 +431,6 @@ body {
 
   @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(255, 255, 255, 1), bold);
 }
-
 
 .left-column-item-description-area {
   height: 80px;
@@ -474,6 +509,11 @@ input[type=checkbox]:checked + label.checkbox-custom {
   left: 0px;
 }
 
+label.checkbox-custom:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0.3px 0.3px 7px rgba(255, 255, 255, 0.5);
+}
+
 /*
   Right column menu item styles
 */
@@ -521,13 +561,12 @@ input[type=checkbox]:checked + label.checkbox-custom {
 
 .right-column-item-name {
   left: 15%;
-  //right: 6%;
   position: absolute;
   text-align: right;
   text-shadow: 2px 2px 3px black;
   z-index: 4;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgba(51, 255, 51, 1), bold);
+  @include set-font("Comic Sans MS", "Comic Sans", 170%, rgb(102, 255, 102), bold);
 }
 
 .right-column-item-description-area {

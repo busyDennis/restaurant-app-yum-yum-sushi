@@ -37,8 +37,8 @@
         var length = restaurantMenuController.foodItems.length;
         var median = length/2;
 
-        restaurantMenuController.itemsLeft = restaurantMenuController.foodItems.slice(0, median + 1);
-        restaurantMenuController.itemsRight = restaurantMenuController.foodItems.slice(median + 1, length);
+        restaurantMenuController.itemsLeft = restaurantMenuController.foodItems.slice(0, median);
+        restaurantMenuController.itemsRight = restaurantMenuController.foodItems.slice(median, length);
 
         //console.log(restaurantMenuController.itemsLeft.length);
         //console.log(restaurantMenuController.itemsRight.length);
