@@ -169,7 +169,6 @@ body {
   right: 0px;
   top: 0px;
   width: 230px;
-
 }
 
 #home-right-subcontainer-1 table {
@@ -237,8 +236,8 @@ body {
 }
 
 #home-right-subcontainer-2 > img {
-  backgound-color: transparent;
-  max-width: auto;
+  // backgound-color: transparent;
+  // max-width: auto;
   max-height: 70%;
 }
 
@@ -292,7 +291,7 @@ body {
   @include set-font("Comic Sans MS", "Comic Sans", 400%, rgb(255, 219, 77), normal, italic);
 }
 
-#btn-submit-order {
+#btn-order {
   align-self: flex-end;
   align-items: center;
   background-color: rgba(204, 0, 0, 0.9);
@@ -311,7 +310,7 @@ body {
   @include set-font("Comic Sans MS", "Comic Sans", 350%, rgb(255, 219, 77), normal, italic);
 }
 
-#btn-submit-order:hover {
+#btn-order:hover {
   background-color: rgb(255, 77, 77);
   border: 2px solid rgba(204, 0, 0, 0.9);
 }

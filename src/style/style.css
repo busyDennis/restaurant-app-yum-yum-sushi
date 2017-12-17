@@ -6127,8 +6127,6 @@ body {
   order: 2; }
 
 #home-right-subcontainer-2 > img {
-  backgound-color: transparent;
-  max-width: auto;
   max-height: 70%; }
 
 #home-right-subcontainer-3 {
@@ -6180,7 +6178,7 @@ body {
   font-style: italic;
   font-weight: normal; }
 
-#btn-submit-order {
+#btn-order {
   align-self: flex-end;
   align-items: center;
   background-color: rgba(204, 0, 0, 0.9);
@@ -6201,7 +6199,7 @@ body {
   font-style: italic;
   font-weight: normal; }
 
-#btn-submit-order:hover {
+#btn-order:hover {
   background-color: #ff4d4d;
   border: 2px solid rgba(204, 0, 0, 0.9); }
 

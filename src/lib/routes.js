@@ -34,11 +34,10 @@
       templateUrl: 'lib/food.item/food.item.new.template.html',
       controller: 'FoodItemController as foodItemController'
     })
-    .state('finalize-order', {
-      url: '/finalize-order',
-      templateUrl: 'lib/order/order.template.html',
-      controller: 'FoodItemController as foodItemController'
+    .state('checkout', {
+      url: '/checkout',
+      templateUrl: 'lib/checkout/checkout.template.html',
+      controller: 'CheckoutController as checkoutController'
     });
   }
-
 })();

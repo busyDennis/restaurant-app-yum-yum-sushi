@@ -4,53 +4,54 @@
   angular.module('RestaurantApp')
   .controller('MenuController', MenuController);
 
-  MenuController.$inject = ['ImageService', 'OrderService', 'FoodItemService'];
+  MenuController.$inject = ['$state', 'ImageService', 'FoodItemService'];
 
-  function MenuController (ImageService, OrderService, FoodItemService) {
-    var restaurantMenuController = this;
+  function MenuController ($state, ImageService, FoodItemService) {
+    var menuController = this;
     
-    restaurantMenuController.$onInit = function() {
+    menuController.$onInit = function() {
 
       /**
         Get all available food items as JSON array. Prepare food items for rendering by separating them in two dedicated arrays.
       */
       FoodItemService.getItemList()
       .then(function(response) {
-        restaurantMenuController.foodItems = response.data;
+        menuController.foodItems = response.data;
 
         console.log("MenuController->getItemList() - food items received:");
-        console.log(restaurantMenuController.foodItems);
+        console.log(menuController.foodItems);
 
         var count = 0;
 
-        restaurantMenuController.foodItems.forEach(function(item) {
+        menuController.foodItems.forEach(function(item) {
             item.temp_id = count++;
             ImageService.getImage(item.img_id)
             .then(function(imgJSON) {
-              //console.log("MenuController->getItemList: image JSON received");
-              //console.log(imgJSON.data);
-
               item.imgSrc = imgJSON.data.data;
             });
           });
 
-        var length = restaurantMenuController.foodItems.length;
-        var median = length/2;
+        var length = menuController.foodItems.length;
 
-        restaurantMenuController.itemsLeft = restaurantMenuController.foodItems.slice(0, median);
-        restaurantMenuController.itemsRight = restaurantMenuController.foodItems.slice(median, length);
+        var median = length % 2 == 0 ? length / 2 : length / 2 + 1;
 
-        //console.log(restaurantMenuController.itemsLeft.length);
-        //console.log(restaurantMenuController.itemsRight.length);
+        menuController.itemsLeft = menuController.foodItems.slice(0, median);
+        menuController.itemsRight = menuController.foodItems.slice(median, length);
       });
 
     };
 
     /**
-      Process items selected by customer into a new order
+      Proceed to checkout
     */
-    restaurantMenuController.submitOrder = function() {
-      OrderService.processOrder(restaurantMenuController.foodItems);
+    menuController.proceedToCheckout = function() {
+
+      console.log("Inside menuController.proceedToCheckout - foodItems:");
+      console.log(menuController.foodItems);
+
+      $state.go('checkout', {
+      foodItems: menuController.foodItems
+      });
     };
   }
   
