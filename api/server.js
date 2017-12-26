@@ -191,6 +191,8 @@ router.post('/api/food-items', authCtrl.isLoggedIn, foodItemCtrl.PostFoodItems);
 
 router.post('/api/register', authCtrl.PostRegister);
 router.post('/api/log-in', authCtrl.PostLogIn);
+router.post('/api/log-out', authCtrl.PostLogOut);
+router.get('/api/authenticated-user', authCtrl.GetAuthenticatedUserData);
 router.post('/api/purge-user', authCtrl.isLoggedIn, authCtrl.PurgeUser);
 
 

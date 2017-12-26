@@ -71,14 +71,6 @@ var PassportConfigModule = function(passport, localStrategy, User) {
     });
   });
 
-  // passport.deserializeUser(function(id, done) {
-  //   console.log("deserializeUser w. id: ", id);
-
-  //   User.get(id).run().then(function(user) {
-  //       done(null, user.public());
-  //     });
-  // });
-
   return passport;
 };
 

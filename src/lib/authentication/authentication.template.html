@@ -1,5 +1,16 @@
-<form action="">
-  <table>
+<form action="" ng-init="authController.setAuthUID()">
+  <div ng-if="undefined !== authController.authuid && null !== authController.authuid">
+    <div>
+      Logged in as: {{ authController.authuid }}
+    </div>
+    <div>
+      <a ui-sref="admin-home">Admin page</a>
+    </div>
+    <div>
+      <a ng-click="authController.logOut()">Log out</a>
+    </div>
+  </div>
+  <table ng-if="undefined === authController.authuid || null === authController.authuid">
     <tr>
       <td class="login-panel-column-1">
         <label class="login-panel-label" for="usr-name">E-mail</label>

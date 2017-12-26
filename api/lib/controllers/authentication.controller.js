@@ -1,6 +1,7 @@
 module.exports = function(passport, User) {
   var thisModuleObj = {};
 
+
   /**
     Register new user
   */
@@ -75,10 +76,30 @@ module.exports = function(passport, User) {
             return response.status(401).json({ error: error });
           }
           
-          return response.status(200).json({ user: request.user });
+          response.cookie('userid', request.user.email, { maxAge: 1800000 }); // expires in 30 min
+
+          return response.status(200).json({ 
+            "data": [{ 
+              "uemail": request.user.email
+            }]
+          });
         });
       })(request, response, next);
   };
+
+
+  /**
+    Validate user credentials and grant access
+  */
+  thisModuleObj.PostLogOut= function(request, response, next) {
+      console.log("Inside /api/log-out POST route handler.");
+
+      request.logout();
+      response.clearCookie('userid');
+      
+      return response.status(200).json({ "info": "success" });
+  };
+
 
   /**
     Purge user authentication credentials
@@ -129,7 +150,26 @@ module.exports = function(passport, User) {
     return response.status(200).json("");
   };
 
-  /***/
+  /**
+  */
+  thisModuleObj.GetAuthenticatedUserData = function(request, response, next) {
+    console.log("Inside authentication controller -> GetAuthenticatedUserData");
+
+    return request.user ? response.status(200).json({
+        "data": [{
+            "uemail": request.user.email
+          }]
+        }) : response.status(404).json({
+          "errors": [{
+            "status": "404",
+            "detail": "No authenticated user found"
+          }]
+        });
+  };
+
+  /**
+    Check if user is already logged in
+  */
   thisModuleObj.isLoggedIn = function(request, response, next) {
     console.log("Inside authentication controller -> isLoggedIn");
 
@@ -138,7 +178,13 @@ module.exports = function(passport, User) {
       return next();
 
     // Block route access if user is not authenticated
-    return response.status(403).json({"Error": "Access to this API route is restricted to authorized users"});
+    
+    return response.status(403).json({
+          "errors": [{
+                "status":    "403",
+                "detail":    "Access to this API route is restricted to authorized users"
+              }]
+        });
     // TO DO: Use HTTP code 401 if you would like to redirect user to authentication page
   };
 

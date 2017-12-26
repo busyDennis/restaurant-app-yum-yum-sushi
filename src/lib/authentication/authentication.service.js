@@ -30,18 +30,19 @@
         json:                 true,
         method:               'POST',
         url:                  APIroot + '/log-in'
-      }).then(
-        function successCallback(response) {
-          console.log("authService.logIn successCallback response:");
-          console.log(response);  //TESTING
+      });
+    };
 
-          $window.location.href = "http://" + $window.location.host + "/#!/admin";
+    authService.logOut = function() {
+      return $http({
+        data:                 {},
+        headers: {
+          'Content-Type':     'application/json'
         },
-        function errorCallback(response) {
-          console.log(response);  //TESTING
-
-          $('#auth-error-modal').modal();
-        });
+        json:                 true,
+        method:               'POST',
+        url:                  APIroot + '/log-out'
+      });
     };
 
     // authService.getJWT = function() {
@@ -68,7 +69,6 @@
     //     return false;
     //   }
     // };
-
   }
   
 })();
