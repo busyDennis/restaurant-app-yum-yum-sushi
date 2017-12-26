@@ -9,8 +9,6 @@
   function AuthController ($scope, $cookies, AuthService) {
     var authController = this;
 
-    // authController.uemail = undefined
-
     authController.authuid = null;
     authController.email = "";
     authController.password = "";
@@ -47,7 +45,7 @@
 
           authController.setAuthUID();
 
-          $('#auth-error-modal').modal();
+          $('#error-modal').modal();
         });
     };
 
@@ -68,9 +66,9 @@
     };
 
 
-    authController.invokeAuthErrorModal = function() {
-      console.log("Inside homeController.invokeAuthErrorModal");
-      $('#auth-error-modal').modal();
+    authController.invokeErrorModal = function() {
+      console.log("Inside homeController.invokeErrorModal");
+      $('#error-modal').modal();
     };
 
 
