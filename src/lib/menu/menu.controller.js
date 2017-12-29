@@ -10,7 +10,6 @@
     var menuController = this;
     
     menuController.$onInit = function() {
-
       /**
         Get all available food items as JSON array. Prepare food items for rendering by separating them in two dedicated arrays.
       */
@@ -25,6 +24,8 @@
 
         menuController.foodItems.forEach(function(item) {
             item.temp_id = count++;
+            item.selected = false;
+
             ImageService.getImage(item.img_id)
             .then(function(imgJSON) {
               item.imgSrc = imgJSON.data.data;
@@ -45,14 +46,15 @@
       Proceed to checkout
     */
     menuController.proceedToCheckout = function() {
-
-      console.log("Inside menuController.proceedToCheckout - foodItems:");
-      console.log(menuController.foodItems);
+      var selectedItems = menuController.foodItems.filter(function(item) {
+          return item.selected;
+        });
 
       $state.go('checkout', {
-      foodItems: menuController.foodItems
+        orderItems: selectedItems
       });
     };
+
   }
   
 })();

@@ -9,11 +9,6 @@
   function FoodItemController ($window, ImageService, FoodItemService) {
     var foodItemController = this;
 
-    foodItemController.itemName = "";
-    foodItemController.itemDescription = "";
-    foodItemController.itemPrice = "";
-    foodItemController.portion_name = "";
-
     foodItemController.init = function () {
        $("body").css("background-image", "none");
     };

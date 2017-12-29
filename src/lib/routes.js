@@ -45,9 +45,10 @@
       controller: 'FoodItemController as foodItemController'
     })
     .state('checkout', {
-      url: '/checkout',
+      controller: 'CheckoutController as checkoutController',
+      params : { orderItems: "he" },
       templateUrl: 'lib/checkout/checkout.template.html',
-      controller: 'CheckoutController as checkoutController'
+      url: '/checkout'
     });
   }
 })();
