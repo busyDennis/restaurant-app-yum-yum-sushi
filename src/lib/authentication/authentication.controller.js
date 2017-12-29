@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('AuthController', AuthController);
 
-  AuthController.$inject = ['$scope', '$cookies', 'AuthService'];
+  AuthController.$inject = ['$rootScope', '$scope', '$cookies', 'AuthService'];
 
-  function AuthController ($scope, $cookies, AuthService) {
+  function AuthController ($rootScope, $scope, $cookies, AuthService) {
     var authController = this;
 
     authController.authuid = null;
@@ -45,7 +45,7 @@
 
           authController.setAuthUID();
 
-          $('#error-modal').modal();
+          $rootScope.invokeErrorModal("Hello", "darling");
         });
     };
 
@@ -63,12 +63,6 @@
 
     authController.setAuthUID = function() {
       authController.authuid = $cookies.get('userid');
-    };
-
-
-    authController.invokeErrorModal = function() {
-      console.log("Inside homeController.invokeErrorModal");
-      $('#error-modal').modal();
     };
 
 

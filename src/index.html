@@ -30,7 +30,6 @@
     <script src="lib/admin.home/admin.home.controller.js"></script>
     <script src="lib/food.item/food.item.controller.js"></script>
     <script src="lib/checkout/checkout.controller.js"></script>
-    <script src="lib/error.modal/error.modal.controller.js"></script>
 
     <!-- Directives -->
     <script src="lib/authentication/authentication.directive.js"></script>
@@ -43,6 +42,6 @@
   </head>
   <body>
     <div ui-view id="ui-view-container" class="container-fluid col-12"></div>
-    <div class="error-modal"></div>
+    <error-modal header="errorModalHeader" message="errorModalMessage"><error-modal/>
   </body>
 </html>

@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('FoodItemController', FoodItemController);
 
-  FoodItemController.$inject = ['$scope', '$window', 'ImageService', 'FoodItemService'];
+  FoodItemController.$inject = ['$window', 'ImageService', 'FoodItemService'];
 
-  function FoodItemController ($scope, $window, ImageService, FoodItemService) {
+  function FoodItemController ($window, ImageService, FoodItemService) {
     var foodItemController = this;
 
     foodItemController.itemName = "";

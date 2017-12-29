@@ -9,10 +9,10 @@
   function CheckoutController ($stateParams, CheckoutService) {
     var checkoutController = this;
     
-    checkoutController.$onInit = function() {
+    checkoutController.onLoad = function() {
+      console.log("Inside checkoutController.onLoad()");
 
-
-
+      $("body").css("background-image", "none");
     };
 
     /**
@@ -21,10 +21,12 @@
     checkoutController.placeOrder = function() {
       //CheckoutService.placeOrder();
 
-      console.log("Inside checkoutController.placeOrder - received the \'foodItems\' array:");
+      console.log("Inside checkoutController.placeOrder() - received the \'foodItems\' array:");
       console.log($stateParams);
 
     };
+
+    return checkoutController;
   }
   
 })();
