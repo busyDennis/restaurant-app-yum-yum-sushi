@@ -7,7 +7,7 @@
   function AdminHomeController () {
     var adminHomeController = this;
     
-    adminHomeController.onLoad = function() {
+    adminHomeController.$onInit = function() {
       $("body").css("background-image", "none");
     };
   

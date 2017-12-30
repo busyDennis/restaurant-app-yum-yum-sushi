@@ -1,4 +1,8 @@
 <div id="order-container-lvl-1" ng-init="checkoutController.onLoad()">
 	<div class="h1">Order template</div>
+	<div id="checkout-items" ng-repeat="item in checkoutController.orderItems">
+		{{ item.name }}
+		{{ item.description }}
+	</div>
 	<span id="btn-finalize-order" class="btn" type="button" ng-click="checkoutController.placeOrder()">Place order</span>
 </div>

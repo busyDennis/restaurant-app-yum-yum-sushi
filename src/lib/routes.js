@@ -46,7 +46,7 @@
     })
     .state('checkout', {
       controller: 'CheckoutController as checkoutController',
-      params : { orderItems: "he" },
+      params : { orderItems: [] },
       templateUrl: 'lib/checkout/checkout.template.html',
       url: '/checkout'
     });

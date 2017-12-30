@@ -4,25 +4,32 @@
   angular.module('RestaurantApp')
   .controller('CheckoutController', CheckoutController);
 
-  CheckoutController.$inject = ['$state', 'CheckoutService'];
+  CheckoutController.$inject = ['$state', '$scope', 'CheckoutService'];
 
-  function CheckoutController ($state, CheckoutService) {
+  function CheckoutController ($state, $scope, CheckoutService) {
     var checkoutController = this;
-    
-    checkoutController.onLoad = function() {
-      console.log("Inside checkoutController.onLoad()");
 
+    checkoutController.orderItems = [];
+
+
+    $scope.$on('$viewContentLoaded', function() {
+      checkoutController.orderItems = $state.params.orderItems;
+
+      console.log($state.params.orderItems);
+    });
+
+    
+    checkoutController.$onInit = function() {
       $("body").css("background-image", "none");
     };
 
     /**
-      Finalize order
+      Place order
     */
     checkoutController.placeOrder = function() {
       //CheckoutService.placeOrder();
 
-      console.log("Inside checkoutController.placeOrder() - received array of food items:");
-      console.log($state.params.orderItems);
+      // console.log("Inside checkoutController.placeOrder() - received array of food items:");
 
     };
 
