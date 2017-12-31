@@ -1,8 +1,45 @@
-<div id="order-container-lvl-1" ng-init="checkoutController.onLoad()">
-	<div class="h1">Order template</div>
-	<div id="checkout-items" ng-repeat="item in checkoutController.orderItems">
-		{{ item.name }}
-		{{ item.description }}
+<div id="order-container-lvl-1">
+  
+  <!-- Webpage header -->
+	<div class="h1">Order details</div>
+  
+  <!-- Item table -->
+	<table id="checkout-items" class="table">
+		<thead>
+			<tr>
+    			<th>Item name</th>
+    			<th>Quantity</th>
+    			<th>Price</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<tr ng-repeat="item in checkoutController.orderItems" >
+  				<td>{{ item.name }}</td>
+  				<td><input type="number" ng-model="item.quantity" ng-change="updateOrderPrice()"> x {{ item.portion_name }}</td>
+  				<td>{{ item.quantity }} x ${{ item.price.toFixed(2); }} = $ {{ (item.quantity *  item.price).toFixed(2); }} </td>
+  			</tr>
+  		</tbody>
+  		<tfoot>
+  			<tr>
+  				<td>Price without tax</td>
+  				<td></td>
+  				<td ng-model="orderPrice">${{ orderPrice.toFixed(2); }}</td>
+  			</tr>
+  			<tr>
+  				<td>GST, 13%</td>
+  				<td></td>
+  				<td ng-model="orderPrice">${{ (orderPrice * 0.13).toFixed(2); }}</td>
+  			</tr>
+  			<tr>
+  				<td>Total</td>
+  				<td></td>
+  				<td ng-model="orderPrice">${{ (orderPrice * 1.13).toFixed(2); }}</td>
+  			</tr>
+  		</tfoot>
+	</table>
+<!-- Control buttons -->
+	<div>
+		<span id="btn-place-order" class="btn" type="button" ng-click="checkoutController.placeOrder()">Place order</span>
+		<span id="btn-cancel-order" class="btn" type="button" ng-click="checkoutController.cancelOrder()">Cancel</span>
 	</div>
-	<span id="btn-finalize-order" class="btn" type="button" ng-click="checkoutController.placeOrder()">Place order</span>
 </div>

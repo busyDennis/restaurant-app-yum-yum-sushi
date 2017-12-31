@@ -6,6 +6,45 @@
   Mixins
 */
 
+/**
+  These mixins help to prevent cross-browser compatibility issues in flex layouts
+*/
+@mixin display-flex() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin display-inline-flex() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-inline-flex;
+  display: -webkit-flex;
+  display: inline-flex;
+}
+
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex:  $values;
+  -webkit-flex:  $values;
+  -ms-flex:  $values;
+  flex:  $values;
+}
+
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;  
+  -moz-box-ordinal-group: $val;     
+  -ms-flex-order: $val;     
+  -webkit-order: $val;  
+  order: $val;
+}
+
+
+/**
+  This mixin is used for adding wide frame-like borders to any of the chosen 4 element sides
+*/
 @mixin wide-border($apply-top, $apply-right, $apply-bottom, $apply-left) {
   @if $apply-top {
     border-top: 3px solid black;
@@ -22,7 +61,7 @@
 }
 
 /**
-  A mixin that sets font properties on an HTML element.
+  Mixin that sets font properties on an HTML element.
 
   Arguments:
   font family 1
@@ -84,38 +123,38 @@ body {
 
 #home-left-container {
   background-color: rgba(255, 153, 0, 0.3);
-  display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
   min-height: max-content;
   padding: 0;
 
+  @include display-flex();
   @include wide-border(false, true, false, true);
 }
 
 #home-left-subcontainer-1 {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
   flex-grow: 0.4;
   justify-content: center;
   text-align: center;
-  text-shadow: 4px 4px 5px white;
+  text-shadow: 1px 1px 0.5px rgba(0, 0, 0, 0.7), 2px 2px 5px rgba(255, 255, 255, 0.8);
 
-  @include set-font("Comic Sans MS", "Comic Sans", 450%, red, bold);
+  @include display-flex();
+  @include set-font("Comic Sans MS", "Comic Sans", 400%, red);
   @include wide-border(true, false, true, false);
 }
 
 #home-left-subcontainer-2 {
   align-items: center;
   background-color: rgba(0, 85, 128, 0.7);
-  display: flex;
   justify-content: center;
   text-align: center;
   text-shadow: 0.7px 0.7px 1px black;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 250%, orange, bold);
+  @include display-flex();
+  @include set-font("Comic Sans MS", "Comic Sans", 210%, orange);
   @include wide-border(true, false, true, false);
 }
 
@@ -128,13 +167,12 @@ body {
 #home-left-subcontainer-4 {
   align-items: center;
   background-color: rgba(0, 85, 128, 0.8);
-  display:flex;
   justify-content: center;
   text-align: center;
   text-shadow: 1px 1px 5px black;
 
-
-  @include set-font("Comic Sans MS", "Comic Sans", 150%, rgb(230, 230, 230), bold);
+  @include display-flex();
+  @include set-font("Comic Sans MS", "Comic Sans", 120%, rgb(230, 230, 230));
   @include wide-border(true, false, true, false);
 }
 
@@ -147,18 +185,18 @@ body {
 
 #home-right-container {
   background-color: transparent;
-  display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-around;
   padding: 0;
+
+  @include display-flex();
 }
 
 // Authentication panel
 
 #home-right-subcontainer-1 {
   /*align-items: center;
-  display: flex;
   justify-content: flex-end;
   min-height: 10%;
   width: 100%;*/
@@ -169,6 +207,8 @@ body {
   right: 0px;
   top: 0px;
   width: 230px;
+
+  @include display-flex();
 }
 
 #home-right-subcontainer-1 table {
@@ -213,52 +253,64 @@ body {
 }
 
 #btn-log-in:hover, #btn-sign-up:hover {
-  background-color: rgba(128, 0, 128, 0.7);
+  background-color: rgba(40, 40, 40, 0.9);
 }
 
 /*#admin-console-link {
   align-self: flex-end;
-  display: flex;
   margin-right: 30px;
   text-shadow: 0.3px 0.3px 0.3px black;
   z-index: 5;
 
+  @include display-flex();
   @include set-font("Comic Sans MS", "Comic Sans", 18px, rgb(0, 68, 102), bold);
 }*/
 
 #home-right-subcontainer-2 {
   align-items: center;
   backgound-color: transparent;
-  display: flex;
   justify-content: center;
-  max-height: 70%;
+  max-height: 80%;
   order: 2;
+  overflow: hidden;
+
+  @include display-flex();
 }
 
 #home-right-subcontainer-2 > img {
-  // backgound-color: transparent;
-  // max-width: auto;
-  max-height: 70%;
+  flex: auto;
+  max-height: auto;
+  max-width: 20%;
+
+  @include display-flex();
 }
 
 #home-right-subcontainer-3 {
   align-items: center;
-  display: flex;
   background-color: rgba(0, 0, 0, 0.8);
+  bottom: 10%;
   height: 100px;
   justify-content: center;
-  margin-bottom: 15%;
+  // margin-bottom: 10%;
   order: 3;
+  // position: relative;
   text-align: center;
 
+  @include display-flex();
   @include wide-border(true, false, true, false);
 }
 
 #home-right-subcontainer-3 > a {
+  text-decoration: none;
   text-shadow: 2px 2px 2px black, 4px 4px 12px white;
   z-index: 4;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 450%, orange, bold);
+  @include set-font("Comic Sans MS", "Comic Sans", 400%, orange);
+}
+
+
+#home-right-subcontainer-3 > a:hover {
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8), 7px 7px 15px white;
 }
 
 
@@ -267,39 +319,47 @@ body {
 */
 
 #menu-container-lvl-1 {
-  display: flex;
   flex-direction: column;
   height: 100%;
   margin: 0;
+
+  @include display-flex();
 }
 
 #menu-bar {
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.9);
-  display: inline-flex;
   flex-direction: row;
-  height: 100px;
+  height: 80px;
   margin: 0;
+  order: 1;
+  width: 100%;
+
+  @include display-inline-flex();
+  @include wide-border(true, false, true, false);
 }
 
 #lbl-menu {
+  // flex: auto;
+  align-items: center;
   letter-spacing: 3px;
   padding-right: 3%;
   text-align: right;
   text-shadow: 5px 5px 5px black;
-  width: 45%;
+  width: 47%;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 400%, rgb(255, 219, 77), normal, italic);
+  @include set-font("Comic Sans MS", "Comic Sans", 300%, rgb(255, 219, 77), normal, italic);
 }
 
 #btn-order {
-  align-self: flex-end;
+  // align-self: flex-start;
   align-items: center;
   background-color: rgba(204, 0, 0, 0.9);
   border: 2px solid rgb(128, 0, 0);
   border-radius: 8px;
   box-shadow: 3px 7px black;
   cursor: pointer;
-  display: flex;
+  // flex: auto;
   justify-content: center;
   letter-spacing: 2.5px;
   max-height: 85%;
@@ -307,7 +367,8 @@ body {
   text-shadow: -1px -1px 0px black;
   width: 25%;
 
-  @include set-font("Comic Sans MS", "Comic Sans", 350%, rgb(255, 219, 77), normal, italic);
+  @include display-flex();
+  @include set-font("Comic Sans MS", "Comic Sans", 250%, rgb(255, 219, 77), normal, italic);
 }
 
 #btn-order:hover {
@@ -316,37 +377,46 @@ body {
 }
 
 
-// Main containers
+// Menu listing containers
 
 #menu-container-lvl-2 {
   align-items: stretch;
-  display: flex;
+  height: 100%;
+  order: 2;
+  position: relative;
   width: 100%;
+
+  @include display-flex();
 }
 
 #menu-container-lvl-3-left {
   background-color: rgba(0, 102, 255, 0.7);
-  display: flex;
   flex-flow: column nowrap;
-  margin: auto; /* Magic: extra space on both axes will be absorbed */
+  margin: 0; 
+  /* Note: 'margin: auto' in flex layouts is supposed to absorb extra space on all axes */
   min-height: 100%;
   width: 49%;
+
+  @include display-flex();
 }
 
 #menu-container-lvl-3-middle {
   background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
   min-height: 100%;
   width: 2%;
+
+  @include display-flex();
+  @include wide-border(false, true, false, true);
 }
 
 #menu-container-lvl-3-right {
   background-color: rgba(0, 204, 0, 0.7);
-  display: flex;
   flex-flow: column nowrap;
-  margin: auto; /* Magic: extra space on both axes will be absorbed */
+  margin: 0;
   min-height: 100%;
   width: 49%;
+
+  @include display-flex();
 }
 
 
@@ -355,26 +425,22 @@ body {
 */
 
 .left-column-item, .right-column-item {
-  // display: flex;
   flex: 1 0 auto;
-  height: 200px;
+  height: 200px !important;
+  max-height: 200px !important;
   overflow-y: auto;
   position: relative;
 
-  @include wide-border(false, true, true, true);
+  @include display-flex();
+  @include wide-border(false, false, true, false);
 }
 
 .left-column-item:last-child:after, .right-column-item:last-child:after {
   content: "";
   clear: both;
-  display: flex;
-}
 
-//.clearfix:after {
-//  content: "";
-//  clear: both;
-//  display: table;
-//}
+  @include display-flex();
+}
 
 
 /*
@@ -383,7 +449,6 @@ body {
 
 .left-column-item-left-decorative-div {
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
   flex: 0 0 auto;
   flex-direction: column;
   height: 160px;
@@ -393,6 +458,7 @@ body {
   width: 85%;
   z-index: 2;
 
+  @include display-flex();
   @include wide-border(false, true, true, false);
 }
 
@@ -443,12 +509,6 @@ body {
   width: 65%;
   z-index: 4;
 
-  // font family 1
-  // font family 2
-  // font size
-  // font color
-  // font weight
-  // font style
   @include set-font("Arial Narrow", "Arial Narrow", 120%, white, 200);
 }
 
@@ -532,7 +592,6 @@ label.checkbox-custom:hover {
 .right-column-item-right-decorative-div {
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0;
-  display: flex;
   flex: 0 0 auto;
   flex-direction: column;
   height: 160px;
@@ -541,6 +600,7 @@ label.checkbox-custom:hover {
   width: 85%;
   z-index: 2;
 
+  @include display-flex();
   @include wide-border(true, false, false, true);
 }
 

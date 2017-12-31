@@ -4,7 +4,7 @@ const Schema              = require('mongoose').Schema;
 var FoodItemSchema = new mongoose.Schema({
     name:                 String,
     description:          String,
-    price:                String,
+    price:                Number,
     portion_name:         String,
     img_id:               String
   });

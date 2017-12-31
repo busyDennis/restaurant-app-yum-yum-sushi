@@ -9,10 +9,6 @@
   function FoodItemController ($window, ImageService, FoodItemService) {
     var foodItemController = this;
 
-    foodItemController.init = function () {
-       $("body").css("background-image", "none");
-    };
-
     /**
       Save new item
     */
@@ -47,18 +43,3 @@
   };
   
 })();
-
-
-/*
-Item JSON:
-{
-  id: 877,
-  short_name: "A1",
-  name: "Won Ton Soup with Chicken",
-  description: "chicken-stuffed won tons in clear c…",
-  price_small: 2.55,
-  price_large: 5,
-  small_portion_name: "pint",
-  large_portion_name: "quart"
-}
-*/

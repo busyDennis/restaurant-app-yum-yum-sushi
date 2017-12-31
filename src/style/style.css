@@ -5940,7 +5940,13 @@ button.close {
   Mixins
 */
 /**
-  A mixin that sets font properties on an HTML element.
+  These mixins help to prevent cross-browser compatibility issues in flex layouts
+*/
+/**
+  This mixin is used for adding wide frame-like borders to any of the chosen 4 element sides
+*/
+/**
+  Mixin that sets font properties on an HTML element.
 
   Arguments:
   font family 1
@@ -5984,43 +5990,55 @@ body {
 
 #home-left-container {
   background-color: rgba(255, 153, 0, 0.3);
-  display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
   min-height: max-content;
   padding: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   border-right: 3px solid black;
   border-left: 3px solid black; }
 
 #home-left-subcontainer-1 {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
   flex-grow: 0.4;
   justify-content: center;
   text-align: center;
-  text-shadow: 4px 4px 5px white;
+  text-shadow: 1px 1px 0.5px rgba(0, 0, 0, 0.7), 2px 2px 5px rgba(255, 255, 255, 0.8);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   color: red;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 450%;
+  font-size: 400%;
   font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   border-top: 3px solid black;
   border-bottom: 3px solid black; }
 
 #home-left-subcontainer-2 {
   align-items: center;
   background-color: rgba(0, 85, 128, 0.7);
-  display: flex;
   justify-content: center;
   text-align: center;
   text-shadow: 0.7px 0.7px 1px black;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   color: orange;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 250%;
+  font-size: 210%;
   font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   border-top: 3px solid black;
   border-bottom: 3px solid black; }
 
@@ -6032,15 +6050,19 @@ body {
 #home-left-subcontainer-4 {
   align-items: center;
   background-color: rgba(0, 85, 128, 0.8);
-  display: flex;
   justify-content: center;
   text-align: center;
   text-shadow: 1px 1px 5px black;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   color: #e6e6e6;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 150%;
+  font-size: 120%;
   font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   border-top: 3px solid black;
   border-bottom: 3px solid black; }
 
@@ -6049,15 +6071,18 @@ body {
 
 #home-right-container {
   background-color: transparent;
-  display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-around;
-  padding: 0; }
+  padding: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #home-right-subcontainer-1 {
   /*align-items: center;
-  display: flex;
   justify-content: flex-end;
   min-height: 10%;
   width: 100%;*/
@@ -6066,7 +6091,12 @@ body {
   position: absolute;
   right: 0px;
   top: 0px;
-  width: 230px; }
+  width: 230px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #home-right-subcontainer-1 table {
   width: 100%; }
@@ -6107,95 +6137,132 @@ body {
   font-weight: bold; }
 
 #btn-log-in:hover, #btn-sign-up:hover {
-  background-color: rgba(128, 0, 128, 0.7); }
+  background-color: rgba(40, 40, 40, 0.9); }
 
 /*#admin-console-link {
   align-self: flex-end;
-  display: flex;
   margin-right: 30px;
   text-shadow: 0.3px 0.3px 0.3px black;
   z-index: 5;
 
+  @include display-flex();
   @include set-font("Comic Sans MS", "Comic Sans", 18px, rgb(0, 68, 102), bold);
 }*/
 #home-right-subcontainer-2 {
   align-items: center;
   backgound-color: transparent;
-  display: flex;
   justify-content: center;
-  max-height: 70%;
-  order: 2; }
+  max-height: 80%;
+  order: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #home-right-subcontainer-2 > img {
-  max-height: 70%; }
+  flex: auto;
+  max-height: auto;
+  max-width: 20%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #home-right-subcontainer-3 {
   align-items: center;
-  display: flex;
   background-color: rgba(0, 0, 0, 0.8);
+  bottom: 10%;
   height: 100px;
   justify-content: center;
-  margin-bottom: 15%;
   order: 3;
   text-align: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   border-top: 3px solid black;
   border-bottom: 3px solid black; }
 
 #home-right-subcontainer-3 > a {
+  text-decoration: none;
   text-shadow: 2px 2px 2px black, 4px 4px 12px white;
   z-index: 4;
   color: orange;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 450%;
+  font-size: 400%;
   font-style: normal;
-  font-weight: bold; }
+  font-weight: normal; }
+
+#home-right-subcontainer-3 > a:hover {
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8), 7px 7px 15px white; }
 
 /*
   Menu nested view styles
 */
 #menu-container-lvl-1 {
-  display: flex;
   flex-direction: column;
   height: 100%;
-  margin: 0; }
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #menu-bar {
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.9);
-  display: inline-flex;
   flex-direction: row;
-  height: 100px;
-  margin: 0; }
+  height: 80px;
+  margin: 0;
+  order: 1;
+  width: 100%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-inline-flex;
+  display: -webkit-flex;
+  display: inline-flex;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black; }
 
 #lbl-menu {
+  align-items: center;
   letter-spacing: 3px;
   padding-right: 3%;
   text-align: right;
   text-shadow: 5px 5px 5px black;
-  width: 45%;
+  width: 47%;
   color: #ffdb4d;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 400%;
+  font-size: 300%;
   font-style: italic;
   font-weight: normal; }
 
 #btn-order {
-  align-self: flex-end;
   align-items: center;
   background-color: rgba(204, 0, 0, 0.9);
   border: 2px solid maroon;
   border-radius: 8px;
   box-shadow: 3px 7px black;
   cursor: pointer;
-  display: flex;
   justify-content: center;
   letter-spacing: 2.5px;
   max-height: 85%;
   text-align: left;
   text-shadow: -1px -1px 0px black;
   width: 25%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   color: #ffdb4d;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 350%;
+  font-size: 250%;
   font-style: italic;
   font-weight: normal; }
 
@@ -6205,48 +6272,76 @@ body {
 
 #menu-container-lvl-2 {
   align-items: stretch;
-  display: flex;
-  width: 100%; }
+  height: 100%;
+  order: 2;
+  position: relative;
+  width: 100%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #menu-container-lvl-3-left {
   background-color: rgba(0, 102, 255, 0.7);
-  display: flex;
   flex-flow: column nowrap;
-  margin: auto;
-  /* Magic: extra space on both axes will be absorbed */
+  margin: 0;
+  /* Note: 'margin: auto' in flex layouts is supposed to absorb extra space on all axes */
   min-height: 100%;
-  width: 49%; }
+  width: 49%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 #menu-container-lvl-3-middle {
   background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
   min-height: 100%;
-  width: 2%; }
+  width: 2%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
+  border-right: 3px solid black;
+  border-left: 3px solid black; }
 
 #menu-container-lvl-3-right {
   background-color: rgba(0, 204, 0, 0.7);
-  display: flex;
   flex-flow: column nowrap;
-  margin: auto;
-  /* Magic: extra space on both axes will be absorbed */
+  margin: 0;
   min-height: 100%;
-  width: 49%; }
+  width: 49%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
 
 /*
   Styling menu items
 */
 .left-column-item, .right-column-item {
   flex: 1 0 auto;
-  height: 200px;
+  height: 200px !important;
+  max-height: 200px !important;
   overflow-y: auto;
   position: relative;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
-  border-left: 3px solid black; }
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
+  border-bottom: 3px solid black; }
 
 .left-column-item:last-child:after, .right-column-item:last-child:after {
   content: "";
   clear: both;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
   display: flex; }
 
 /*
@@ -6254,7 +6349,6 @@ body {
 */
 .left-column-item-left-decorative-div {
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
   flex: 0 0 auto;
   flex-direction: column;
   height: 160px;
@@ -6263,6 +6357,11 @@ body {
   top: 0;
   width: 85%;
   z-index: 2;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   border-right: 3px solid black;
   border-bottom: 3px solid black; }
 
@@ -6393,7 +6492,6 @@ label.checkbox-custom:hover {
 .right-column-item-right-decorative-div {
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0;
-  display: flex;
   flex: 0 0 auto;
   flex-direction: column;
   height: 160px;
@@ -6401,6 +6499,11 @@ label.checkbox-custom:hover {
   right: 0;
   width: 85%;
   z-index: 2;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex;
   border-top: 3px solid black;
   border-left: 3px solid black; }
 

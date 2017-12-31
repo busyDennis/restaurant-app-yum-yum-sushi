@@ -4,12 +4,14 @@
   angular.module('RestaurantApp')
   .controller('CheckoutController', CheckoutController);
 
-  CheckoutController.$inject = ['$state', '$scope', 'CheckoutService'];
+  CheckoutController.$inject = ['$state', '$scope'];
 
-  function CheckoutController ($state, $scope, CheckoutService) {
+  function CheckoutController ($state, $scope) {
     var checkoutController = this;
 
     checkoutController.orderItems = [];
+
+    $scope.orderPrice = 0;
 
 
     $scope.$on('$viewContentLoaded', function() {
@@ -18,10 +20,21 @@
       console.log($state.params.orderItems);
     });
 
-    
-    checkoutController.$onInit = function() {
-      $("body").css("background-image", "none");
+
+    $scope.updateOrderPrice = function() {
+      // console.log("Inside $scope.updateOrderPrice");
+
+      var newPriceVal = 0;
+
+      for (var i = 0; i < checkoutController.orderItems.length; i++)
+        newPriceVal += checkoutController.orderItems[i].price * checkoutController.orderItems[i].quantity;
+      
+      $scope.orderPrice = newPriceVal;
+
+      // console.log("In $scope.updateOrderPrice - newPriceVal is:");
+      // console.log(newPriceVal);
     };
+
 
     /**
       Place order
@@ -32,6 +45,9 @@
       // console.log("Inside checkoutController.placeOrder() - received array of food items:");
 
     };
+
+    checkoutController.cancelOrder = function() {};
+    
 
     return checkoutController;
   }
