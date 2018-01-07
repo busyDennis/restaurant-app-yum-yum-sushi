@@ -35,13 +35,13 @@
     <script src="lib/authentication/authentication.directive.js"></script>
     <script src="lib/food.item/food.item.left.directive.js"></script>
     <script src="lib/food.item/food.item.right.directive.js"></script>
-    <script src="lib/error.modal/error.modal.directive.js"></script>
+    <script src="lib/modal/modal.directive.js"></script>
 
     <!-- Routes -->
     <script src="lib/routes.js"></script>
   </head>
   <body>
     <div ui-view id="ui-view-container" class="container-fluid col-12"></div>
-    <error-modal header="errorModalHeader" message="errorModalMessage"><error-modal/>
+    <notification-modal header="modalHeader" message="modalMessage"><notification-modal/>
   </body>
 </html>

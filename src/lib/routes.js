@@ -29,7 +29,6 @@
     .state('admin-home', {
       url: '/admin',
       templateUrl: 'lib/admin.home/admin.home.template.html',
-      controller: 'AdminHomeController as adminHomeController',
       onEnter: function() {
         $("body").css("background-image", "none");
       },

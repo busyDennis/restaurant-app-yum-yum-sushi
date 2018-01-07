@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('MenuController', MenuController);
 
-  MenuController.$inject = ['$state', 'ImageService', 'FoodItemService'];
+  MenuController.$inject = ['$rootScope', '$state', 'ImageService', 'FoodItemService'];
 
-  function MenuController ($state, ImageService, FoodItemService) {
+  function MenuController ($rootScope, $state, ImageService, FoodItemService) {
     var menuController = this;
     
     menuController.$onInit = function() {
@@ -51,9 +51,12 @@
           return item.selected;
         });
 
-      $state.go('checkout', {
-        orderItems: selectedItems
-      });
+      if (selectedItems.length == 0)
+        $rootScope.invokeModal("Information:", "Please choose your menu items first.", "btn-info");
+      else
+        $state.go('checkout', {
+          orderItems: selectedItems
+        });
     };
 
   }

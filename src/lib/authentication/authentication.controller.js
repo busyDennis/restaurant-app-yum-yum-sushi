@@ -16,6 +16,10 @@
 
 
     authController.registerUser = function() {
+      if (authController.password != authController.passwordVerified) {
+        $rootScope.invokeModal("Information:", "Entered passwords do not match.", "btn-warning");
+      }
+
       AuthService.registerUser({
           email:              authController.email,
           password:           authController.password,
@@ -45,7 +49,7 @@
 
           authController.setAuthUID();
 
-          $rootScope.invokeErrorModal("Hello", "darling");
+          $rootScope.invokeModal("Error:", "User with the provided credentials is not authorized to log in.", "btn-danger");
         });
     };
 

@@ -1,19 +1,28 @@
-<form action="" ng-init="authController.setAuthUID()">
-  <div ng-if="undefined !== authController.authuid && null !== authController.authuid">
-    <div>
-      Logged in as: {{ authController.authuid }}
-    </div>
-    <div>
-      <a ui-sref="admin-home">Admin page</a>
-    </div>
-    <div>
-      <a ng-click="authController.logOut()">Log out</a>
+<form id="authorization-form" action="" ng-init="authController.setAuthUID()">
+  <!-- This information will be displayed for an authenticated user -->
+  <div id="authorization-panel-usr-logged-in" ng-if="undefined !== authController.authuid && null !== authController.authuid">
+    <table>
+      <tbody>
+        <tr>
+        <td class="auth-panel-lbl">
+          <a ui-sref="admin-home" class="auth-panel-lnk">Admin page</a>
+        </td>
+        <td>&nbsp|&nbsp</td>
+        <td>
+          <a class="auth-panel-lnk" ng-click="authController.logOut()">Log out</a>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="username-container">
+      User:&nbsp<span id="auth-panel-lbl-username">{{ authController.authuid }}</span>
     </div>
   </div>
-  <table ng-if="undefined === authController.authuid || null === authController.authuid">
+  <!-- This information will be displayed for a guest -->
+  <table id="authorization-panel-usr-logged-out" ng-if="undefined === authController.authuid || null === authController.authuid">
     <tr>
       <td class="login-panel-column-1">
-        <label class="login-panel-label" for="usr-name">Login</label>
+        <label class="auth-panel-lbl" for="usr-name">Username</label>
       </td>
       <td class="login-panel-column-2">
         <input id="input-name" type="text" ng-model="authController.email" />
@@ -21,24 +30,24 @@
     </tr>
     <tr>
       <td class="login-panel-column-1">
-        <label class="login-panel-label" for="input-password">Password</label>
+        <label class="auth-panel-lbl" for="input-password">Password</label>
       </td>
       <td class="login-panel-column-2">
-        <input id="input-password" type="text" ng-model="authController.password" />
+        <input id="input-password" type="password" ng-model="authController.password" />
       </td>
     </tr>
     <tr id="tr-password-retype" class="hidden">
       <td class="login-panel-column-1">
-        <label class="login-panel-label" for="input-password-verified">Re-type Password</label>
+        <label class="auth-panel-lbl" for="input-password-verified">Re-type password</label>
       </td>
       <td class="login-panel-column-2">
-        <input id="input-password-verified" type="text" ng-model="authController.passwordVerified" />
+        <input id="input-password-verified" type="password" ng-model="authController.passwordVerified" />
       </td>
     </tr>
     <tr>
       <td>
-        <a id="toggle-sign-up" ng-click="authController.toggleAuthFormFunctionality()">Sign Up</a>
-        <a id="toggle-log-in" ng-click="authController.toggleAuthFormFunctionality()" class="hidden">Log In</a>
+        <a id="toggle-sign-up" class="auth-panel-lnk" ng-click="authController.toggleAuthFormFunctionality()">Sign Up</a>
+        <a id="toggle-log-in" class="auth-panel-lnk hidden" ng-click="authController.toggleAuthFormFunctionality()">Log In</a>
       </td>
       <td>
         <button id="btn-log-in" ng-click="authController.logIn()" class="btn btn-default" type="submit">Log In</button>

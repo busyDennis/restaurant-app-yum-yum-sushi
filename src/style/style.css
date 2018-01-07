@@ -5981,9 +5981,6 @@ body {
   padding: 0;
   width: 100%; }
 
-/*
-  Home nested view styles
-*/
 #home-main-container {
   background-color: transparent;
   height: 100%; }
@@ -6082,11 +6079,8 @@ body {
   display: flex; }
 
 #home-right-subcontainer-1 {
-  /*align-items: center;
-  justify-content: flex-end;
-  min-height: 10%;
-  width: 100%;*/
   height: 100px;
+  justify-content: flex-end;
   padding: 5px 5px 5px 5px;
   position: absolute;
   right: 0px;
@@ -6110,22 +6104,58 @@ body {
 .login-panel-column-2 {
   width: 130px; }
 
-.login-panel-label {
+#authorization-panel, #authorization-form {
+  min-width: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
+
+#authorization-panel-usr-logged-in {
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-display-flex;
+  display: -webkit-flex;
+  display: flex; }
+
+#input-name, #input-password, #input-password-retype {
+  width: 100%; }
+
+.auth-panel-lnk {
+  cursor: pointer;
+  color: blue;
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal; }
+
+.auth-panel-lbl {
   display: table-cell;
   line-height: 90%;
   margin: 0px 0px 0px 0px;
   vertical-align: middle;
   color: black;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal; }
 
-#input-name, #input-password, #input-password-retype {
+#username-container {
+  text-align: right;
   width: 100%; }
 
-#toggle-sign-up, #toggle-log-in {
-  cursor: pointer; }
+#auth-panel-lbl-username {
+  text-align: center;
+  color: black;
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: normal; }
 
 #btn-log-in, #btn-sign-up {
   background-color: rgba(0, 0, 0, 0.9);
@@ -6139,15 +6169,6 @@ body {
 #btn-log-in:hover, #btn-sign-up:hover {
   background-color: rgba(40, 40, 40, 0.9); }
 
-/*#admin-console-link {
-  align-self: flex-end;
-  margin-right: 30px;
-  text-shadow: 0.3px 0.3px 0.3px black;
-  z-index: 5;
-
-  @include display-flex();
-  @include set-font("Comic Sans MS", "Comic Sans", 18px, rgb(0, 68, 102), bold);
-}*/
 #home-right-subcontainer-2 {
   align-items: center;
   backgound-color: transparent;
@@ -6395,7 +6416,7 @@ body {
   position: absolute;
   text-shadow: 2px 2px 3px black;
   z-index: 3;
-  color: white;
+  color: #ffb84d;
   font-family: "Comic Sans MS", "Comic Sans";
   font-size: 170%;
   font-style: normal;
@@ -6412,8 +6433,8 @@ body {
   top: 40px;
   width: 65%;
   z-index: 4;
-  color: white;
-  font-family: "Arial Narrow", "Arial Narrow";
+  color: #ffffb3;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-size: 120%;
   font-style: normal;
   font-weight: 200; }
@@ -6428,7 +6449,7 @@ body {
   top: 120px;
   width: 65%;
   z-index: 4;
-  color: white;
+  color: rgba(204, 204, 0, 0.9);
   font-family: "Comic Sans MS", "Comic Sans";
   font-size: 140%;
   font-style: normal;
@@ -6526,7 +6547,7 @@ label.checkbox-custom:hover {
   text-align: right;
   text-shadow: 2px 2px 3px black;
   z-index: 4;
-  color: #66ff66;
+  color: #ffb84d;
   font-family: "Comic Sans MS", "Comic Sans";
   font-size: 170%;
   font-style: normal;
@@ -6543,8 +6564,8 @@ label.checkbox-custom:hover {
   top: 40px;
   width: 65%;
   z-index: 4;
-  color: white;
-  font-family: "Arial Narrow", "Arial Narrow";
+  color: #ffffb3;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-size: 120%;
   font-style: normal;
   font-weight: 200; }
@@ -6559,7 +6580,7 @@ label.checkbox-custom:hover {
   top: 120px;
   width: 65%;
   z-index: 4;
-  color: white;
+  color: rgba(204, 204, 0, 0.9);
   font-family: "Comic Sans MS", "Comic Sans";
   font-size: 140%;
   font-style: normal;
