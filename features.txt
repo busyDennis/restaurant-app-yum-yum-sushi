@@ -1,0 +1,15 @@
+Home page
+
+User can sign up. Signed up user becomes admin. Upon login he can add food items to the menu listing.
+
+
+Menu page
+
+Displays the listing of menu items available for purchasing.
+Menu items are selectable.
+
+If user selects at least one menu item, he can place an order. If user attempts to place order with no items, he is notified in the modal.
+
+Checkout page
+
+Items selected by the user are displayed in a list. User can select the number of items, and the order price will be calculated.

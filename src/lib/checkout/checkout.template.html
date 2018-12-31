@@ -15,8 +15,8 @@
   		<tbody>
   			<tr ng-repeat="item in checkoutController.orderItems" >
   				<td>{{ item.name }}</td>
-  				<td><input type="number" ng-model="item.quantity" ng-change="updateOrderPrice()" min=0> x {{ item.portion_name }}</td>
-  				<td>{{ item.quantity }} x ${{ item.price.toFixed(2); }} = $ {{ (item.quantity *  item.price).toFixed(2); }} </td>
+  				<td><input type="number" ng-model="item.quantity" ng-change="updateOrderPrice()" min=0> {{ item.portion_name }}</td>
+  				<td>{{ item.quantity }} × $ {{ item.price.toFixed(2) }} = $ {{ (item.quantity * item.price).toFixed(2) }} </td>
   			</tr>
   		</tbody>
   		<tfoot>

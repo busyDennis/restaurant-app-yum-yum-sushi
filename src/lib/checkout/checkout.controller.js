@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('CheckoutController', CheckoutController);
 
-  CheckoutController.$inject = ['$state', '$scope'];
+  CheckoutController.$inject = ['$state', '$scope', 'OrderService'];
 
-  function CheckoutController ($state, $scope) {
+  function CheckoutController ($state, $scope, OrderService) {
     var checkoutController = this;
 
     checkoutController.orderItems = [];
@@ -14,10 +14,25 @@
     $scope.orderPrice = 0;
 
 
-    $scope.$on('$viewContentLoaded', function() {
-      checkoutController.orderItems = $state.params.orderItems;
+    //checkoutController.$onInit = function() {
+    //}
 
-      console.log($state.params.orderItems);
+
+    $scope.$on('$viewContentLoaded', function() {
+      //$state.params.orderItems;
+
+      // checkoutController.orderItems =
+
+      OrderService.getCurrentOrder().then(function(response) {
+        if (typeof response.data === 'undefined') {
+          console.log("error! - GET request body is undefined");
+        }
+
+        console.log("CheckoutController - GET /api/current-order response received:");
+        console.log(response);
+
+        checkoutController.orderItems = response.data[0].item_collection;
+      });
     });
 
 
@@ -40,9 +55,9 @@
       Place order
     */
     checkoutController.placeOrder = function() {
-      //CheckoutService.placeOrder();
+      // OrderService.placeOrder();
 
-      // console.log("Inside checkoutController.placeOrder() - received array of food items:");
+      console.log("Inside checkoutController.placeOrder() - received array of food items:");
 
     };
 

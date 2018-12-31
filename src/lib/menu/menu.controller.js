@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('MenuController', MenuController);
 
-  MenuController.$inject = ['$rootScope', '$state', 'ImageService', 'FoodItemService'];
+  MenuController.$inject = ['$rootScope', '$state', 'ImageService', 'FoodItemService', 'OrderService'];
 
-  function MenuController ($rootScope, $state, ImageService, FoodItemService) {
+  function MenuController ($rootScope, $state, ImageService, FoodItemService, OrderService) {
     var menuController = this;
     
     menuController.$onInit = function() {
@@ -18,7 +18,7 @@
       .then(function(response) {
         menuController.foodItems = response.data;
 
-        console.log("MenuController->getItemList() - food items received:");
+        console.log("MenuController - food items received:");
         console.log(menuController.foodItems);
 
         var count = 0;
@@ -52,11 +52,21 @@
         });
 
       if (selectedItems.length == 0)
-        $rootScope.invokeModal("Information:", "Please choose your menu items first.", "btn-info");
-      else
-        $state.go('checkout', {
-          orderItems: selectedItems
-        });
+        $rootScope.invokeModal("Information", "Please choose your menu items first.", "btn-info");
+      else {
+        // save 'current order'
+        OrderService.saveCurrentOrder({
+            orderItems: selectedItems
+          }).then(function successCallback(response) {
+            $state.go('checkout');
+          }, function errorCallback(response) {});
+
+        
+
+        //$state.go('checkout', {
+        //    orderItems: selectedItems
+        //  });
+      }
     };
 
   }

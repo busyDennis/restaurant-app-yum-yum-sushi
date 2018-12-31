@@ -67,7 +67,7 @@
       onEnter: function() {
         $("body").css("background-image", "none");
       },
-      params : { orderItems: [] },
+      // params : { orderItems: [] },
       templateUrl: 'lib/checkout/checkout.template.html',
       url: '/checkout'
     });

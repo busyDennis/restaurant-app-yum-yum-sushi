@@ -1,0 +1,17 @@
+- when user clicks 'cancel' in the checkout view, current order will me deleted on the back end and the checkout route will be unavailable (rerouted with a notification)
+
+- when user clicks "place order" he is sent to the payment page.
+
+- [payment page] when all requested information fields are entered, the order is saved in the database
+
+- admin can view the listing of placed orders and approve or reject an order
+
+- admin can access a separate view of food items listed
+- admin can edit food item details
+- admin can make food items hidden or visible in the main listing
+- admin can remove food items from the listing
+
+- error checking upon new item submission by the admin (e. g. price must be an integer or a double and cannot equal to 0)
+
+- [sushi image positioning in the cell and/or cropping]
+

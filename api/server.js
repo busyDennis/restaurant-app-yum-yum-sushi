@@ -99,7 +99,7 @@ console.log("TEST: sessionOpts.secret: " + sessionOpts.secret);
 
 // Body parser set-up
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "1000000" })); // body size limit 1000000 bytes
 
 // Enforce SSL protocol
 // app.use(forceSSL);
@@ -136,6 +136,7 @@ app.use('/!(api)', function(req, res) {
 const User                  = require('./lib/models/user.model')(crypto, mongoose);
 const Image                 = require('./lib/models/image.model');
 const FoodItem              = require('./lib/models/food.item.model');
+const CurrentOrder          = require('./lib/models/current.order.model')
 
 
 // PassportJS set-up:
@@ -151,6 +152,7 @@ app.use(passport.session());
 var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 var imageCtrl               = require('./lib/controllers/image.controller')(fs, Image);
 var foodItemCtrl            = require('./lib/controllers/food.item.controller')(Image, FoodItem);
+var orderCtrl               = require('./lib/controllers/order.controller')(CurrentOrder);
 
 
 
@@ -188,6 +190,9 @@ router.post('/api/img', authCtrl.isLoggedIn, imageCtrl.PostImage);
 
 router.get('/api/food-items', foodItemCtrl.GetAllFoodItems);
 router.post('/api/food-items', authCtrl.isLoggedIn, foodItemCtrl.PostFoodItems);
+
+router.get('/api/current-order', orderCtrl.GetCurrentOrder);
+router.post('/api/current-order', orderCtrl.PostCurrentOrder);
 
 router.post('/api/register', authCtrl.PostRegister);
 router.post('/api/log-in', authCtrl.PostLogIn);
