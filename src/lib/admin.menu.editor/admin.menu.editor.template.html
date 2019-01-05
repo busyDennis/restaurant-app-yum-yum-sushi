@@ -1,0 +1,11 @@
+<div>
+  <h1>List of menu items</h1><a ui-sref="admin-console">Admin Console</a>
+
+  <div class="food-item" ng-repeat="currentItem in adminMenuController.foodItems" item="currentItem">
+  </div>
+
+  <!-- Control buttons -->
+  <div>
+    <span id="btn-back" class="btn btn-default" type="button" ui-sref="new-food-item">Add new menu item</span>
+  </div>
+</div>

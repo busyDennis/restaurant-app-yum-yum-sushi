@@ -14,26 +14,26 @@
     $scope.orderPrice = 0;
 
 
-    //checkoutController.$onInit = function() {
-    //}
-
-
     $scope.$on('$viewContentLoaded', function() {
-      //$state.params.orderItems;
+        OrderService.getCurrentOrder().then(function(response) {
+          if (typeof response.data === 'undefined') {
+          console.log("/api/current-order GET - response body is undefined.");
+          }
 
-      // checkoutController.orderItems =
+          console.log("CheckoutController - GET /api/current-order response received:");
+          console.log(response);
 
-      OrderService.getCurrentOrder().then(function(response) {
-        if (typeof response.data === 'undefined') {
-          console.log("error! - GET request body is undefined");
-        }
+          if(response.data.length === 0) {
+            $state.go('menu', {});
+            return;
+          }
 
-        console.log("CheckoutController - GET /api/current-order response received:");
-        console.log(response);
-
-        checkoutController.orderItems = response.data[0].item_collection;
+          checkoutController.orderItems = response.data[0].item_collection;
+        }, function(error) {
+          console.log("Error - route GET /api/current-order");
+          console.log(error);
+        });
       });
-    });
 
 
     $scope.updateOrderPrice = function() {
@@ -45,23 +45,28 @@
         newPriceVal += checkoutController.orderItems[i].price * checkoutController.orderItems[i].quantity;
       
       $scope.orderPrice = newPriceVal;
-
-      // console.log("In $scope.updateOrderPrice - newPriceVal is:");
-      // console.log(newPriceVal);
     };
 
 
     /**
-      Place order
+      Proceed to payment
     */
-    checkoutController.placeOrder = function() {
-      // OrderService.placeOrder();
+    checkoutController.proceedToPayment = function() {
+      console.log("Inside checkoutController.proceedToPayment()");
 
-      console.log("Inside checkoutController.placeOrder() - received array of food items:");
-
+      $state.go('payment', {});
     };
 
-    checkoutController.cancelOrder = function() {};
+    checkoutController.cancelOrder = function() {
+      console.log("Inside checkoutController.cancelOrder()");
+      
+      OrderService.deleteCurrentOrder().then(function(response) {
+          $state.go('menu', {});
+        }, function(error) {
+          console.log("Error:");
+          console.log(error);
+        });
+    };
     
 
     return checkoutController;

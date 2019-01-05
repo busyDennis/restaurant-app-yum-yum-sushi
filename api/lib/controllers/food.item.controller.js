@@ -37,6 +37,27 @@ module.exports = function(Image, FoodItem, authCtrl) {
     });
   };
 
+  thisModuleObj.GetFoodItemById = function(request, response, next) {
+    console.log("Inside /api/food-items/:id GET route handler; id: " + request.params.id);
+
+    var id = request.params.id;
+
+    FoodItem.findById(id, function(error, result) {
+      console.log("Model retrieved from the db:");
+      console.log(result);
+
+      if (typeof result === 'undefined') {
+        response.status(404).send({ error: "Model not found." });
+      }
+
+      if (! error) {
+        response.send(result);
+      } else {
+        console.log(error);
+      }
+    });
+  };
+
   thisModuleObj.PostFoodItems = function(request, response, next) {
     console.log("Inside /api/food-items POST route handler.");
 
@@ -53,6 +74,41 @@ module.exports = function(Image, FoodItem, authCtrl) {
       console.log(err);
     });
   };
+
+  thisModuleObj.UpdateFoodItem = function(request, response, next) {
+    console.log("Inside /api/food-items PUT route handler.");
+    console.log(request.body); //test
+
+    var id = request.params.id;
+
+    FoodItem.update({
+        "_id": id
+      }, {
+        $set: {
+          "name": request.body["name"],
+          "description": request.body["description"],
+          "price": request.body["price"]
+        }
+      }, function(err, result) {
+        if (err) {
+          console.log('Error updating food item object: ' + err);
+          
+        } else {
+          console.log("Food item updated successfully.");
+
+        }
+      });
+  }
+
+  thisModuleObj.DeleteFoodItem = function(request, response, next) {
+    console.log("Inside /api/food-items DELETE route handler.");
+    console.log(request.body); //test
+
+    var id = request.params.id;
+    
+    
+    
+  }
 
   return thisModuleObj;
 };

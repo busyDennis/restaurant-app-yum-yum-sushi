@@ -2,30 +2,36 @@
   'use strict';
 
   angular.module('RestaurantApp')
-  .controller('FoodItemController', FoodItemController);
+  .controller('MenuEditorFoodItemController', MenuEditorFoodItemController);
 
-  FoodItemController.$inject = ['$rootScope', '$window', 'ImageService', 'FoodItemService'];
+  MenuEditorFoodItemController.$inject = ['$rootScope', '$scope', '$window', '$stateParams', 'ImageService', 'FoodItemService'];
 
-  function FoodItemController ($rootScope, $window, ImageService, FoodItemService) {
-    var foodItemController = this;
+  function MenuEditorFoodItemController ($rootScope, $scope, $window, $stateParams, ImageService, FoodItemService) {
+    var MenuEditorfoodItemController = this;
+
+
+    //$scope.$on('$viewContentLoaded', function() {
+    //  console.log($stateParams);
+    //});
+
 
     /**
       Save new item
     */
-    foodItemController.submit = function() {
+    MenuEditorfoodItemController.submit = function() {
       ImageService.loadImageFileFromHTMLInput().then(function(obj1) {
         ImageService.saveImage(obj1).then(function(obj2) {
           console.log("Image saved:");
           console.log(obj2.data);
 
           FoodItemService.saveItem({
-            name:               foodItemController.itemName,
-            description:        foodItemController.itemDescription,
-            price:              foodItemController.itemPrice,
-            portion_name:       foodItemController.portion_name,
+            name:               MenuEditorfoodItemController.itemName,
+            description:        MenuEditorfoodItemController.itemDescription,
+            price:              MenuEditorfoodItemController.itemPrice,
             img_id:             obj2.data.id
           }).then(function(obj3) {
-            $window.location.href = '/#!/menu';
+            $rootScope.invokeModal("Information", "New food item was saved in the database.");
+            $window.location.href = '/#!/admin-menu-editor';
           }, function(obj3) {
             console.log("Error: " + obj3.status + " " + obj3.statusText);
             console.log(obj3.body);

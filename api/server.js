@@ -189,10 +189,14 @@ router.get('/api/img', imageCtrl.GetImage);
 router.post('/api/img', authCtrl.isLoggedIn, imageCtrl.PostImage);
 
 router.get('/api/food-items', foodItemCtrl.GetAllFoodItems);
+router.get('/api/food-items/:id', foodItemCtrl.GetFoodItemById);
 router.post('/api/food-items', authCtrl.isLoggedIn, foodItemCtrl.PostFoodItems);
+router.put('/api/food-items/:id', foodItemCtrl.UpdateFoodItem);
+router.delete('/api/food-items/:id', foodItemCtrl.DeleteFoodItem);
 
 router.get('/api/current-order', orderCtrl.GetCurrentOrder);
 router.post('/api/current-order', orderCtrl.PostCurrentOrder);
+router.delete('/api/current-order', orderCtrl.DeleteCurrentOrder);
 
 router.post('/api/register', authCtrl.PostRegister);
 router.post('/api/log-in', authCtrl.PostLogIn);

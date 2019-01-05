@@ -1,0 +1,34 @@
+<div food-item-id="{{ foodItem._id }}" class='model-id-container'>
+  <div>
+    <span>Food item name:</span>
+    <span>
+      {{ foodItem.name }}
+    <span/>
+  </div>
+  <div>
+    <span>Food item description:</span>
+    <span>
+      {{ foodItem.description }}
+    </span>
+  </div>
+  <div>
+    <span>Food item price:</span>
+    <span>
+    $&nbsp;{{ foodItem.price }}&nbsp;/&nbsp;10&nbsp;pcs
+    </span>
+  </div>
+  <div>
+    <div>
+      Food item image:
+    </div>
+    <div class="am-food-item-img-container">
+  	  <img data-ng-src="data:image/png;base64,{{ foodItem.imgSrc }}" class="am-food-item-img" />
+    </div>
+  </div>
+  <span ui-sref="edit-food-item({id: '{{ foodItem._id }}' })" class="btn btn-default btn-edit-food-item" type="button">
+    Edit menu item
+  </span>
+  <span class="btn btn-default" type="button">
+    Remove menu item
+  </span>
+</div>

@@ -30,7 +30,7 @@
     };
 
     /***/
-    this.deleteCurrentOrder = function(order) {
+    this.deleteCurrentOrder = function() {
       return $http({
           method:     'DELETE',
           url:        APIroot + '/current-order'

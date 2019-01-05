@@ -1,17 +1,31 @@
-- when user clicks 'cancel' in the checkout view, current order will me deleted on the back end and the checkout route will be unavailable (rerouted with a notification)
+Admin console
 
-- when user clicks "place order" he is sent to the payment page.
+[Editing menu items]
+- admin can access a separate view of menu items listed
+- admin can edit menu item details
+- admin can make food items hidden or visible in the menu listing
+- admin can remove food items from the menu listing
 
-- [payment page] when all requested information fields are entered, the order is saved in the database
-
-- admin can view the listing of placed orders and approve or reject an order
-
-- admin can access a separate view of food items listed
-- admin can edit food item details
-- admin can make food items hidden or visible in the main listing
-- admin can remove food items from the listing
-
+[Adding new menu items]
 - error checking upon new item submission by the admin (e. g. price must be an integer or a double and cannot equal to 0)
 
-- [sushi image positioning in the cell and/or cropping]
+[Images]
+- Admin can upload more than one image.
+- Admin selects which image will be the icon.
+- If there is no icon, a placeholder is displayed.
+- User clicks on a menu item image and a modal carousel is displayed. User can scroll through item images using this carousel.
 
+[Orders]
+- admin can view the listing of placed orders
+- admin can approve or reject an order
+
+
+Payment view
+- [payment page] when all requested information fields are entered, the order can be saved in the database
+- error checking on fields
+
+
+Authentication
+(Needs research.)
+- Superadmin is present on the system from the beginning.
+- Admin rights should be granted by superadmin. Approval by e-mail. 

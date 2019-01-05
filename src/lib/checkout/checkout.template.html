@@ -15,8 +15,8 @@
   		<tbody>
   			<tr ng-repeat="item in checkoutController.orderItems" >
   				<td>{{ item.name }}</td>
-  				<td><input type="number" ng-model="item.quantity" ng-change="updateOrderPrice()" min=0> {{ item.portion_name }}</td>
-  				<td>{{ item.quantity }} × $ {{ item.price.toFixed(2) }} = $ {{ (item.quantity * item.price).toFixed(2) }} </td>
+  				<td><input type="number" ng-model="item.quantity" ng-change="updateOrderPrice()" min=0></td>
+  				<td>{{ item.quantity }} × $ {{ item.price.toFixed(2) }} </td>
   			</tr>
   		</tbody>
   		<tfoot>
@@ -37,9 +37,10 @@
   			</tr>
   		</tfoot>
 	</table>
-<!-- Control buttons -->
+  
+  <!-- Control buttons -->
 	<div>
-		<span id="btn-place-order" class="btn btn-primary" type="button" ng-click="checkoutController.placeOrder()">Place order</span>
+		<span id="btn-proceed-to-payment" class="btn btn-primary" type="button" ng-click="checkoutController.proceedToPayment()">Continue</span>
 		<span id="btn-cancel-order" class="btn btn-default" type="button" ng-click="checkoutController.cancelOrder()">Cancel</span>
 	</div>
 </div>

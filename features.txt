@@ -1,15 +1,25 @@
-Home page
+Home view
 
 User can sign up. Signed up user becomes admin. Upon login he can add food items to the menu listing.
 
 
-Menu page
+Menu view
 
 Displays the listing of menu items available for purchasing.
 Menu items are selectable.
 
-If user selects at least one menu item, he can place an order. If user attempts to place order with no items, he is notified in the modal.
+If user selects at least one menu item, he can place an order. If he attempts to place an order with no items, he is notified in the modal.
 
-Checkout page
+Shopping cart icon in the menu bar only shows up when there is an order in progress. By clicking on it user accesses this order.
 
-Items selected by the user are displayed in a list. User can select the number of items, and the order price will be calculated.
+
+Checkout view
+
+Items selected by the user are displayed in a list. User can enter number of items, and order price will be calculated.
+
+When user clicks 'cancel' in the checkout view, current order is deleted on the back end and the checkout route becomes unavailable (reroutes to menu).
+
+When user clicks "continue" in the checkout view he is redirected to the payment page.
+
+Payment view
+
