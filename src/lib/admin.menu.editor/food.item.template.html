@@ -28,7 +28,7 @@
   <span ui-sref="edit-food-item({id: '{{ foodItem._id }}' })" class="btn btn-default btn-edit-food-item" type="button">
     Edit menu item
   </span>
-  <span class="btn btn-default" type="button">
+  <span class="btn btn-default" type="button" ng-click="deleteFoodItem(foodItem._id)">
     Remove menu item
   </span>
 </div>

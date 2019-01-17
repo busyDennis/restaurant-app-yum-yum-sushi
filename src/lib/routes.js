@@ -40,7 +40,7 @@
     .state('admin-menu-editor', {
       url: '/admin-menu-editor',
       templateUrl: 'lib/admin.menu.editor/admin.menu.editor.template.html',
-      controller: 'AdminMenuController as adminMenuController',
+      controller: 'MenuEditorController as menuEditorController',
       onEnter: function() {
         $("body").css("background-image", "none");
       },
@@ -59,7 +59,7 @@
     .state('new-food-item', {
       url: '/new-food-item',
       templateUrl: 'lib/admin.menu.editor/food.item.new.template.html',
-      controller: 'MenuEditorFoodItemController as menuEditorFoodItemController',
+      controller: 'FoodItemNewController as foodItemNewController',
       onEnter: function() {
         $("body").css("background-image", "none");
       },

@@ -28,7 +28,6 @@
         });
     };
 
-
     /**
       POST food item JSON to the API
     */
@@ -51,9 +50,6 @@
       Updates food item in the db, hits HTTP PUT route.
     */
     this.updateItem = function(item) {
-      //console.log("Item:");
-      //console.log(item);
-
       return $http({
         data:         item,
         headers: {
@@ -63,6 +59,16 @@
         method:       'PUT',
         url:          APIroot + '/food-items/' + item._id
       });
+    };
+
+    /**
+      HTTP DELETE food item object by id
+    */
+    this.deleteItem = function(id) {
+      return $http({
+          method:     'DELETE',
+          url:        APIroot + '/food-items/' + id
+        });
     };
 
   }

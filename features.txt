@@ -23,3 +23,12 @@ When user clicks "continue" in the checkout view he is redirected to the payment
 
 Payment view
 
+...
+
+
+Admin console
+
+[Editing menu items]
+- Admin can access a separate view of menu items listed
+- Admin can edit menu item details and upload cover image and gallery images
+- Admin can remove food items from the menu listing

@@ -10,7 +10,11 @@
   {{ foodItem.name }}
 </div>
 <div class="right-column-item-description-area">
-  {{ foodItem.description }}
+  <div class="right-column-item-inner-description-area">
+    <div class="actual-description-area">
+      {{ foodItem.description }}
+    </div>
+  </div>
 </div>
 <div class="right-column-item-price">
   $&nbsp;{{ foodItem.price }}&nbsp;/&nbsp;10&nbsp;pcs

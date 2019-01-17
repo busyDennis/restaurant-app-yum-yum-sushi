@@ -451,7 +451,7 @@ body {
 
 #menu-container-lvl-3-middle {
   background-color: rgba(0, 0, 0, 0.7);
-  height: 100%;
+  height: auto;
   min-height: 100vh;
   width: 2%;
 
@@ -549,7 +549,7 @@ body {
 }
 
 .left-column-item-description-area {
-  height: 80px;
+  height: 115px;
   left: 5%;
   line-height: 100%;
   padding: 10px 10px 10px 12px;
@@ -563,7 +563,15 @@ body {
   @include set-font("Comic Sans MS", "Comic Sans", 120%, rgba(255, 255, 179, 1), 200);
 }
 
+.left-column-item-inner-description-area {
+  direction: rtl;
+  height: 100%;
+  overflow-y: scroll;
+  padding-left: 5px;
+}
+
 .left-column-item-price {
+  background-color: rgba(0, 0, 0, 0.5);
   height: 40px;
   left: 5%;
   padding: 10px 10px 10px 10px;
@@ -687,7 +695,7 @@ label.checkbox-custom:hover {
 }
 
 .right-column-item-description-area {
-  height: 80px;
+  height: 115px;
   line-height: 100%;
   right: 5%;
   padding: 10px 12px 10px 10px;
@@ -701,7 +709,18 @@ label.checkbox-custom:hover {
   @include set-font("Comic Sans MS", "Comic Sans", 120%, rgba(255, 255, 179, 1), 200);
 }
 
+.right-column-item-inner-description-area {
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 5px;
+}
+
+.actual-description-area {
+  direction: ltr;
+}
+
 .right-column-item-price {
+  background-color: rgba(0, 0, 0, 0.5);
   height: 40px;
   right: 5%;
   padding: 10px 10px 10px 10px;
@@ -750,9 +769,23 @@ label.checkbox-custom:hover {
   Admin edit food item
 */
 
+.cover-image-container {
+  width: auto;
+}
+
 .image-subcontainer {
   height: 120px;
+  position: relative;
+  width: 120px;
 }
+
+.image-subcontainer .close {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  z-index: 100;
+}
+
 .image-subcontainer > img {
   max-width: 100%;
   max-height: 100%;

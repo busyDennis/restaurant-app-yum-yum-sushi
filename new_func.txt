@@ -1,24 +1,20 @@
 Admin console
 
-[Editing menu items]
-- admin can access a separate view of menu items listed
-- admin can edit menu item details
-- admin can make food items hidden or visible in the menu listing
-- admin can remove food items from the menu listing
+[Images]
+
+- If there is no cover image, a placeholder is displayed.
+
 
 [Adding new menu items]
 - error checking upon new item submission by the admin (e. g. price must be an integer or a double and cannot equal to 0)
-
-[Images]
-- Admin can upload more than one image.
-- Admin selects which image will be the icon.
-- If there is no icon, a placeholder is displayed.
-- User clicks on a menu item image and a modal carousel is displayed. User can scroll through item images using this carousel.
 
 [Orders]
 - admin can view the listing of placed orders
 - admin can approve or reject an order
 
+Menu
+
+- User can choose to view a modal carousel of gallery images, relevant to the food item. User can scroll through item images using this carousel.
 
 Payment view
 - [payment page] when all requested information fields are entered, the order can be saved in the database

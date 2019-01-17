@@ -16,10 +16,10 @@
       return $http({ 
           cache:                'true',
           method:               'GET',
-          params: {
-            id:                 id
-          },
-          url:                  APIroot + "/img"
+          //params: {
+          //  id:                 id
+          //},
+          url:                  APIroot + "/img/" + id
         });
     };
 
@@ -41,15 +41,24 @@
         });
     };
 
+    /**
+      HTTP DELETE on the API
+    */
+    this.deleteImage = function(id) {
+      return $http({
+          method:     'DELETE',
+          url:        APIroot + '/img/' + id
+        });
+    }
 
     /**
       Read image data from file into JSON
       @return promise object which resolves with image JSON model
     */
-    this.loadImageFileFromHTMLInput = function() {
+    this.loadImageFileFromHTMLInput = function(fileUploadInputElt) {
       var deferred = $.Deferred();
 
-      var fileUploadInputElt = document.getElementById('img-file-input');
+      //var fileUploadInputElt = document.getElementById('img-file-input');
 
       var imgFile = fileUploadInputElt.files[0];
       var imgFileName = imgFile.name;

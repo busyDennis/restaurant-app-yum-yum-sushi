@@ -2,12 +2,12 @@
   'use strict';
 
   angular.module('RestaurantApp')
-  .controller('AdminMenuController', AdminMenuController);
+  .controller('MenuEditorController', MenuEditorController);
 
-  AdminMenuController.$inject = ['$rootScope', '$scope', '$state', 'ImageService', 'FoodItemService', 'OrderService'];
+  MenuEditorController.$inject = ['$scope', 'ImageService', 'FoodItemService'];
 
-  function AdminMenuController ($rootScope, $scope, $state, ImageService, FoodItemService, OrderService) {
-    var adminMenuController = this;
+  function MenuEditorController ($scope, ImageService, FoodItemService) {
+    var MenuEditorController = this;
     
     $scope.$on('$viewContentLoaded', function() {  
       /**
@@ -15,14 +15,14 @@
       */
       FoodItemService.getItemList()
       .then(function(response) {
-        adminMenuController.foodItems = response.data;
+        MenuEditorController.foodItems = response.data;
 
-        console.log("adminMenuController - food items received:");
-        console.log(adminMenuController.foodItems);
+        console.log("MenuEditorController - food items received:");
+        console.log(MenuEditorController.foodItems);
 
         var count = 0;
 
-        adminMenuController.foodItems.forEach(function(item) {
+        MenuEditorController.foodItems.forEach(function(item) {
             item.temp_id = count++;
             item.selected = false;
             item.quantity = 0;
@@ -36,5 +36,5 @@
     });
 
   }
-  
+
 })();

@@ -5,7 +5,8 @@ var FoodItemSchema = new mongoose.Schema({
     name:                 String,
     description:          String,
     price:                Number,
-    img_id:               String
+    img_id:               String,
+    gallery_img_ids:      [{type: String}]
   });
 
 FoodItemSchema.methods.createModelFromJSON = function(json) {

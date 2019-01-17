@@ -65,13 +65,13 @@ module.exports = function(Image, FoodItem, authCtrl) {
 
     var foodItem = FoodItem().createModelFromJSON(request.body);
 
-    foodItem.save().then(function(fi) {
+    foodItem.save().then(function(obj) {
       response.status(200).json({
-        id:       fi._id
+        id:           obj._id
       });
-    }, function(err) {
+    }, function(error) {
       console.log("Error:");
-      console.log(err);
+      console.log(error);
     });
   };
 
@@ -87,27 +87,37 @@ module.exports = function(Image, FoodItem, authCtrl) {
         $set: {
           "name": request.body["name"],
           "description": request.body["description"],
-          "price": request.body["price"]
+          "price": request.body["price"],
+          "img_id": request.body["img_id"],
+          "gallery_img_ids": request.body["gallery_img_ids"]
         }
-      }, function(err, result) {
-        if (err) {
-          console.log('Error updating food item object: ' + err);
+      }, function(error, result) {
+        if (error) {
+          console.log('Error updating food item object: ' + error);
           
         } else {
           console.log("Food item updated successfully.");
-
+          response.status(200).json({
+            id:       id
+          });
         }
       });
   }
 
   thisModuleObj.DeleteFoodItem = function(request, response, next) {
-    console.log("Inside /api/food-items DELETE route handler.");
+    var id = request.params.id;
+
+    console.log("Inside /api/food-items DELETE route handler; id param: " + id + ".");
     console.log(request.body); //test
 
-    var id = request.params.id;
-    
-    
-    
+    FoodItem.deleteOne({ _id: id }).then(function(obj) {
+        response.status(200).json({
+          id:       id
+        });
+      }, function(error) {
+        response.status(500).send(error);
+      }
+    );
   }
 
   return thisModuleObj;

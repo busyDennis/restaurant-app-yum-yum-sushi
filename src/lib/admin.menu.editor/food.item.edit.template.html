@@ -1,10 +1,10 @@
 <div>
-  <h1>Edit Menu Item</h1>
+  <h1>Edit menu item</h1>
   <form ng-submit="foodItemEditController.submit()">
     <table>
       <tr>
         <td>
-          <label for="name" class="temp-font-style">Item Name:</label>
+          <label for="name" class="temp-font-style">Menu item name</label>
         </td>
         <td>
           <input type="text" id="name" ng-model="foodItemEditController.itemName" value="test"/>
@@ -12,7 +12,7 @@
       </tr>
       <tr>
         <td>
-          <label for="description" class="temp-font-style">Item Description:</label>
+          <label for="description" class="temp-font-style">Item description</label>
         </td>
         <td>
           <input type="text" id="description" ng-model="foodItemEditController.itemDescription" value="test" />
@@ -20,7 +20,7 @@
       </tr>
       <tr>
         <td>
-          <label for="price" class="temp-font-style">Item Price:</label>
+          <label for="price" class="temp-font-style">Item price</label>
         </td>
         <td>
           <input type="text" id="price" ng-model="foodItemEditController.itemPrice" value="test" />
@@ -28,23 +28,42 @@
       </tr>
       <tr>
         <td>
-          <label for="img-file" class="temp-font-style">Select Food Item</br> Image File:</label>
+          <label for="img-file" class="temp-font-style">Select cover image <br/>file</label>
         </td>
         <td>
-          <input id="img-file-input" name="file"  type="file" accept="image/*"  ng-model="foodItemEditController.itemImgFileName" />
+          <input id="cover-img-file-input" name="file"  type="file" accept="image/*"  ng-model="foodItemEditController.coverImgFileName" />
         </td>
       </tr>
       <tr>
         <td> 
         </td>
         <td>
-          <div class="btn btn-default" type="button">Upload Image</div>
+          <div class="btn btn-default" type="button" ng-click="foodItemEditController.stageCoverImageForUpload()">Upload cover image</div>
         </td>
       </tr>
     </table>
-    <div id="image-main-container">
+    <div id="cover-image-container">
     </div>
-    <button type="submit">Update Item</button>
-    <button ui-sref="admin-menu-editor">Menu Listing</button>
+    <table>
+      <tr>
+        <td>
+          <label class="temp-font-style">Upload gallery<br/>images
+          </label>
+        </td>
+        <td>
+          <input id="gallery-img-file-input" name="file"  type="file" accept="image/*"  ng-model="foodItemEditController.galleryImgFileName" />
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div class="btn btn-default" type="button" ng-click="foodItemEditController.stageGalleryImageForUpload()">Upload gallery image</div>
+        </td>
+      </tr>
+    </table>
+    <div id="gallery-image-container">
+    </div>
+    <button type="submit">Update menu item</button>
+    <button ui-sref="admin-menu-editor">Menu listing</button>
   </form>
 </div>

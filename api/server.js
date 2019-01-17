@@ -185,8 +185,9 @@ app.use(expressValidator());
 
 
 // REST routes defined:
-router.get('/api/img', imageCtrl.GetImage);
+router.get('/api/img/:id', imageCtrl.GetImageById);
 router.post('/api/img', authCtrl.isLoggedIn, imageCtrl.PostImage);
+router.delete('/api/img/:id', imageCtrl.DeleteImage);
 
 router.get('/api/food-items', foodItemCtrl.GetAllFoodItems);
 router.get('/api/food-items/:id', foodItemCtrl.GetFoodItemById);
