@@ -4,9 +4,9 @@
   angular.module('RestaurantApp')
   .controller('FoodItemEditController', FoodItemEditController);
 
-  FoodItemEditController.$inject = ['$compile', '$scope', '$state', '$stateParams', '$window', 'ImageService', 'FoodItemService'];
+  FoodItemEditController.$inject = ['$compile', '$rootScope', '$scope', '$state', '$stateParams', '$window', 'ImageService', 'FoodItemService'];
 
-  function FoodItemEditController ($compile, $scope, $state, $stateParams, $window, ImageService, FoodItemService) {
+  function FoodItemEditController ($compile, $rootScope, $scope, $state, $stateParams, $window, ImageService, FoodItemService) {
     var foodItemEditController = this;
     
 
@@ -35,7 +35,7 @@
           ImageService.getImage(foodItemEditController.itemImgId)
             .then(function(imgJSON) {
               foodItemEditController.addCoverImageIcon(imgJSON.data._id, null, { data: imgJSON.data.data });
-            }, foodItemEditController.printError);
+            }, $rootScope.printError);
 
           // get gallery images from the API
           foodItemEditController.galleryImgIds.forEach(function(galleryImgId) {
@@ -43,11 +43,11 @@
             ImageService.getImage(galleryImgId)
             .then(function(imgJSON) {
               foodItemEditController.addGalleryImageIcon(imgJSON.data._id, { data: imgJSON.data.data });
-            }, foodItemEditController.printError);
+            }, $rootScope.printError);
           });
 
           $state.go('admin-home', {});
-        }, foodItemEditController.printError);
+        }, $rootScope.printError);
     });
 
     
@@ -78,7 +78,7 @@
               // update item with new fields
               foodItemEditController.updateItemHTTP();   
             });
-          }, foodItemEditController.printError);
+          }, $rootScope.printError);
       }
       else {
         foodItemEditController.saveAllGalleryImagesRecursive(0, function() {
@@ -98,7 +98,7 @@
           foodItemEditController.newSavedGalleryImageIds[foodItemEditController.newSavedGalleryImageIds.length] = imgObj.data.id;
 
           foodItemEditController.saveAllGalleryImagesRecursive(arrayIndex + 1, callback);
-        }, foodItemEditController.printError);
+        }, $rootScope.printError);
       }
     };
 
@@ -123,7 +123,7 @@
 
       FoodItemService.updateItem(obj).then(function(obj2) {
         $window.location.href = '/#!/admin-menu-editor';
-      }, foodItemEditController.printError);
+      }, $rootScope.printError);
     };
 
 
@@ -250,10 +250,6 @@
           }
         }      
     }
-
-    foodItemEditController.printError = function(error) {
-        console.log("Error: " + error.status + " " + error.statusText);          
-      };
 
   };
   

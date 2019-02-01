@@ -8,13 +8,21 @@
 
     <link rel="stylesheet" type="text/css" href="style/style.css" />
 
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+
+
     <!-- Libraries -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.min.js"></script>
     <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+    <!--
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+    -->
+
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Modules -->
     <script src="lib/restaurant.module.js"></script>
@@ -37,18 +45,24 @@
     <script src="lib/checkout/checkout.controller.js"></script>
     <script src="lib/payment/payment.controller.js"></script>
 
+    <script src="lib/modal/image.carousel.modal.controller.js"></script>
+
     <!-- Directives -->
     <script src="lib/authentication/authentication.directive.js"></script>
     <script src="lib/admin.menu.editor/food.item.directive.js"></script>
     <script src="lib/food.item/food.item.left.directive.js"></script>
     <script src="lib/food.item/food.item.right.directive.js"></script>
-    <script src="lib/modal/modal.directive.js"></script>
+    <script src="lib/modal/info.error.modal.directive.js"></script>
+    <script src="lib/modal/image.carousel.modal.directive.js"></script>
 
     <!-- Routes -->
     <script src="lib/routes.js"></script>
   </head>
   <body>
     <div ui-view id="ui-view-container" class="container-fluid col-12"></div>
-    <notification-modal header="modalHeader" message="modalMessage"><notification-modal/>
+    <notification-modal header="modalHeader" message="modalMessage"></notification-modal>
+    <div ng-controller="ImageCarouselModalController as imageCarouselModalController">
+      <img-carousel-modal></img-carousel-modal>
+    </div>
   </body>
 </html>

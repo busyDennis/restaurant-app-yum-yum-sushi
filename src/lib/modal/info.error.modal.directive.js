@@ -14,13 +14,17 @@
         $('#error-modal').modal({ show: true });
       };
 
+      $rootScope.printError = function(error) {
+        console.log("Error: " + error.status + " " + error.statusText);          
+      };
+
       return {
         restrict:           'E',
         scope: {
           header:           '=',
           message:          '='
         },
-        templateUrl:        'lib/modal/modal.template.html'
+        templateUrl:        'lib/modal/info.error.modal.template.html'
       };
     }]);
 

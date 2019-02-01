@@ -19,6 +19,7 @@
 <div class="right-column-item-price">
   $&nbsp;{{ foodItem.price }}&nbsp;/&nbsp;10&nbsp;pcs
 </div>
-<div class="right-column-item-img-container">
+<div class="right-column-item-img-container" ng-click="showGalleryImages(foodItem)" data-toggle="tooltip" title="{{ 
+foodItem.gallery_img_ids.length == 0 ? 'Image gallery for this item is empty' :'Click to view gallery images'}}">
  	<img class="food-item-img" data-ng-src="data:image/png;base64,{{ foodItem.imgSrc }}" />
 </div>

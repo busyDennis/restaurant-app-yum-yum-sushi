@@ -1,3 +1,8 @@
+Menu
+
+- User can choose to view a modal carousel of gallery images, relevant to the food item.
+
+
 Admin console
 
 [Images]
@@ -12,9 +17,6 @@ Admin console
 - admin can view the listing of placed orders
 - admin can approve or reject an order
 
-Menu
-
-- User can choose to view a modal carousel of gallery images, relevant to the food item. User can scroll through item images using this carousel.
 
 Payment view
 - [payment page] when all requested information fields are entered, the order can be saved in the database
