@@ -12,7 +12,7 @@
     // menuController.$onInit = function() {
 
     $scope.$on('$viewContentLoaded', function() {
-      OrderService.getCurrentOrder().then(function(response){
+      OrderService.getCurrentOrderItems().then(function(response){
         if (typeof response.data === 'undefined') {
           console.log("/api/current-order GET - response body is undefined");
         }
@@ -86,13 +86,18 @@
       if (selectedItems.length == 0)
         $rootScope.invokeModal("Information", "Please choose your menu items first.", "btn-info");
       else {
-        // save 'current order'
-        OrderService.saveCurrentOrder({
+        var i;
+        for(i = 0; i < selectedItems.length; i++) {
+          selectedItems[i]["quantity"] = 1;
+        }
+
+        // save order items
+        OrderService.saveCurrentOrderItems({
             orderItems: selectedItems
           }).then(function successCallback(response) {
-            $state.go('checkout');
+            $state.go('order-items');
           }, function errorCallback(error) {
-            console.log("Error saving current order");
+            console.log("Error saving order items");
             console.log(error);
           });
       }

@@ -1,0 +1,59 @@
+<div id="billing-address-container-lvl-1">
+  
+  <!-- Webpage header -->
+	<div class="h1">Please enter billing address</div>
+  
+  <table id="billing-info">
+    <tr>
+      <td>
+        Billing address
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Full name</label>
+      </td>
+      <td>
+        <input type="text" ng-model="orderAddressController.fullName"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Street address</label>
+      </td>
+      <td>
+        <input type="text" ng-model="orderAddressController.streetAddress" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>City</label>
+      </td>
+      <td>
+        <input type="text" ng-model="orderAddressController.city"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Province</label>
+      </td>
+      <td>
+        <input type="text" ng-model="orderAddressController.province" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Postal code</label>
+      </td>
+      <td>
+        <input type="text" ng-model="orderAddressController.postalCode" />
+      </td>
+    </tr>
+  </table>
+
+  <!-- Control buttons -->
+	<div>
+		<span id="btn-proceed-to-payment" class="btn btn-primary" type="button" ng-click="orderAddressController.proceedToPayment()">Continue</span>
+		<span id="btn-cancel-order" class="btn btn-default" type="button" ng-click="orderAddressController.backToCheckout()">Back</span>
+	</div>
+</div>

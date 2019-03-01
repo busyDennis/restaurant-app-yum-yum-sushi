@@ -13,7 +13,7 @@
   			</tr>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="item in checkoutController.orderItems" >
+  			<tr ng-repeat="item in orderItemsController.orderItems" >
   				<td>{{ item.name }}</td>
   				<td><input type="number" ng-model="item.quantity" ng-change="updateOrderPrice()" min=0></td>
   				<td>{{ item.quantity }} × $ {{ item.price.toFixed(2) }} </td>
@@ -40,7 +40,7 @@
   
   <!-- Control buttons -->
 	<div>
-		<span id="btn-proceed-to-payment" class="btn btn-primary" type="button" ng-click="checkoutController.proceedToPayment()">Continue</span>
-		<span id="btn-cancel-order" class="btn btn-default" type="button" ng-click="checkoutController.cancelOrder()">Cancel</span>
+		<span id="btn-proceed-to-payment" class="btn btn-primary" type="button" ng-click="orderItemsController.proceedToBillingAddress()">Continue</span>
+		<span id="btn-cancel-order" class="btn btn-default" type="button" ng-click="orderItemsController.cancelOrder()">Cancel</span>
 	</div>
 </div>

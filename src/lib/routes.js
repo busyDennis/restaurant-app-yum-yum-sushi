@@ -101,19 +101,27 @@
         $("body").css("background-image", "url('../assets/sushi1.jpg')");
       }
     })
-    .state('checkout', {
-      url: '/checkout',
-      templateUrl: 'lib/checkout/checkout.template.html',
-      controller: 'CheckoutController as checkoutController',
+    .state('order-items', {
+      url: '/order-items',
+      templateUrl: 'lib/order/order.items.template.html',
+      controller: 'OrderItemsController as orderItemsController',
       onEnter: function() {
         $("body").css("background-image", "none");
       }
       // params : { orderItems: [] },
     })
-    .state('payment', {
+    .state('order-address', {
+      url: '/order-address',
+      templateUrl: 'lib/order/order.address.template.html',
+      controller: 'OrderAddressController as orderAddressController',
+      onEnter: function() {
+        $("body").css("background-image", "none");
+      }
+    })
+    .state('order-payment', {
       url: '/order-payment',
-      templateUrl: 'lib/payment/payment.template.html',
-      controller: 'PaymentController as paymentController',
+      templateUrl: 'lib/order/order.payment.template.html',
+      controller: 'OrderPaymentController as orderPaymentController',
       onEnter: function() {
         $("body").css("background-image", "none");
       }

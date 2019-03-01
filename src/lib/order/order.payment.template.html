@@ -1,0 +1,20 @@
+<div id="payment-details-container-lvl-1">
+  
+  <!-- Webpage header -->
+  <div class="h1">Please enter your credit card information</div>
+  
+  <form action="/" id="payment-form" method="post">
+    <label for="card-number" class="hosted-fields--label">Credit card number</label>
+    <div id="card-number" class="hosted-field"></div>
+    <label for="expiration-date" class="hosted-fields--label">Expiration date</label>
+    <div id="expiration-date" class="hosted-field"></div>
+    <label for="cvv" class="hosted-fields--label">CVV - 3 digit security code</label>
+    <div id="cvv" class="hosted-field"></div>
+
+    <!-- Control buttons -->
+    <div>
+      <input type="submit" value="Pay" disabled />
+	   <span id="btn-back" class="btn btn-default" type="button" ng-click="orderPaymentController.backToBillingInfo()">Back</span>
+    </div>
+  </form>
+</div>

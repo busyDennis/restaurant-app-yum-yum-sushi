@@ -1,4 +1,5 @@
 const bodyParser              = require('body-parser');
+const braintree               = require('braintree');
 const cookieParser            = require('cookie-parser');
 const cors                    = require('cors');
 const crypto                  = require('crypto');
@@ -136,7 +137,8 @@ app.use('/!(api)', function(req, res) {
 const User                  = require('./lib/models/user.model')(crypto, mongoose);
 const Image                 = require('./lib/models/image.model');
 const FoodItem              = require('./lib/models/food.item.model');
-const CurrentOrder          = require('./lib/models/current.order.model')
+const OrderItems            = require('./lib/models/order.items.model');
+const OrderAddress          = require('./lib/models/order.address.model');
 
 
 // PassportJS set-up:
@@ -152,8 +154,7 @@ app.use(passport.session());
 var authCtrl                = require('./lib/controllers/authentication.controller')(passport, User);
 var imageCtrl               = require('./lib/controllers/image.controller')(fs, Image);
 var foodItemCtrl            = require('./lib/controllers/food.item.controller')(Image, FoodItem);
-var orderCtrl               = require('./lib/controllers/order.controller')(CurrentOrder);
-
+var orderCtrl               = require('./lib/controllers/order.controller')(OrderItems, OrderAddress, braintree);
 
 
 // CORS set-up:
@@ -195,16 +196,28 @@ router.post('/api/food-items', authCtrl.isLoggedIn, foodItemCtrl.PostFoodItems);
 router.put('/api/food-items/:id', foodItemCtrl.UpdateFoodItem);
 router.delete('/api/food-items/:id', foodItemCtrl.DeleteFoodItem);
 
-router.get('/api/current-order', orderCtrl.GetCurrentOrder);
-router.post('/api/current-order', orderCtrl.PostCurrentOrder);
-router.delete('/api/current-order', orderCtrl.DeleteCurrentOrder);
+router.get('/api/order/items', orderCtrl.GetCurrentOrderItems);
+router.post('/api/order/items', orderCtrl.PostCurrentOrderItems);
+router.get('/api/order/address', orderCtrl.GetCurrentOrderAddress);
+router.post('/api/order/address', orderCtrl.PostCurrentOrderAddress);
+router.post('/api/order/payment', orderCtrl.PostPayment);
+
+router.delete('/api/order', orderCtrl.DeleteCurrentOrder);
+
+/*
+/api/order DELETE - delete current order
+/api/order/items GET POST
+/api/order/address GET POST
+/api/order/payment POST
+*/
+
+
 
 router.post('/api/register', authCtrl.PostRegister);
 router.post('/api/log-in', authCtrl.PostLogIn);
 router.post('/api/log-out', authCtrl.PostLogOut);
 router.get('/api/authenticated-user', authCtrl.GetAuthenticatedUserData);
 router.post('/api/purge-user', authCtrl.isLoggedIn, authCtrl.PurgeUser);
-
 
 // var server = https.createServer(nodeEnvConfigObj.srv_opt, app);
 

@@ -12,6 +12,8 @@ If user selects at least one menu item, he can place an order. If he attempts to
 
 Shopping cart icon in the menu bar only shows up when there is an order in progress. By clicking on it user accesses this order.
 
+User can choose to view a modal carousel of gallery images relevant to the food item. User clicks on the cover image to open the carousel.
+
 
 Checkout view
 

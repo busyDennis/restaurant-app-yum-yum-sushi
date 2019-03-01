@@ -9,23 +9,44 @@
 
   function OrderService($http, APIroot) {
     /***/
-    this.getCurrentOrder = function() {
+    this.getCurrentOrderItems = function() {
       return $http({
           method:     'GET',
-          url:        APIroot + '/current-order'
+          url:        APIroot + '/order/items'
         });
     };
 
     /***/
-    this.saveCurrentOrder = function(order) {
+    this.saveCurrentOrderItems = function(orderItems) {
       return $http({
-      	  data:       order,
+      	  data:       orderItems,
           headers: {
                       'Content-Type': 'application/json'
           },
           json:       true,
           method:     'POST',
-          url:        APIroot + '/current-order'
+          url:        APIroot + '/order/items'
+        });
+    };
+
+    /***/
+    this.getCurrentOrderAddress = function() {
+      return $http({
+          method:     'GET',
+          url:        APIroot + '/order/address'
+        });
+    };
+
+    /***/
+    this.saveCurrentOrderAddress = function(data) {
+      return $http({
+          data:       data,
+          headers: {
+                      'Content-Type': 'application/json'
+          },
+          json:       true,
+          method:     'POST',
+          url:        APIroot + '/order/address'
         });
     };
 
@@ -33,7 +54,7 @@
     this.deleteCurrentOrder = function() {
       return $http({
           method:     'DELETE',
-          url:        APIroot + '/current-order'
+          url:        APIroot + '/order'
         });
     };
 

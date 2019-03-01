@@ -1,14 +1,15 @@
-Menu
+Payment view
 
-- User can choose to view a modal carousel of gallery images, relevant to the food item.
+- [payment page] when all requested information fields are entered, the order can be saved in the database
+- error checking on fields
 
-
-Admin console
+Menu view
 
 [Images]
 
 - If there is no cover image, a placeholder is displayed.
 
+Admin console
 
 [Adding new menu items]
 - error checking upon new item submission by the admin (e. g. price must be an integer or a double and cannot equal to 0)
@@ -16,12 +17,6 @@ Admin console
 [Orders]
 - admin can view the listing of placed orders
 - admin can approve or reject an order
-
-
-Payment view
-- [payment page] when all requested information fields are entered, the order can be saved in the database
-- error checking on fields
-
 
 Authentication
 (Needs research.)

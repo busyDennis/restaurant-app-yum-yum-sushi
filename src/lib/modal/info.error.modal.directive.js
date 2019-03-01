@@ -5,7 +5,7 @@
     .directive('notificationModal', [ '$rootScope', function($rootScope) {
       
       $rootScope.invokeModal = function(header, message, btnTypeClass) {
-        console.log("Inside authenticationController.invokeErrorModal");
+        console.log("Inside authenticationController.invokeModal");
       
         $rootScope.modalHeader = header;
         $rootScope.modalMessage = message;
